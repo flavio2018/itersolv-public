@@ -1,0 +1,16 @@
+name: 'train'
+lr: 1e-4
+max_iter: 100000
+tf: false
+use_early_stop: true
+early_stop_patience: 10
+early_stop_metric: 'valid_iid/loss'
+lr_scheduler: null   # should be cyclic or step or cosann
+lr_scheduler_step: 10000
+cyclic_scheduler_base_lr: ${.lr}
+cyclic_scheduler_max_lr: ${.lr}
+cyclic_scheduler_step_up: 1
+cyclic_scheduler_step_down: ${.cyclic_scheduler_step_up}
+linear_scheduler_iters: 5
+linear_scheduler_start_factor: 0.3
+cosann_max_iters: 1

@@ -1,0 +1,20 @@
+defaults:
+        - task: train_ood
+        - model: transformer
+        - data: algebra_select
+        - override hydra/hydra_logging: none
+        - override hydra/job_logging: custom
+        - _self_
+
+hydra:
+  run:
+    dir: ../hydra/logs/${hydra.job.name}/${now:%Y-%m-%d_%H-%M-%S}
+
+name: train_transformer_algebra_select
+wandb_proj: itersolv
+wandb_name: null
+wandb_disabled: false
+tags: null
+notes: null
+start_timestamp: ${now:%Y-%m-%d_%H-%M}
+device: 'cuda'

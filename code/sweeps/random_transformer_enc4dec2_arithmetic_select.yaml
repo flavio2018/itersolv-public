@@ -1,0 +1,48 @@
+program: main.py
+method: random
+metric:
+  name: valid_ood/char_acc
+  goal: maximize
+parameters:
+  task.max_iter:
+    value: 30000
+  task.lr_scheduler:
+    value: cosann
+  task.linear_scheduler_start_factor:
+    value: 0.3
+  task.cosann_max_iters:
+    value: 30000
+  model.label_pe_enc:
+    value: true
+  model.d_model:
+    value: 256
+  model.ff_mul:
+    value: 4
+  model.num_heads:
+    value: 4
+  model.num_layers_enc:
+    value: 4
+  model.num_layers_dec:
+    value: 2
+  model.diag_mask_width_above:
+    value: 3
+  # nuisance params
+  model.dropout:
+    min: 0.1
+    max: 0.4
+  task.lr:
+    min: 0.00001
+    max: 0.00004
+  task.linear_scheduler_iters:  # warmup length
+    min: 1000
+    max: 3000
+  model.mha_init_gain:
+    min: 0.5
+    max: 2.5
+command:
+  - ${env}
+  - python
+  - ${program}
+  - "--config-name=train_transformer_arithmetic_select"
+  - ${args_no_hyphens}
+  

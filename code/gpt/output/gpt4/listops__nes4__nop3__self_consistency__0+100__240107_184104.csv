@@ -1,0 +1,3506 @@
+,task_name,prompt_type,original_input,prompt,0_shot_cot_first_out,gpt_output,original_target
+0,listops,self_consistency,[MAX [SM [MIN [MIN 1 4 3] 9 [MIN 3 1 2]] [SM [MIN 3 6 0] [MIN 0 9 0] 0] 0] 5 [MAX 8 [MIN [SM 1 3 9] [SM 1 7 4] 4] [MIN [MAX 6 5 8] [SM 8 6 7] 3]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX [SM [MIN [MIN 1 4 3] 9 [MIN 3 1 2]] [SM [MIN 3 6 0] [MIN 0 9 0] 0] 0] 5 [MAX 8 [MIN [SM 1 3 9] [SM 1 7 4] 4] [MIN [MAX 6 5 8] [SM 8 6 7] 3]]].
+
+A: Let's think step-by-step.","We first evaluate each of the MIN, MAX and SM operations from the inside out.
+
+MIN operations:
+
+- MIN 1 4 3 is 1
+- MIN 3 1 2 is 1
+- MIN 3 6 0 is 0
+- MIN 0 9 0 is 0
+- SM 1 3 9 is 3 (1+3+9 = 13 which yields 3 when taking modulo 10)
+- SM 1 7 4 is 2 (1+7+4 = 12 which yields 2 when taking modulo 10)
+- MIN 3 2 4 is 2
+- MAX 6 5 8 is 8
+- SM 8 6 7 is 1 (8+6+7 =21 which yields 1 when taking modulo 10)
+- MIN 8 1 3 is 1 
+
+After these substitutions, the original expression simplifies to:
+MAX[SM[MIN[1 9 1] [SM[0 0 0] 0] 5 [MAX 8 2 1]
+
+SM operations:
+  
+- SM 1 9 1 is 1 (1+9+1 = 11 which yields 1 when taking modulo 10)
+- SM 0 0 0 is 0 
+
+After substitute these operations, the original expression further simplifies to:
+
+MAX[MIN[1 0] 0 5 [MAX 8 2 1]]
+
+MIN operations:
+
+- MIN 1 0 is 0
+
+After this substitution, the expression further simplifies to:
+MAX[0 0 5 [MAX 8 2 1]]
+
+MAX operations:
+
+- MAX 8 2 1 is 8
+
+After the last substitution, the last expression simplifies to:
+MAX[0 0 5 8]
+
+MAX operation:
+- MAX 0 0 5 8 is 8
+
+Therefore, the result of the entire expression is 8.",8,8
+1,listops,self_consistency,[SM [MIN [SM [SM 6 7 6] 2 [SM 7 3 1]] 8 [MIN [SM 6 9 3] [MAX 0 4 6] 6]] [MAX 4 [MIN 6 [MAX 1 5 6] [MAX 9 4 1]] [SM [MAX 1 4 2] 6 [MAX 2 2 8]]] 0],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [MIN [SM [SM 6 7 6] 2 [SM 7 3 1]] 8 [MIN [SM 6 9 3] [MAX 0 4 6] 6]] [MAX 4 [MIN 6 [MAX 1 5 6] [MAX 9 4 1]] [SM [MAX 1 4 2] 6 [MAX 2 2 8]]] 0].
+
+A: Let's think step-by-step.","First, let's solve innermost expressions:
+[SM [SM 6 7 6] => SUM of [6,7,6], which gives: 6+7+6 = 19; and as 19 modulo 10 is 9, it equals 9.
+[SM 7 3 1] => SUM of [7,3,1] at modulo 10, which gives: 7+3+1 = 11; and as 11 modulo 10 is 1, it equals 1.
+[MAX 0 4 6] => MAX of [0,4,6], which gives: 6.
+[MAX 1 5 6] => MAX of [1,5,6], which gives: 6.
+[MAX 9 4 1] => MAX of [9,4,1], which gives: 9.
+[SM 6 9 3] => SUM of [6,9,3] at modulo 10, which gives: 6+9+3 = 18; and as 18 modulo 10 is 8, it equals 8.
+[MAX 1 4 2] => MAX of [1,4,2], which gives: 4.
+[MAX 2 2 8] => MAX of [2,2,8], which gives: 8.
+
+Substitute solved expressions to the initial one, we get:
+[SM [MIN 9 2 1] 8 [MIN 8 6 6]] [MAX 4 [MIN 6 6 9] [SM 4 6 8]] 0
+
+Now, let's solve remaining expressions:
+
+[MIN 9 2 1] => MIN of [9,2,1], which gives: 1.
+[MIN 8 6 6] => MIN of [8,6,6], which gives: 6.
+[MIN 6 6 9] => MIN of [6,6,9], which gives: 6.
+[SM 4 6 8] => SUM of [4,6,8] at modulo 10, which gives: 4+6+8 = 18; and as 18 modulo 10 is 8, it equals 8.
+
+Substitute solved expressions to the initial one we get:
+[SM 1 8 6] [MAX 4 6 8] 0
+
+Next step:
+
+[SM 1 8 6] => SUM of [1,8,6] at modulo 10, which gives: 1+8+6 = 15; and as 15 modulo 10 is 5, it equals 5.
+[MAX 4 6 8] => MAX of [4,6,8], which gives: 8.
+
+Substitute solved expressions to the initial one we get:
+[SM 5 8 0]
+
+Next step:
+
+[SM 5 8 0] => SUM of [5,8,0] at modulo 10, which gives: 5+8+0 = 13; and as 13 modulo 10 is 3, it equals 3.
+
+This is the final result and the answer to this problem.",3,0
+2,listops,self_consistency,[MIN [MAX [SM 0 [MIN 4 4 2] [MIN 7 5 7]] 7 [SM [MIN 9 7 1] 5 [SM 9 9 3]]] [SM [SM [SM 5 4 0] [MAX 6 9 5] 2] 3 [MIN [MAX 0 4 0] 4 [MAX 9 0 9]]] 2],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [MAX [SM 0 [MIN 4 4 2] [MIN 7 5 7]] 7 [SM [MIN 9 7 1] 5 [SM 9 9 3]]] [SM [SM [SM 5 4 0] [MAX 6 9 5] 2] 3 [MIN [MAX 0 4 0] 4 [MAX 9 0 9]]] 2].
+
+A: Let's think step-by-step.","First, we calculate the innermost brackets:
+
+[SM 0 [MIN 4 4 2]] = [SM 0 2] = 2 (since the minimum of 4, 4, and 2 is 2, and the sum of 0 and 2 modulo 10 is 2)
+
+[MIN 7 5 7] = 5 (since the minimum of 7, 5, and 7 is 5)
+
+[MIN 9 7 1] = 1 (since the minimum of 9, 7, and 1 is 1)
+
+[SM 9 9 3] = 1 (since the sum of 9, 9, and 3 modulo 10 is 1)
+
+[SM [SM 5 4 0] [MAX 6 9 5] 2] = [SM [SM 9] [MAX 6 9 5] 2] = [SM [SM 9] 9 2] = [SM 9 2] = 1 (the sum of 5, 4, and 0 modulo 10 is 9, the maximum of 6, 9, and 5 is 9, and the sum of 9, 9 and 2 modulo 10 is 1)
+
+[MAX 0 4 0] = 4 (since the maximum of 0, 4, 0 is 4)
+
+[MIN [MAX 0 4 0] 4 [MAX 9 0 9]] = [MIN 4 4 [MAX 9 0 9]] = [MIN 4 4 9] = 4 (since the maximum of 9, 0, and 9 is 9, and the minimum of 4, 4, and 9 is 4)
+
+Now we have:
+[MIN [MAX [SM 0 [MIN 4 4 2] [MIN 7 5 7]] 7 [SM [MIN 9 7 1] 5 [SM 9 9 3]]] [SM [SM 5 4 0] [MAX 6 9 5] 2] 3 [MIN [MAX 0 4 0] 4 [MAX 9 0 9]] 2] = [MIN [MAX 2 7 1] 1 4 2]
+
+Next:
+[MAX 2 7 1] = 7 (since the maximum of 2, 7, and 1 is 7)
+
+So, the final expression is [MIN 7 1 4 2] which is equal to 1 because the minimum of 7, 1, 4, and 2 is 1.
+
+So, the solution to the given expression is 1.",1,2
+3,listops,self_consistency,[SM 2 [SM 2 [SM [SM 3 4 6] [MIN 9 6 8] 3] [MIN [MAX 6 3 0] 0 [MAX 6 6 3]]] [SM [SM [SM 4 8 1] [MIN 7 7 6] 4] 8 [MIN [MAX 7 7 1] 4 [SM 2 4 4]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM 2 [SM 2 [SM [SM 3 4 6] [MIN 9 6 8] 3] [MIN [MAX 6 3 0] 0 [MAX 6 6 3]]] [SM [SM [SM 4 8 1] [MIN 7 7 6] 4] 8 [MIN [MAX 7 7 1] 4 [SM 2 4 4]]]].
+
+A: Let's think step-by-step.","First, we evaluate the innermost brackets. We start with the operations SM, MIN and MAX.
+
+SM 3 4 6 = 3+4+6 modulo 10 = 13 modulo 10 = 3
+MIN 9 6 8 = The minimum of 9, 6 and 8 is 6
+MAX 6 3 0 = The maximum of 6, 3 and 0 is 6 
+
+So we can rewrite the expression as:
+
+SM 2 [SM 2 [SM 3 6 3] [MIN 6 0 6]] [SM [SM 4 8 1] [MIN 7 7 6]  4] 8 [MIN [MAX 7 7 1] 4 [SM 2 4 4] ]]
+
+Next, we evaluate the remaining MAX and MIN operations.
+
+MIN 6 0 6 = The minimum of 6, 0 and 6 is 0
+MIN 7 7 6 = The minimum of 7, 7 and 6 is 6
+MAX 7 7 1 = The maximum of 7, 7 and 1 is 7 
+
+So the expression becomes:
+
+SM 2 [SM 2 [SM 3 6 3] 0] [SM [SM  4 8 1] 6 4] 8 [MIN 7 4 [SM 2 4 4]]
+
+Then, we evaluate the remaining SM operations. 
+
+SM 3 6 3 = 3+6+3 modulo 10 = 12 modulo 10 = 2 
+SM 4 8 1 = 4+8+1 modulo 10 = 13 modulo 10 = 3
+SM 2 4 4 = 2+4+4 modulo 10 = 10 modulo 10 = 0
+
+So the expression becomes:
+
+SM 2 [SM 2 2 0] [SM 3 6 4] 8 [MIN 7 4 0]
+
+Continuing with the remaining SM operations,
+
+SM 2 2 0 = 2+2+0 modulo 10 = 4 modulo 10 = 4
+SM 3 6 4 = 3+6+4 modulo 10 = 13 modulo 10 = 3
+
+So the expression becomes:
+
+SM 2 4 3 8 [MIN 7 4 0]
+
+Continuing with the remaining MIN operation,
+
+MIN 7 4 0 = The minimum of 7, 4 and 0 is 0
+
+So the expression becomes:
+
+SM 2 4 3 8 0
+
+Finally, calculating the remaining SM operation,
+
+SM 2 4 3 8 0 = 2+4+3+8+0 modulo 10 = 17 modulo 10 = 7
+
+So, the solution to the given expression is 7.",7,7
+4,listops,self_consistency,[MIN 5 [MIN 3 [SM [MAX 9 4 0] [SM 0 4 2] 7] [MAX [SM 8 0 3] 3 [SM 7 4 8]]] [SM [SM 2 [SM 1 7 8] [SM 1 6 4]] [MAX 8 [MAX 3 8 4] [MAX 9 5 0]] 0]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN 5 [MIN 3 [SM [MAX 9 4 0] [SM 0 4 2] 7] [MAX [SM 8 0 3] 3 [SM 7 4 8]]] [SM [SM 2 [SM 1 7 8] [SM 1 6 4]] [MAX 8 [MAX 3 8 4] [MAX 9 5 0]] 0]].
+
+A: Let's think step-by-step.","First, calculate the elements within the innermost square brackets:
+
+[SM [MAX 9 4 0] [SM 0 4 2] 7] = SM (9) (SM 6 7) = SM (9) (13 mod 10) = SM 9 3 = 12 mod 10 = 2
+[SM 8 0 3] = 8 + 0 + 3 mod 10 = 11 mod 10 = 1
+[SM 7 4 8] = 7 + 4 + 8 mod 10 = 19 mod 10 = 9
+[MAX [SM 8 0 3] 3 [SM 7 4 8]] = MAX 1 3 9 = 9
+[SM 1 7 8] = 1 + 7 + 8 mod 10 = 16 mod 10 = 6
+[SM 1 6 4] = 1 + 6 + 4 mod 10 = 11 mod 10 = 1
+[SM [SM 2 [SM 1 7 8] [SM 1 6 4]] = SM 2 6 1 = 2 + 6 + 1 mod 10 = 9 mod 10 = 9
+[MAX 3 8 4] = 8
+[MAX 9 5 0] = 9
+[MAX 8 [MAX 3 8 4] [MAX 9 5 0]] = MAX 8 8 9 = 9
+[SM [SM 2 [SM 1 7 8] [SM 1 6 4]] [MAX 8 [MAX 3 8 4] [MAX 9 5 0]] 0] = SM 9 9 0 = 18 mod 10 
+
+Continue simplifying the expression:
+MIN 5 2 9 = 2
+MIN 3 2 9 = 2 
+We see that [MIN 3 [SM [MAX 9 4 0] [SM 0 4 2] 7] [MAX [SM 8 0 3] 3 [SM 7 4 8]]] = 2 
+
+Finally: 
+[MIN 5 [MIN 3 [SM [MAX 9 4 0] [SM 0 4 2] 7] [MAX [SM 8 0 3] 3 [SM 7 4 8]]] [SM [SM 2 [SM 1 7 8] [SM 1 6 4]] [MAX 8 [MAX 3 8 4] [MAX 9 5 0]] 0]] = MIN 5 2 8 = 2.",2,2
+5,listops,self_consistency,[MIN 6 [MAX 1 [SM 0 [MIN 4 9 2] [SM 9 7 1]] [MAX [MAX 1 3 9] [MAX 6 0 4] 8]] [SM 1 [MAX [MIN 2 4 1] 5 [MAX 7 8 1]] [MIN 2 [SM 8 9 5] [MAX 3 9 1]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN 6 [MAX 1 [SM 0 [MIN 4 9 2] [SM 9 7 1]] [MAX [MAX 1 3 9] [MAX 6 0 4] 8]] [SM 1 [MAX [MIN 2 4 1] 5 [MAX 7 8 1]] [MIN 2 [SM 8 9 5] [MAX 3 9 1]]]].
+
+A: Let's think step-by-step.","First, let's resolve the expressions from the innermost brackets:
+
+[MIN 4 9 2] = 2
+[SM 9 7 1] = (9 + 7 + 1) mod 10 = 7
+[MAX 1 3 9] = 9
+[MAX 6 0 4] = 6
+[MIN 2 4 1] = 1
+[MAX 7 8 1] = 8
+[SM 8 9 5] = (8 + 9 + 5) mod 10 = 2
+[MAX 3 9 1] = 9
+
+Now replace these results back into the original expression:
+
+[MIN 6 [MAX 1 [SM 0 2 7] [MAX 9 6 8]] [SM 1 [MAX 1 5 8] [MIN 2 2 9]]]
+
+Let's compute one more round:
+
+[SM 0 2 7] = (0 + 2 + 7) mod 10 = 9
+[MAX 1 9 8] = 9
+[MAX 1 5 8] = 8
+[MIN 2 2 9] = 2
+
+Replace these results back:
+
+[MIN 6 [MAX 1 9 9] [SM 1 8 2]]
+
+Compute again:
+
+[MAX 1 9 9] = 9
+[SM 1 8 2] = (1 + 8 + 2) mod 10 = 1
+
+And replace:
+
+[MIN 6 9 1]
+
+Finally, the answer is the minimum of 6, 9 and 1, which is 1.",1,1
+6,listops,self_consistency,[SM [MIN [SM [SM 9 5 1] [SM 8 9 6] 4] 9 [MAX 1 [MIN 1 0 5] [MIN 4 9 7]]] 6 [SM [MIN [MIN 2 4 2] 5 [MIN 1 4 2]] 6 [SM [MIN 8 3 8] [SM 0 8 4] 5]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [MIN [SM [SM 9 5 1] [SM 8 9 6] 4] 9 [MAX 1 [MIN 1 0 5] [MIN 4 9 7]]] 6 [SM [MIN [MIN 2 4 2] 5 [MIN 1 4 2]] 6 [SM [MIN 8 3 8] [SM 0 8 4] 5]]].
+
+A: Let's think step-by-step.","First, we need to calculate the innermost operations:
+
+SM 9 5 1 = (9+5+1) mod 10 = 15 mod 10 = 5
+
+SM 8 9 6 = (8+9+6) mod 10 = 23 mod 10 = 3
+
+MIN 1 0 5 = minimum among 1, 0, 5 = 0
+
+MIN 4 9 7 = minimum among 4, 9, 7 = 4
+
+MIN 2 4 2 = minimum among 2, 4, 2 = 2
+
+MIN 1 4 2 = minimum among 1, 4, 2 = 1
+
+MIN 8 3 8 = minimum among 8, 3, 8 = 3
+
+SM 0 8 4 = (0+8+4) mod 10 = 12 mod 10 = 2
+
+So, our equation becomes:
+
+SM [MIN [SM 5 3 4] 9 [MAX 1 0 4]] 6 [SM [MIN 2 5 1] 6 [SM 3 2 5]]
+
+Next, let's process the SM and MIN functions:
+
+SM 5 3 4 = (5+3+4) mod 10 = 12 mod 10 = 2
+
+MIN 2 5 1 = minimum among 2, 5, 1 = 1
+
+SM 3 2 5 = (3+2+5) mod 10 = 10 mod 10 = 0
+
+Now our equation looks like this:
+
+SM [MIN 2 9 [MAX 1 0 4]] 6 [SM 1 6 0]
+
+Further simplification gives us:
+
+MIN 2 9 4 = minimum among 2, 9, 4 = 2
+
+SM 1 6 0 = (1+6+0) mod 10 = 7 mod 10 = 7
+
+We're left with
+
+SM 2 6 7 = (2+6+7) mod 10 = 15 mod 10 = 5
+
+So, the final result for the given expression is 5.",5,5
+7,listops,self_consistency,[MIN [SM [SM 2 [SM 9 0 2] [SM 1 1 8]] [MAX 0 [SM 0 1 8] [MIN 0 5 5]] 8] [MAX 6 [SM [SM 0 6 7] 2 [MIN 9 9 0]] [SM 2 [MIN 4 4 5] [MIN 1 7 8]]] 6],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [SM [SM 2 [SM 9 0 2] [SM 1 1 8]] [MAX 0 [SM 0 1 8] [MIN 0 5 5]] 8] [MAX 6 [SM [SM 0 6 7] 2 [MIN 9 9 0]] [SM 2 [MIN 4 4 5] [MIN 1 7 8]]] 6].
+
+A: Let's think step-by-step.","[SM 2 [SM 9 0 2] [SM 1 1 8]] = [SM 2 [SM 11] [SM 10]] = [SM 2 1 0] = 3
+
+[MAX 0 [SM 0 1 8] [MIN 0 5 5]] = [MAX 0 [SM 9] [MIN 5]] = [MAX 0 9 5] = 9
+
+So we get: MIN [SM 3 9 8] 6 = MIN 10 6 = 6
+
+Now let's solve the second set:
+
+[SM [SM 0 6 7] 2 [MIN 9 9 0]] = [SM [SM 13] 2 [MIN 0]] = [SM 3 2 0] = 5
+
+[SM 2 [MIN 4 4 5] [MIN 1 7 8]] = [SM 2 [MIN 4] [MIN 1]] = [SM 2 4 1] = 7
+
+So we get: MAX 6 [SM 5 2 0] [SM 7 4 1] = MAX 6 7 12 = MAX 6 7 2 = 7
+
+Now from above, we get: MIN 6 7 = 6. So the answer is 6.",6,0
+8,listops,self_consistency,[MAX 7 [MAX [MIN [SM 1 8 4] 9 [MIN 6 4 7]] 1 [SM 7 [SM 9 0 9] [MAX 9 8 5]]] [SM [SM [SM 7 9 3] 6 [MIN 4 3 1]] 2 [MIN [MIN 7 0 9] [MIN 0 2 5] 8]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX 7 [MAX [MIN [SM 1 8 4] 9 [MIN 6 4 7]] 1 [SM 7 [SM 9 0 9] [MAX 9 8 5]]] [SM [SM [SM 7 9 3] 6 [MIN 4 3 1]] 2 [MIN [MIN 7 0 9] [MIN 0 2 5] 8]]].
+
+A: Let's think step-by-step.","First, evaluate inner brackets i.e. min, max, and sm.
+1. [SM 1 8 4] gives 13 mod 10 = 3
+2. [MIN 6 4 7] gives 4
+3. [SM 9 0 9] gives 18 mod 10 = 8
+4. [MAX 9 8 5] gives 9
+5. [SM 7 9 3] gives 19 mod 10 = 9
+6. [MIN 4 3 1] gives 1
+7. [MIN 7 0 9] gives 0
+8. [MIN 0 2 5] gives 0
+
+Now replace these values and solve further:
+[MAX 7 [MAX [MIN 3 9 4] 1 [SM 7 8 9]] [SM [SM 9 6 1] 2 [MIN 0  0 8]]]
+Further reduce:
+1. [MIN 3 9 4] gives 3
+2. [SM 7 8 9] gives 24 mod 10 = 4
+3. [SM 9 6 1] gives 16 mod 10 = 6
+4. [MIN 0  0 8] gives 0
+
+Now replace these values and solve further:
+[MAX 7 [MAX 3 1 4] [SM 6 2 0]]
+Further reduce:
+1. [MAX 3 1 4] gives 4
+2. [SM 6 2 0] gives 8
+
+Now replace these values and solve further:
+[MAX 7 4 8]
+This will give 8, which is the final result.",8,8
+9,listops,self_consistency,[MAX 6 [MAX [MAX 7 [SM 1 0 6] [SM 5 1 4]] [MIN [MIN 2 7 8] 5 [MAX 5 0 8]] 9] [SM 1 [SM 7 [MIN 6 7 3] [SM 0 3 8]] [SM [MIN 0 0 3] 5 [MAX 2 2 7]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX 6 [MAX [MAX 7 [SM 1 0 6] [SM 5 1 4]] [MIN [MIN 2 7 8] 5 [MAX 5 0 8]] 9] [SM 1 [SM 7 [MIN 6 7 3] [SM 0 3 8]] [SM [MIN 0 0 3] 5 [MAX 2 2 7]]]].
+
+A: Let's think step-by-step.","First we need to solve the innermost operations:
+
+[SM 1 0 6] is 1 + 0 + 6 modulo 10 = 7.
+
+[SM 5 1 4] is 5 + 1 + 4 modulo 10 = 0.
+
+[MIN 2 7 8] is the smallest number out of 2, 7, and 8, which is 2.
+
+[MAX 5 0 8] is the largest number out of 5, 0, and 8, which is 8.
+
+[MIN 6 7 3] is the smallest number out of 6, 7, and 3, which is 3.
+
+[SM 0 3 8] is 0 + 3 + 8 modulo 10 = 1.
+
+[MIN 0 0 3] is the smallest number out of 0, 0, and 3, which is 0.
+
+[MAX 2 2 7] is the largest number out of 2, 2, and 7, which is 7.
+
+Substituting these calculcations back into the original expression we get:
+
+[MAX 6 [MAX [MAX 7 7 0] [MIN 2 5 8] 9] [SM 1 [SM 7 3 1] [SM 0 5 7]]].
+
+Looking at the inner operations again, we have:
+
+[MAX 7 7 0] is the largest number out of 7, 7, and 0, which is 7.
+
+[MIN 2 5 8] is the smallest number out of 2, 5, and 8, which is 2.
+
+[SM 7 3 1] is 7 + 3 + 1 modulo 10 = 1.
+
+[SM 0 5 7] is 0 + 5 + 7 modulo 10 = 2.
+
+Substituting these calculated expressions back into the original we obtain:
+
+[MAX 6 [MAX 7 2 9] [SM 1 1 2]].
+
+Continuing as above we find:
+
+[MAX 7 2 9] is the largest number out of 7, 2, and 9, which is 9.
+
+[SM 1 1 2] is 1 + 1 + 2 modulo 10 = 4.
+
+Substituting these calculated expressions back into the original we obtain:
+
+[MAX 6 9 4].
+
+Finally, the MAX operator gives us the maximum number out of 6, 9, and 4.
+
+So the expression [MAX 6 9 4] = 9.",9,9
+10,listops,self_consistency,[MIN 4 [MIN [MAX [SM 1 6 1] 8 [MIN 4 2 6]] [MAX [SM 5 3 5] [SM 8 4 2] 2] 8] [MIN 2 [MIN 4 [SM 3 0 2] [SM 7 3 2]] [SM 1 [MIN 8 2 4] [SM 1 7 4]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN 4 [MIN [MAX [SM 1 6 1] 8 [MIN 4 2 6]] [MAX [SM 5 3 5] [SM 8 4 2] 2] 8] [MIN 2 [MIN 4 [SM 3 0 2] [SM 7 3 2]] [SM 1 [MIN 8 2 4] [SM 1 7 4]]]].
+
+A: Let's think step-by-step.","Step 1: Evaluate the inner most operations.
+
+  Here are those operations:
+    SM 1 6 1 -> 1 + 6 + 1 = 8 (mod 10)
+    MIN 4 2 6 -> 2 (Minimum between 4, 2, 6 is 2)
+    SM 5 3 5 -> 5 + 3 + 5 = 13 (mod 10) = 3 (mod 10 operation will give us remainder when 13 divided by 10)
+    SM 8 4 2 -> 8 + 4 + 2 = 14 (mod 10) = 4
+    SM 3 0 2 -> 3 + 0 + 2 = 5
+    MIN 8 2 4 -> 2
+    SM 1 7 4 -> 1 + 7 + 4 = 12 (mod 10) = 2
+
+ Step 2: Replace these operations and their results in the main expression.
+
+   After insert, our expression will be:
+   [MIN 4 [MIN [MAX 8 8 2] [MAX 3 4 2] 8] [MIN 2 [MIN 4 5 2] 2]]
+
+Step 3: Again Evaluate the inner most operation.
+
+   Here are those operations:
+     MAX 8 8 2 -> 8 (Maximum between 8, 8, 2 is 8)
+     MAX 3 4 2 -> 4 (Maximum between 3, 4, 2 is 4)
+     MIN 4 5 2 -> 2 (Minimum between 4, 5, 2 is 2)
+ 
+Step 4: Replace these operations and their final results in the incomplete evaluated expression.
+
+   After inserting the final results, our expression will be:
+   [MIN 4 [MIN 8 4 8] [MIN 2 2]]
+
+Step 5: Now, again calculate the inner most operations which are not yet calculated.
+   
+   Here are those results:
+     MIN 8 4 8 -> 4 (Minimum between 8, 4, 8 is 4)
+     MIN 2 2 -> 2 (Minimum between 2 and 2, 2 itself)
+
+Step 6: Insert the results in the incomplete evaluated expression.
+
+   After doing this, our expression will be:
+   MIN 4 4 2
+
+Step 7: Now finally, calculate the MIN on 4, 4, and 2.
+
+   The operation will give us: 2 (Minimum between 4, 4, and 2 is 2)
+
+So, the final solution of the given expression is 2.",2,2
+11,listops,self_consistency,[SM [MIN [MAX [SM 3 9 7] [SM 3 7 0] 7] [SM [MAX 7 8 2] [MAX 7 7 8] 0] 1] [MIN [MIN [MAX 7 0 1] [SM 0 5 5] 7] 0 [MAX [MAX 2 9 7] 9 [MAX 9 0 0]]] 9],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [MIN [MAX [SM 3 9 7] [SM 3 7 0] 7] [SM [MAX 7 8 2] [MAX 7 7 8] 0] 1] [MIN [MIN [MAX 7 0 1] [SM 0 5 5] 7] 0 [MAX [MAX 2 9 7] 9 [MAX 9 0 0]]] 9].
+
+A: Let's think step-by-step.","We first need to solve the innermost lists.
+
+[SM 3 9 7] = (3 + 9 + 7) mod 10 = 19 mod 10 = 9
+
+[SM 3 7 0] = (3 + 7 + 0) mod 10 = 10 mod 10 = 0
+
+[MAX 7 8 2] = max(7, 8, 2) = 8
+
+[MAX 7 7 8] = max(7, 7, 8) = 8
+
+[MAX 7 0 1] = max(7, 0, 1) = 7
+
+[SM 0 5 5] = (0 + 5 + 5) mod 10 = 10 mod 10 = 0
+
+[MAX 2 9 7] = max(2, 9, 7) = 9
+
+[MAX 9 0 0] = max(9, 0, 0) = 9
+
+Now we substitute these values back into the main expression:
+
+[SM [MIN [MAX 9 0 7] [SM 8 8 0] 1] [MIN [MIN 7 0 7] 0 [MAX 9 9]] 9]
+
+We now need to solve these new lists:
+
+[MAX 9 0 7] = max(9, 0, 7) = 9
+
+[SM 8 8 0] = (8 + 8 + 0) mod 10 = 16 mod 10 = 6
+
+[MIN 7 0 7] = min(7, 0, 7) = 0
+
+[MAX 9 9] = max(9, 9) = 9
+
+Then we continue to plug in our results:
+
+[SM [MIN 9 6 1] [MIN 0 0 9] 9]
+
+And find these results:
+
+[MIN 9 6 1] = min(9, 6, 1) = 1
+
+[MIN 0 0 9] = min(0, 0, 9) = 0
+
+Then we plug these results back in:
+
+[SM 1 0 9]
+
+Finally, we perform the last operation:
+
+[SM 1 0 9] = (1 + 0 + 9) mod 10 = 10 mod 10 = 0
+
+So the result of the entire expression is 0.",0,0
+12,listops,self_consistency,[MAX [MIN [MIN 7 [MIN 3 1 5] [MAX 7 3 5]] 2 [MAX [MIN 5 0 2] [SM 2 6 3] 5]] [SM 1 [MAX 4 [MIN 3 6 3] [MIN 4 5 1]] [MIN 1 [MAX 6 5 3] [MAX 1 4 1]]] 3],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX [MIN [MIN 7 [MIN 3 1 5] [MAX 7 3 5]] 2 [MAX [MIN 5 0 2] [SM 2 6 3] 5]] [SM 1 [MAX 4 [MIN 3 6 3] [MIN 4 5 1]] [MIN 1 [MAX 6 5 3] [MAX 1 4 1]]] 3].
+
+A: Let's think step-by-step.","First, we need to compute the values inside the innermost brackets:
+
+[MIN 3 1 5] = 1
+[MAX 7 3 5] = 7 
+[MIN 5 0 2] = 0 
+[SM 2 6 3] = 1
+[MIN 3 6 3] = 3
+[MIN 4 5 1] = 1 
+[MAX 6 5 3] = 6
+[MAX 1 4 1] = 4
+
+Substitute these results into the equation to simplify it:
+
+[MAX [MIN [MIN 7 1 7] 2 1] 5] [SM 1 [MAX 4 3 1] [MIN 1 6 4]] 3]
+
+Compute the next layer inside the brackets:
+
+[MIN 7 1 7] = 1
+[MAX 4 3 1] = 4
+[MIN 1 6 4] = 1
+
+Substitute these results back into the equation to simplify it further:
+
+[MAX [MIN 1 2 1] 5] [SM 1 4 1 3]
+
+Compute the values inside brackets again:
+
+[MIN 1 2 1] = 1
+[SM 1 4 1 3] = 9
+
+And finally, substitute these results back into the equation:
+
+[MAX 1 5] 9 3]
+
+Compute the last operation:
+
+[MAX 1 5] = 5
+
+So, the result of the entire process is:
+
+5 9 3
+
+So, the expression evaluates to [5, 9, 3].","5, 9, 3",6
+13,listops,self_consistency,[SM 9 [MIN [MAX 7 [MIN 0 2 8] [SM 9 2 0]] [MIN 2 [MAX 0 7 3] [SM 0 3 3]] 1] [SM 9 [SM 4 [MAX 1 5 8] [MIN 9 6 9]] [SM [SM 2 9 2] [SM 8 8 4] 9]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM 9 [MIN [MAX 7 [MIN 0 2 8] [SM 9 2 0]] [MIN 2 [MAX 0 7 3] [SM 0 3 3]] 1] [SM 9 [SM 4 [MAX 1 5 8] [MIN 9 6 9]] [SM [SM 2 9 2] [SM 8 8 4] 9]]].
+
+A: Let's think step-by-step.","First we can calculate the SM values. SM returns the sum of the numbers modulo 10. Taking one SM operation at a time, we get:
+SM [SM 9 2 0] = SM [11] = 1.
+SM [SM 0 3 3] = SM [6] = 6.
+SM [SM 2 9 2] = SM [13] = 3.
+SM [SM 8 8 4] = SM [20] = 0.
+
+Now our expression is [SM 9 [MIN [MAX 7 [MIN 0 2 8] 1] [MIN 2 [MAX 0 7 3] 6] 1] [SM 9 [SM 4 [MAX 1 5 8] [MIN 9 6 9]] [SM 3 0 9]]].
+
+Moving next to MIN: 
+
+MIN [MIN 0 2 8] = 0.
+MIN [MAX 0 7 3] = 0.
+MIN [9 6 9] = 6.
+
+So, our updated expression becomes [SM 9 [MIN [MAX 7 0 1] [MIN 2 0 6] 1] [SM 9 [SM 4 [MAX 1 5 8] 6] [SM 3 0 9]]].
+
+Continuing with MIN:
+
+MIN [MAX 7 0 1] =  MIN [7] = 7.
+MIN [2 0 6] = 0.
+
+Update our expression again and we get [SM 9 [MIN 7 0 1] [SM 9 [SM 4 [MAX 1 5 8] 6] [SM 3 0 9]]].
+
+Calculate the last MIN and that gives us 0
+
+Our expression is [SM 9 0 [SM 9 [SM 4 [MAX 1 5 8] 6] [SM 3 0 9]]].
+
+The last few SM and MAX operations left, SM [SM 4 [MAX 1 5 8] 6] follows:
+
+MAX [1 5 8] = 8.
+
+Then SM [4 8 6] = SM [18] = 8. 
+
+Our expression updates to [SM 9 0 [SM 9 8 [SM 3 0 9]]].
+
+The remaining SM gives us SM [3 0 9] = SM [12] = 2 and SM [9 8] = SM [17] = 7.
+
+Our final expression to solve is [SM 9 0 7 2].
+
+So, the final answer is SM [9 0 7 2] = SM [18] = 8.",8,9
+14,listops,self_consistency,[MIN [MIN 5 [SM [SM 2 7 4] 0 [MAX 7 9 7]] [MAX 2 [MAX 7 0 3] [MAX 7 2 8]]] 0 [MIN [SM [MIN 9 3 0] [MIN 4 7 5] 8] 6 [MIN 2 [MAX 9 7 8] [MIN 9 5 8]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [MIN 5 [SM [SM 2 7 4] 0 [MAX 7 9 7]] [MAX 2 [MAX 7 0 3] [MAX 7 2 8]]] 0 [MIN [SM [MIN 9 3 0] [MIN 4 7 5] 8] 6 [MIN 2 [MAX 9 7 8] [MIN 9 5 8]]]].
+
+A: Let's think step-by-step.","First, calculate the result of the SM operations:
+
+SM 2 7 4 = 3 (because 2+7+4 = 13 and 13 modulus 10 is 3)
+SM [MIN 9 3 0] [MIN 4 7 5] 8 = 4 (because the minimum of 9, 3 and 0 is 0, the minimum of 4, 7 and 5 is 4, hence the sum is 0 + 4 + 8 = 12, 12 modulus 10 is 2)
+
+Next, calculate the result of the MAX operations:
+
+MAX 7 9 7 = 9 (because 9 is the maximum value)
+MAX 2 [MAX 7 0 3] [MAX 7 2 8] = 8 (because the maximum of 7, 2 and 8 is 8, and it's greater than the maximum value between 2, 3, and 8)
+MAX 9 7 8 = 9 (because 9 is the maximum value)
+
+Then, calculate the MIN operations:
+
+MIN 5 [SM 3 0 9] 8 = 0 (because 0 is the minimum value)
+MIN [SM 2 4 8] 6 [MIN 2 9 5] = 2 (because 2 is the minimum value)
+
+Now, substitute these values back into the original expression to give:
+
+MIN 0 0 2 = 0 (because 0 is the minimum value)
+
+So the result of the expression is 0.",0,0
+15,listops,self_consistency,[MIN 8 [SM 0 [MAX [MIN 1 3 8] [SM 4 5 4] 9] [MIN [SM 1 9 9] 2 [MAX 9 6 7]]] [MIN [MAX [SM 3 1 3] [MAX 2 8 5] 6] [MIN [MAX 6 8 8] 1 [MAX 5 1 0]] 5]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN 8 [SM 0 [MAX [MIN 1 3 8] [SM 4 5 4] 9] [MIN [SM 1 9 9] 2 [MAX 9 6 7]]] [MIN [MAX [SM 3 1 3] [MAX 2 8 5] 6] [MIN [MAX 6 8 8] 1 [MAX 5 1 0]] 5]].
+
+A: Let's think step-by-step.","First, we calculate each of the values within the innermost brackets:
+
+- [MIN 1 3 8] = 1
+- [SM 4 5 4] = 3 (sum of numbers mod 10)
+- [SM 1 9 9] = 9 (sum of numbers mod 10)
+- [MAX 9 6 7] = 9
+- [SM 3 1 3] = 7 (sum of numbers mod 10)
+- [MAX 2 8 5] = 8
+- [MAX 6 8 8] = 8
+- [MAX 5 1 0] = 5
+
+Substitute these values back into the original equation, we get:
+
+[MIN 8 [SM 0 [MAX 1 3] 9] [MIN 9 2 9]] [MIN [MAX 7 8 6] [MIN 8 1 5] 5]
+
+Now we break this expression down further:
+
+- [SM 0 [MAX 1 3]] = 3 (0 + max(1, 3) mod 10)
+- [MIN 9 2 9] = 2
+- [MAX 7 8 6] = 8
+- [MIN 8 1 5] = 1
+
+Substitute these values back into the equation, we get:
+
+[MIN 8 3 2] [MIN 8 1 5]
+
+Break this down further:
+
+- [MIN 8 3 2] = 2
+- [MIN 8 1 5] = 1
+
+Substitute these values back into the equation, we get:
+
+[MIN 2 1] = 1
+
+So, the final answer is 1.",1,1
+16,listops,self_consistency,[SM [MAX [MIN 3 [SM 6 7 5] [MAX 7 6 4]] [SM [MIN 6 9 9] [SM 0 6 3] 1] 8] [MAX 9 [SM [SM 7 1 6] [SM 6 6 7] 2] [SM [MIN 4 9 2] 8 [SM 9 8 7]]] 8],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [MAX [MIN 3 [SM 6 7 5] [MAX 7 6 4]] [SM [MIN 6 9 9] [SM 0 6 3] 1] 8] [MAX 9 [SM [SM 7 1 6] [SM 6 6 7] 2] [SM [MIN 4 9 2] 8 [SM 9 8 7]]] 8].
+
+A: Let's think step-by-step.","First, we need to calculate the innermost operators. These are [SM 6 7 5], [SM 0 6 3], [SM 7 1 6], [SM 6 6 7], [SM 9 8 7] and [MIN 4 9 2]. SM stands for sum modulo 10 and MIN for minimum. 
+
+SM 6 7 5: 6+7+5=18, 18 modulo 10 = 8. So, [SM 6 7 5] = 8.
+SM 0 6 3: 0+6+3=9, 9 modulo 10 = 9. So, [SM 0 6 3] = 9.
+SM 7 1 6: 7+1+6=14, 14 modulo 10 = 4. So, [SM 7 1 6] = 4.
+SM 6 6 7: 6+6+7=19, 19 modulo 10 = 9. So, [SM 6 6 7] = 9.
+SM 9 8 7: 9+8+7=24, 24 modulo 10 = 4. So, [SM 9 8 7] = 4.
+MIN 4 9 2: Min(4,9,2)=2. So, [MIN 4 9 2] = 2.
+
+Then, substitute these results into the original expression:
+
+[SM [MAX [MIN 3 8 [MAX 7 6 4]] [SM [MIN 6 9 9] 9 1] 8] [MAX 9 [SM 4 9 2] [SM 2 8 4]] 8].
+
+Next, calculate [MAX 7 6 4] and [MIN 6 9 9]. MAX stands for maximum.
+
+MAX 7 6 4: Max(7,6,4)=7. So, [MAX 7 6 4] = 7.
+MIN 6 9 9: Min(6,9,9)=6. So, [MIN 6 9 9] = 6.
+
+Then, substitute these results into the original expression:
+
+[SM [MAX [MIN 3 8 7] [SM 6 9 1] 8] [MAX 9 [SM 4 9 2] [SM 2 8 4]] 8].
+
+Calculate [MIN 3 8 7] and [SM 6 9 1].
+
+MIN 3 8 7: Min(3,8,7)=3. So, [MIN 3 8 7] = 3.
+SM 6 9 1: 6+9+1=16,16 modulo 10=6. So, [SM 6 9 1] = 6.
+
+Then:
+
+[SM [MAX 3 6 8] [MAX 9 [SM 4 9 2] [SM 2 8 4]] 8].
+
+Calculate [MAX 3 6 8], [SM 4 9 2] and [SM 2 8 4].
+
+MAX 3 6 8: Max(3,6,8)=8. So, [MAX 3 6 8] = 8.
+SM 4 9 2: 4+9+2=15,15 modulo 10=5. So, [SM 4 9 2] = 5.
+SM 2 8 4: 2+8+4=14,14 modulo 10=4. So, [SM 2 8 4] = 4.
+
+Then:
+
+[SM 8 [MAX 9 5 4] 8].
+
+Calculate [MAX 9 5 4] .
+
+MAX 9 5 4: Max(9,5,4)=9. So, [MAX 9 5 4] = 9.
+
+Finally:
+
+[SM 8 9 8] = 8+9+8=25,25 modulo 10=5. 
+
+So, the answer is 5.",5,5
+17,listops,self_consistency,[SM [MIN [MAX [MAX 0 3 1] 3 [SM 6 4 6]] 0 [SM 9 [MIN 7 3 7] [MIN 9 4 6]]] [MIN [SM [MAX 2 8 5] 1 [SM 0 9 7]] [MIN [MAX 0 6 6] 1 [MIN 2 4 2]] 5] 6],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [MIN [MAX [MAX 0 3 1] 3 [SM 6 4 6]] 0 [SM 9 [MIN 7 3 7] [MIN 9 4 6]]] [MIN [SM [MAX 2 8 5] 1 [SM 0 9 7]] [MIN [MAX 0 6 6] 1 [MIN 2 4 2]] 5] 6].
+
+A: Let's think step-by-step.","First calculate all MAX operations:
+- MAX [MAX 0 3 1] = MAX [3 1] = 3
+- MAX 2 8 5 = 8
+- MAX 0 6 6 = 6
+
+Now update the expression:
+[SM [MIN 3 3 [SM 6 4 6]] 0 [SM 9 [MIN 7 3 7] [MIN 9 4 6]]] [MIN [SM 8 1 [SM 0 9 7]] [MIN 6 1 [MIN 2 4 2]] 5] 6.
+
+Calculate all MIN operations.
+- MIN 3 3 [SM 6 4 6] = MIN [3 3 16] = 3
+- MIN 7 3 7 = 3
+- MIN 9 4 6 = 4
+- MIN 6 1 [MIN 2 4 2] = MIN [6 1 2] = 1
+
+The updated expression is:
+[SM 3 0 [SM 9 3 4]] [MIN [SM 8 1 [SM 0 9 7]] 1 5] 6.
+
+Calculate the remaining SM operations:
+- SM 3 0 [SM 9 3 4] = SM [3 0 16] = (3 + 0 + 16) mod 10 = 9
+- SM 8 1 [SM 0 9 7] = SM [8 1 16] = (8 + 1 + 16) mod 10 = 5
+
+Now the expression simplifies to:
+9 [MIN 5 1 5] 6.
+
+Final calculation includes a MIN operation:
+- MIN 5 1 5 = 1
+
+So final expression is:
+9 1 6.
+
+The final result is a list of integers [9 1 6].",[9 1 6],7
+18,listops,self_consistency,[MAX 4 [MAX [MIN 8 [SM 2 5 8] [MAX 8 4 6]] 5 [MAX 7 [MAX 8 0 6] [MIN 5 5 6]]] [MIN 5 [SM [SM 7 5 0] 4 [MAX 7 1 4]] [SM [SM 5 7 4] [MAX 4 5 6] 0]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX 4 [MAX [MIN 8 [SM 2 5 8] [MAX 8 4 6]] 5 [MAX 7 [MAX 8 0 6] [MIN 5 5 6]]] [MIN 5 [SM [SM 7 5 0] 4 [MAX 7 1 4]] [SM [SM 5 7 4] [MAX 4 5 6] 0]]].
+
+A: Let's think step-by-step.","First, we calculate the values inside the square brackets: 
+- [SM 2 5 8] = (2 + 5 + 8) mod 10 = 15 mod 10 = 5
+- [MAX 8 4 6] = max(8, 4, 6) = 8
+- [MAX 8 0 6] = max(8, 0, 6) = 8
+- [MIN 5 5 6] = min(5, 5, 6) = 5
+- [SM 7 5 0] = (7 + 5 + 0) mod 10 = 12 mod 10 = 2
+- [SM 5 7 4] = (5 + 7 + 4) mod 10 = 16 mod 10 = 6
+- [MAX 4 5 6] = max(4, 5, 6) = 6
+
+Let's replace these results in our initial expression:
+
+[MAX 4 [MAX [MIN 8 5 8] 5 [MAX 7 8 5]] [MIN 5 [SM 2 4 [MAX 7 1 4]] [SM 6 6 0]]]
+
+Now calculate the following:
+- [MIN 8 5 8] = min(8, 5, 8) = 5
+- [MAX 7 8 5] = max(7, 8, 5) = 8
+- [SM 2 4 [MAX 7 1 4]] = (2 + 4 + max(7, 1, 4)) mod 10 = (2 + 4 + 7) mod 10 = 13 mod 10 = 3
+- [SM 6 6 0] = (6 + 6 + 0) mod 10 = 12 mod 10 = 2
+
+So we get:
+
+[MAX 4 [MAX 5 5 8] [MIN 5 3 2]]
+
+Now, we can calculate [MAX 5 5 8] and [MIN 5 3 2]:
+
+- [MAX 5 5 8] = max(5, 5, 8) = 8
+- [MIN 5 3 2] = min(5, 3, 2) = 2
+
+Substituting back in, we have:
+
+[MAX 4 8 2]
+
+Therefore, [MAX 4 8 2] = max(4, 8, 2) = 8. This is the final result.",8,8
+19,listops,self_consistency,[SM 3 [MIN [MIN 3 [MIN 5 0 3] [MIN 9 0 9]] 2 [SM [SM 5 0 8] 1 [MAX 3 0 7]]] [MAX [SM [MIN 1 5 0] 5 [MAX 9 3 7]] 4 [SM 9 [SM 9 5 1] [SM 6 2 0]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM 3 [MIN [MIN 3 [MIN 5 0 3] [MIN 9 0 9]] 2 [SM [SM 5 0 8] 1 [MAX 3 0 7]]] [MAX [SM [MIN 1 5 0] 5 [MAX 9 3 7]] 4 [SM 9 [SM 9 5 1] [SM 6 2 0]]]].
+
+A: Let's think step-by-step.","First, Let's solve the innermost expressions:
+
+    [MIN 5 0 3] = 0
+    [MIN 9 0 9] = 0
+    [SM 5 0 8] = 3
+    [MAX 3 0 7] = 7
+    [MIN 1 5 0] = 0
+    [MAX 9 3 7] = 9
+    [SM 9 5 1] = 5
+    [SM 6 2 0] = 8
+
+Next, replace these values in the original expression, we will have:
+
+[SM 3 [MIN [MIN 3 0 0] 2 [SM 3 1 7]] [MAX [SM 0 5 9] 4 [SM 9 5 8]]]
+
+The new inner-most expressions are:
+
+    [MIN 3 0 0] = 0
+    [SM 3 1 7] = 1
+    [SM 0 5 9] = 4
+    [SM 9 5 8] = 2
+
+Replace these values to get:
+
+[SM 3 [MIN 0 2 1] [MAX 4 4 2]]
+
+The new algebraic expressions:
+
+    [MIN 0 2 1] = 0
+    [MAX 4 4 2] = 4
+
+Replacing these values, we get: [SM 3 0 4], for this new expression:
+
+    [SM 3 0 4] = 7
+
+So, the result of the expression is 7.",7,7
+20,listops,self_consistency,[MIN [MAX [MIN [MIN 7 3 9] 5 [MAX 6 3 9]] [SM [SM 4 2 7] 8 [MAX 2 1 0]] 8] 9 [MAX [MIN [MIN 6 3 0] [MIN 1 9 1] 5] [MIN 1 [MAX 6 2 0] [MIN 7 8 7]] 9]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [MAX [MIN [MIN 7 3 9] 5 [MAX 6 3 9]] [SM [SM 4 2 7] 8 [MAX 2 1 0]] 8] 9 [MAX [MIN [MIN 6 3 0] [MIN 1 9 1] 5] [MIN 1 [MAX 6 2 0] [MIN 7 8 7]] 9]].
+
+A: Let's think step-by-step.","First, let's start on the innermost expressions for MIN and MAX:
+- MIN 7 3 9 = 3
+- MAX 6 3 9 = 9
+- SM 4 2 7 = 3 (since 4+2+7 = 13, and 13 modulo 10 = 3)
+- MIN 6 3 0 = 0
+- MIN 1 9 1 = 1
+- MAX 6 2 0 = 6
+- MIN 7 8 7 = 7
+
+Now, we replace these values in the main expression:
+- [MIN [MAX [MIN 3 5 9] [SM 3 8 [MAX 2 1 0]] 8] 9 [MAX [MIN 0 1 5] [MIN 1 6 7] 9]]
+
+Let's compute the remaining SM and MAX operations:
+- MAX 3 5 9 = 9
+- SM 3 8 2 = 3 (since 3+8+2 = 13, and 13 modulo 10 = 3)
+- MAX 2 1 0 = 2
+- MIN 0 1 5 = 0
+- MIN 1 6 7 = 1
+
+Now, we replace these values in the main expression:
+- [MIN [MAX 9 3 8] 9 [MAX 0 1 9]]
+
+As a final step, let's compute the remaining MAX operations:
+- MAX 9 3 8 = 9
+- MAX 0 1 9 = 9
+
+The final expression is then:
+[MIN 9 9 9]
+
+The MIN of a series of same numbers will always be the number itself. So, the answer in our case is 9.",9,8
+21,listops,self_consistency,[SM [MAX [MAX 1 [SM 6 9 0] [MAX 0 2 1]] 2 [MIN [SM 0 3 5] [MIN 6 8 0] 8]] 6 [MIN [MAX [MAX 7 8 0] [MIN 2 3 6] 3] 9 [MIN 2 [MIN 3 8 4] [SM 4 2 4]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [MAX [MAX 1 [SM 6 9 0] [MAX 0 2 1]] 2 [MIN [SM 0 3 5] [MIN 6 8 0] 8]] 6 [MIN [MAX [MAX 7 8 0] [MIN 2 3 6] 3] 9 [MIN 2 [MIN 3 8 4] [SM 4 2 4]]]].
+
+A: Let's think step-by-step.","First, solve the innermost expressions:
+1. [SM 6 9 0] = 6 + 9 + 0 (mod 10) = 15 (mod 10) = 5
+2. [MAX 0 2 1] = max(0, 2, 1) = 2
+3. [SM 0 3 5] = 0 + 3 + 5 (mod 10) = 8 
+4. [MIN 6 8 0] = min(6, 8, 0) = 0
+5. [MAX 7 8 0] = max(7, 8, 0) = 8
+6. [MIN 2 3 6] = min(2, 3, 6) = 2
+7. [MIN 3 8 4] = min(3, 8, 4) = 3
+8. [SM 4 2 4] = 4 + 2 + 4 (mod 10) = 10 (mod 10) = 0
+
+Now, substitute these values back into the original expression:
+[SM [MAX [MAX 1 5 2] 2 [MIN 8 0 8]] 6 [MIN [MAX 8 2 3] 9 [MIN 2 3 0]]]
+
+Now solve these expressions:
+1. [MAX 1 5 2] = max(1, 5, 2) = 5
+2. [MIN 8 0 8] = min(8, 0, 8) = 0
+3. [MAX 8 2 3] = max(8, 2, 3) = 8
+4. [MIN 2 3 0] = min(2, 3, 0) = 0
+
+Substitute these values back into the expression:
+[SM [MAX 5 2 0] 6 [MIN 8 9 0]]
+
+Then solve these expressions:
+1. [MAX 5 2 0] = max(5, 2, 0) = 5
+2. [MIN 8 9 0] = min(8, 9, 0) = 0
+
+Substitute these values back into the expression:
+[SM 5 6 0]
+
+Finally, solve the last expression to get the solution to the problem:
+[SM 5 6 0] = 5 + 6 + 0 (mod 10) = 11 (mod 10) = 1. 
+
+So, the solution to the problem is 1.",1,1
+22,listops,self_consistency,[MIN [MIN 5 [SM 7 [MAX 5 5 6] [MIN 9 1 8]] [MAX [SM 9 5 7] [MAX 2 5 8] 0]] [MAX [MIN [MIN 2 4 1] [SM 1 0 5] 3] [MAX 8 [MIN 5 6 9] [MAX 5 4 8]] 1] 1],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [MIN 5 [SM 7 [MAX 5 5 6] [MIN 9 1 8]] [MAX [SM 9 5 7] [MAX 2 5 8] 0]] [MAX [MIN [MIN 2 4 1] [SM 1 0 5] 3] [MAX 8 [MIN 5 6 9] [MAX 5 4 8]] 1] 1].
+
+A: Let's think step-by-step.","First, we calculate the innermost brackets:
+[MAX 5 5 6] = 6
+[MIN 9 1 8] = 1
+[SM 9 5 7] = (9+5+7)%10 = 21%10 = 1
+[MAX 2 5 8] = 8
+[MIN 2 4 1] = 1
+[SM 1 0 5] = (1+0+5)%10 = 6%10 = 6
+[MIN 5 6 9] = 5
+[MAX 5 4 8] = 8
+
+Now substitute these results back into the original expression:
+[MIN [MIN 5 [SM 7 6 1] [MAX 1 8 0]] [MAX [MIN 1 6 3] [MAX 8 5 8] 1] 1].
+
+Next, calculate the brackets again:
+[SM 7 6 1] = (7+6+1)%10 = 14%10 = 4
+[MAX 1 8 0] = 8
+[MIN 1 6 3] = 1
+[MAX 8 5 8] = 8
+
+Substitute the results:
+[MIN [MIN 5 4 8] [MAX 1 8 1] 1].
+
+Calculate the final brackets:
+[MIN 5 4 8] = 4
+[MAX 1 8 1] = 8
+
+Substitute the results:
+[MIN 4 8 1].
+
+Finally, calculate the last operation:
+MIN 4 8 1 = 1.
+
+So, the result of the expression is 1.",1,1
+23,listops,self_consistency,[SM 2 [MIN 4 [SM [MIN 6 1 5] 4 [SM 1 6 7]] [SM [SM 3 6 4] 6 [MIN 3 4 4]]] [MAX [SM [MIN 2 7 7] 8 [MAX 8 6 6]] [MIN [SM 6 2 8] 0 [MAX 5 4 9]] 9]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM 2 [MIN 4 [SM [MIN 6 1 5] 4 [SM 1 6 7]] [SM [SM 3 6 4] 6 [MIN 3 4 4]]] [MAX [SM [MIN 2 7 7] 8 [MAX 8 6 6]] [MIN [SM 6 2 8] 0 [MAX 5 4 9]] 9]].
+
+A: Let's think step-by-step.","First, we need to compute all inner-most brackets:
+[MIN 6 1 5] => The minimum between 6,1,5 is 1
+[SM 1 6 7] => We need to add all the numbers and take the result modulo 10. 1+6+7=14, and 14 modulo 10 is 4.
+So [SM [MIN 6 1 5] 4 [SM 1 6 7]] = SM [1 4 4]
+
+[SM 3 6 4] => Again, we need to add all the numbers and take the result modulo 10. 3+6+4=13, and 13 modulo 10 is 3.
+[MIN 3 4 4] => The minimum between 3,4,4 is 3.
+So [SM [SM 3 6 4] 6 [MIN 3 4 4]] = SM [3 6 3]
+
+To SIMD [1 4 4] and [3 6 3] we again add all the numbers and take the modulo 10. In both cases we get: 1+4+4=9, 9 mod 10 = 9, and 3+6+3=12, 12 mod 10=2.
+
+So, the first part of the equation MIN [4 SM 9 2] = MIN [4 9 2] results in 2, because 2 is the minimum.
+
+For the second part, we do the same process, compute the inner-most brackets first:
+[MIN 2 7 7] => The minimum between 2,7,7 is 2
+[MAX 8 6 6] => The maximum between 8,6,6 is 8.
+So [SM [MIN 2 7 7] 8 [MAX 8 6 6]] = SM [2 8 8] => 2+8+8 = 18 => 18 mod 10 = 8.
+
+[SM 6 2 8] => 6 + 2 + 8 = 16 mod 10 = 6
+[MAX 5 4 9] => The maximum between 5,4,9 is 9.
+So [MIN [SM 6 2 8] 0 [MAX 5 4 9]] = MIN [6 0 9] = 0.
+
+So, the second part of the equation is:
+MAX [SM 8 9] = MAX [8 9] = 9.
+
+Putting everything together, SM [2 9] = 2 + 9 = 11 mod 10 = 1. So the answer to this expression is 1.",1,3
+24,listops,self_consistency,[SM [MAX [SM [MAX 0 9 4] [SM 4 9 1] 2] [MAX [MAX 0 4 3] 5 [SM 2 7 5]] 2] [MIN [MIN 0 [SM 5 5 2] [MAX 1 8 1]] 3 [MIN 2 [MIN 7 1 0] [SM 9 2 4]]] 2],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [MAX [SM [MAX 0 9 4] [SM 4 9 1] 2] [MAX [MAX 0 4 3] 5 [SM 2 7 5]] 2] [MIN [MIN 0 [SM 5 5 2] [MAX 1 8 1]] 3 [MIN 2 [MIN 7 1 0] [SM 9 2 4]]] 2].
+
+A: Let's think step-by-step.","First, let's process each innermost list starting from the left:
+
+MAX 0 9 4 gives us 9
+SM 4 9 1 gives us 4 (because 4+9+1 = 14, and 14 mod 10 = 4)
+MAX 0 4 3 gives us 4
+SM 2 7 5 gives us 4 (because 2+7+5 = 14, and 14 mod 10 = 4)
+MIN 0 5 2 gives us 0 (because the minimum value is 0)
+MAX 1 8 1 gives us 8
+MIN 7 1 0 gives us 0 (because the minimum value is 0)
+SM 9 2 4 gives us 5 (because 9+2+4 = 15, and 15 mod 10 = 5)
+
+So, our original expression becomes 
+
+[SM [MAX 9 4 2] [MAX 4 5 4] 2] [MIN 0 8 3] [MIN 2 0 5] 2.
+ 
+Then, let's again execute the innermost lists:
+
+MAX 9 4 2 gives us 9
+MAX 4 5 4 gives us 5
+MIN 0 8 3 gives us 0 (because the minimum value is 0)
+MIN 2 0 5 gives us 0 (because the minimum value is 0)
+
+So, we now have:
+
+[SM 9 5 2] [MIN 0 0] 2.
+
+Executing these:
+
+SM 9 5 2 gives us 6 (because 9+5+2 = 16, and 16 mod 10 = 6)
+MIN 0 0 gives us 0 (because the minimum value is 0)
+
+So, finally, we get:
+
+SM 6 0 2.
+
+Which is equal to 8 (because 6+0+2 = 8, and 8 mod 10 = 8). Thus, the result of the given operation is 8.",8,7
+25,listops,self_consistency,[SM 7 [MAX [SM [SM 4 6 1] 1 [SM 7 0 6]] [MIN 3 [MIN 7 8 4] [MAX 7 6 6]] 4] [MAX 1 [MAX [MAX 8 9 2] [SM 9 2 9] 7] [SM [MIN 6 3 9] [MAX 5 5 8] 4]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM 7 [MAX [SM [SM 4 6 1] 1 [SM 7 0 6]] [MIN 3 [MIN 7 8 4] [MAX 7 6 6]] 4] [MAX 1 [MAX [MAX 8 9 2] [SM 9 2 9] 7] [SM [MIN 6 3 9] [MAX 5 5 8] 4]]].
+
+A: Let's think step-by-step.","First, we calculate the value of nested expressions:
+
+[SM 4 6 1] = (4 + 6 + 1) mod 10 = 11 mod 10 = 1,
+[SM 7 0 6] = (7 + 0 + 6) mod 10 = 13 mod 10 = 3.
+
+So, we replace these values in expression and get 
+
+[SM 7 [MAX [SM 1 1 3] [MIN 3 [MIN 7 8 4] [MAX 7 6 6]] 4] [MAX 1 [MAX [MAX 8 9 2] [SM 9 2 9] 7] [SM [MIN 6 3 9] [MAX 5 5 8] 4]]].
+
+Then continue resolving:
+
+[SM 1 1 3] = (1 + 1 + 3) mod 10 = 5 mod 10 = 5,
+[MIN 7 8 4] = min(7, 8, 4) = 4,
+[MAX 7 6 6] = max(7, 6, 6) = 7.
+
+So we replace these values in expression:
+
+[SM 7 [MAX 5 [MIN 3 4 7] 4] [MAX 1 [MAX [MAX 8 9 2] [SM 9 2 9] 7] [SM [MIN 6 3 9] [MAX 5 5 8] 4]]].
+
+Continue the next step:
+
+[MIN 3 4 7] = min(3, 4, 7) = 3,
+[MAX 8 9 2] = max(8, 9, 2) = 9,
+[SM 9 2 9] = (9 + 2 + 9) mod 10 = 20 mod 10 = 0.
+
+So we replace these values in expression:
+
+[SM 7 [MAX 5 3 4] [MAX 1 [MAX 9 0 7] [SM [MIN 6 3 9] [MAX 5 5 8] 4]]].
+
+Continue:
+
+[MAX 5 3 4] = max(5, 3, 4) = 5,
+[MAX 9 0 7] = max(9, 0, 7) = 9,
+[MIN 6 3 9] = min(6, 3, 9) = 3,
+[MAX 5 5 8] = max(5, 5, 8) = 8.
+
+So we replace these values in the expression:
+
+[SM 7 5 [MAX 1 9 [SM 3 8 4]]].
+
+Then continue resolving:
+
+[SM 3 8 4] = (3 + 8 + 4) mod 10 = 15 mod 10 = 5.
+
+So we replace these values in the expression:
+
+[SM 7 5 [MAX 1 9 5]].
+
+Continue:
+
+[MAX 1 9 5] = max(1, 9, 5) = 9.
+
+So we replace these values in the expression:
+
+[SM 7 5 9].
+
+Then finalize:
+
+[SM 7 5 9] = (7 + 5 + 9) mod 10 = 21 mod 10 = 1.
+
+So the answer is 1.",1,1
+26,listops,self_consistency,[SM [SM [SM 2 [SM 6 4 8] [MAX 1 1 1]] [MAX [SM 8 6 7] [MAX 2 1 2] 4] 6] [MAX [SM 1 [SM 0 3 5] [MAX 3 2 6]] 9 [SM [MAX 0 7 4] [MIN 0 6 7] 3]] 1],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [SM [SM 2 [SM 6 4 8] [MAX 1 1 1]] [MAX [SM 8 6 7] [MAX 2 1 2] 4] 6] [MAX [SM 1 [SM 0 3 5] [MAX 3 2 6]] 9 [SM [MAX 0 7 4] [MIN 0 6 7] 3]] 1].
+
+A: Let's think step-by-step.","1. First we calculate all MAX and MIN operators from inside. 
+    - MAX operators:
+      - [MAX 1 1 1] = 1
+      - [MAX 2 1 2] = 2
+      - [MAX 3 2 6] = 6
+      - [MAX 0 7 4] = 7
+    - MIN operators:
+      - [MIN 0 6 7] = 0
+    - So we get:
+      - [SM [SM [SM 2 [SM 6 4 8] 1] [MAX [SM 8 6 7] 2 4] 6] [MAX [SM 1 [SM 0 3 5] 6] 9 [SM 7 0 3]] 1]
+
+2. Then we calculate all SM operators.
+    - We have sums 6 + 4 + 8 = 18 = 8 (modulo 10)
+    - 8 + 6 + 7 = 21 = 1 (modulo 10)
+    - 0 + 3 + 5 = 8
+    - 8 + 2 + 1 = 1 (modulo 10)
+    - 7 + 0 + 3 = 0 (modulo 10)
+    - After summing up, we get:
+      - [SM [SM 2 8 1] [MAX 1 2 4] 6] [MAX 1 9 0] 1
+
+3. Now we have only MAX operators left inside.
+    - [MAX 1 2 4] = 4
+    - [MAX 1 9 0] = 9
+    - So, last step is:
+      - [SM [SM 2 8 1] 4 6] 9 1
+
+4. Again, we have two SM operations to calculate, thus:
+    - 2 + 8 + 1 = 1 (modulo 10)
+    - 1 + 4 + 6 = 1 (modulo 10)
+    - So, the result is 1 9 1.
+
+5. Considering the remaining SM operator, we sum up 1 + 9 + 1 = 11 = 1 (modulo 10).
+   
+So, the final result is 1.",1,1
+27,listops,self_consistency,[MAX [MAX [MAX 9 [MIN 5 5 0] [SM 1 3 9]] [SM [MAX 6 2 3] 4 [MAX 8 6 1]] 3] [SM [MAX [MIN 0 3 7] [MAX 3 3 9] 8] [MIN [SM 3 7 6] 9 [MAX 3 6 6]] 7] 6],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX [MAX [MAX 9 [MIN 5 5 0] [SM 1 3 9]] [SM [MAX 6 2 3] 4 [MAX 8 6 1]] 3] [SM [MAX [MIN 0 3 7] [MAX 3 3 9] 8] [MIN [SM 3 7 6] 9 [MAX 3 6 6]] 7] 6].
+
+A: Let's think step-by-step.","Firstly, we solve the expressions inside each operator. 
+
+- [MIN 5 5 0] results in 0.
+- [SM 1 3 9] results in (1+3+9) modulo 10 = 3.
+- [MAX 6 2 3] results in 6.
+- [MAX 8 6 1] results in 8.
+- [MIN 0 3 7] results in 0.
+- [MAX 3 3 9] results in 9.
+- [SM 3 7 6] results in (3+7+6) modulo 10 = 6.
+- [MAX 3 6 6] results in 6.
+
+So, the original expression transforms to:
+
+[MAX [MAX [MAX 9 0 3] [SM 6 4 8] 3] [SM [MAX 0 9 8] [MIN 6 9 6] 7] 6]
+
+Next, we continue with the evaluation:
+
+- [MAX 9 0 3] results in 9.
+- [SM 6 4 8] results in (6+4+8) modulo 10 = 8.
+- [MAX 0 9 8] results in 9.
+- [MIN 6 9 6] results in 6.
+
+Then, the expression becomes:
+
+[MAX [MAX 9 8 3] [SM 9 6 7] 6]
+
+We calculate the remaining operations:
+
+- [MAX 9 8 3] results in 9.
+- [SM 9 6 7] results in (9+6+7) modulo 10 = 2.
+
+Finally, the expression is simplified to:
+
+[MAX 9 2 6]
+
+So, the solved expression is 9.",9,9
+28,listops,self_consistency,[MAX 6 [MIN [SM [MAX 9 5 5] [MIN 3 9 9] 4] [MAX 4 [SM 6 2 6] [SM 4 0 4]] 6] [MAX 7 [MAX 9 [SM 8 2 9] [MAX 4 9 5]] [MIN 4 [MIN 3 8 0] [SM 3 8 1]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX 6 [MIN [SM [MAX 9 5 5] [MIN 3 9 9] 4] [MAX 4 [SM 6 2 6] [SM 4 0 4]] 6] [MAX 7 [MAX 9 [SM 8 2 9] [MAX 4 9 5]] [MIN 4 [MIN 3 8 0] [SM 3 8 1]]]].
+
+A: Let's think step-by-step.","First, we will break down this expression into smaller parts.
+
+The first part we will calculate is [MAX 9 5 5], which equals 9, since 9 is the maximum number.
+Similarly, for [MIN 3 9 9], the minimum number is 3.
+Therefore, [SM [MAX 9 5 5] [MIN 3 9 9] 4] will equate to SM [9,3,4]. The sum of 9, 3 and 4 is 16, modulo 10 gives 6.
+
+The next expression we need to calculate is [SM 6 2 6] and [SM 4 0 4]. The sum of 6, 2, and 6 is 14 and modulo 10 gives 4. The sum of 4, 0, and 4 is 8.
+So, [MAX 4 [SM 6 2 6] [SM 4 0 4]] will equate to [MAX 4 4 8]. So, the maximum number is 8.
+
+Then we have [MIN [SM [MAX 9 5 5] [MIN 3 9 9] 4] [MAX 4 [SM 6 2 6] [SM 4 0 4]] 6], which will give [MIN 6 8 6]. The minimum number is 6.
+
+Next is [SM 8 2 9] which equals to 19, modulo 10 gives 9.
+And [MAX 4 9 5] equals 9.
+So, [MAX 9 [SM 8 2 9] [MAX 4 9 5]] equals [MAX 9 9 9]. Hence, this is 9.
+
+Next expression is [MIN 3 8 0] which equals 0.
+And [SM 3 8 1] equals to 12, modulo 10 gives 2.
+So, [MIN 4 [MIN 3 8 0] [SM 3 8 1]] equals [MIN 4 0 2]. Hence, the minimum number is 0.
+
+Then we have [MAX 7 [MAX 9 [SM 8 2 9] [MAX 4 9 5]] [MIN 4 [MIN 3 8 0] [SM 3 8 1]]], which equates to [MAX 7 9 0]. So, the maximum number is 9.
+
+Therefore, [MAX 6 [MIN [SM [MAX 9 5 5] [MIN 3 9 9] 4] [MAX 4 [SM 6 2 6] [SM 4 0 4]] 6] [MAX 7 [MAX 9 [SM 8 2 9] [MAX 4 9 5]] [MIN 4 [MIN 3 8 0] [SM 3 8 1]]]] equals [MAX 6 6 9]. So, the maximum number is 9.",9,9
+29,listops,self_consistency,[SM [SM [MAX 3 [MAX 2 7 8] [SM 9 5 5]] 8 [MAX [SM 8 2 1] 1 [MIN 8 2 7]]] 2 [MIN [MAX [SM 6 0 0] [MAX 9 2 2] 7] 6 [MAX [SM 0 9 4] [SM 4 4 5] 6]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [SM [MAX 3 [MAX 2 7 8] [SM 9 5 5]] 8 [MAX [SM 8 2 1] 1 [MIN 8 2 7]]] 2 [MIN [MAX [SM 6 0 0] [MAX 9 2 2] 7] 6 [MAX [SM 0 9 4] [SM 4 4 5] 6]]].
+
+A: Let's think step-by-step.","Firstly, from the innermost expressions:
+MAX 2 7 8 = 8.
+SM 9 5 5 = 9.
+MAX [SM 8 2 1] 1 [MIN 8 2 7] = MAX 1 1 2 = 2.
+MAX [SM 6 0 0] [MAX 9 2 2] 7 = MAX 6 9 7 = 9.
+SM 0 9 4 = 3.
+SM 4 4 5 = 3.
+
+Secondly, replace calculated values:
+Expression equals to [SM [SM [MAX 3 8 9] 8 2] 2 [MIN 9 6 [MAX 3 3 6]]].
+
+Next, compute MAX expressions:
+MAX 3 8 9 = 9.
+MAX 3 3 6 = 6.
+
+Replace these, the expression is now [SM [SM 9 8 2] 2 [MIN 9 6 6]].
+
+Thirdly, compute SM and MIN expressions:
+SM 9 8 2 = 9.
+MIN 9 6 6 = 6.
+
+Replace these, it's now [SM 9 2 6].
+
+And lastly, compute SM 9 2 6 = 7. So, the output of the overall expression is 7.",7,7
+30,listops,self_consistency,[SM [MAX [SM [MIN 9 8 2] 8 [MIN 9 6 4]] [MAX [MIN 7 3 1] [SM 1 4 2] 7] 8] [MAX 0 [SM [MIN 4 4 8] [SM 3 7 9] 0] [MAX [MIN 7 8 5] [MIN 2 2 8] 4]] 6],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [MAX [SM [MIN 9 8 2] 8 [MIN 9 6 4]] [MAX [MIN 7 3 1] [SM 1 4 2] 7] 8] [MAX 0 [SM [MIN 4 4 8] [SM 3 7 9] 0] [MAX [MIN 7 8 5] [MIN 2 2 8] 4]] 6].
+
+A: Let's think step-by-step.","[MIN 9 8 2] returns 2.
+[MIN 9 6 4] returns 4.
+[MIN 7 3 1] returns 1.
+[MIN 4 4 8] returns 4.
+[MIN 7 8 5] returns 5.
+[MIN 2 2 8] returns 2.
+
+Now,
+
+[SM 2 8 4] = 4 (as sum is 14 and we take number modulo 10)
+[SM 1 4 2] = 7 (as sum is 7)
+[SM 4 3 7 9] = 3 (as sum is 23 and we take number modulo 10).
+
+Now,
+
+[MAX 4 7 8] returns 8.
+[MAX 0 3 0] returns 3.
+[MAX 5 2 4] returns 5.
+
+Now,
+
+[SM 8 5 6] = 9 (as sum is 19 and we take number modulo 10)
+[MAX 8 3 5] returns 8.
+
+Finally,
+
+[SM 9 8] = 7 (as sum is 17 and we take number modulo 10).
+
+Thus, [SM [MAX [SM [MIN 9 8 2] 8 [MIN 9 6 4]] [MAX [MIN 7 3 1] [SM 1 4 2] 7] 8] [MAX 0 [SM [MIN 4 4 8] [SM 3 7 9] 0] [MAX [MIN 7 8 5] [MIN 2 2 8] 4]] 6] returns 7.",7,9
+31,listops,self_consistency,[MAX [MIN [MAX 7 [SM 7 6 5] [MIN 8 1 4]] 6 [SM [MIN 3 0 7] 9 [MIN 5 0 8]]] 3 [MIN 2 [MIN [MAX 3 4 4] 9 [MIN 9 0 6]] [SM 0 [MIN 3 1 4] [SM 1 6 8]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX [MIN [MAX 7 [SM 7 6 5] [MIN 8 1 4]] 6 [SM [MIN 3 0 7] 9 [MIN 5 0 8]]] 3 [MIN 2 [MIN [MAX 3 4 4] 9 [MIN 9 0 6]] [SM 0 [MIN 3 1 4] [SM 1 6 8]]]].
+
+A: Let's think step-by-step.","First, calculate under most inner square brackets:
+
+SM 7 6 5 = (7 + 6 + 5) mod 10 = 18 mod 10 = 8.
+MIN 3 0 7 = 0.
+MIN 5 0 8 = 0.
+MAX 3 4 4 = 4.
+MIN 9 0 6 = 0.
+MIN 3 1 4 = 1.
+SM 1 6 8 = (1 + 6 + 8) mod 10 = 15 mod 10 = 5.
+
+Replace these values in the main expression:
+[MAX [MIN [MAX 7 8 [MIN 8 1 4]] 6 [SM 0 9 0]] 3 [MIN 2 [MIN 4 9 0] [SM 0 1 5]]].
+
+Here, two MIN and one MAX operations are under the inside brackets:
+MIN 8 1 4 = 1.
+MIN 4 9 0 = 0.
+MAX 7 8 1 = 8.
+
+Replace these values in the main expression:
+[MAX  [MAX 8 6 [SM 0 9 0]]  3  [MIN 2 0  [SM 0 1 5]]].
+
+Calculate an SM operator and replace the value:
+SM 0 9 0 = (0 + 9 + 0) mod 10 = 9 mod 10 = 9.
+
+Replace this value in the main expression:
+[MAX  [MAX 8 6 9]  3  [MIN 2 0  [SM 0 1 5]]].
+
+Now calculate a MAX operation:
+MAX 8 6 9 = 9.
+
+Replace this value in the expression:
+[MAX 9 3 [MIN 2 0 [SM 0 1 5]]].
+
+The last SM operator is left under deepest bracket:
+SM 0 1 5 = (0 + 1 + 5) mod 10 = 6 mod 10 = 6.
+
+Replace this value in the expression:
+[MAX 9 3 [MIN 2 0 6]].
+
+Now perform a MIN operation:
+MIN 2 0 6 = 0.
+
+Replace this value in the expression:
+[MAX 9 3 0].
+
+Perform the last operation, MAX:
+MAX 9 3 0 = 9.
+
+So, the solution of the given expression is 9.",9,6
+32,listops,self_consistency,[MAX 3 [MIN 6 [MIN [MAX 6 3 9] 6 [MIN 1 9 9]] [MAX 3 [MIN 8 4 8] [MAX 1 5 0]]] [MIN [MAX [MAX 3 6 4] [SM 3 1 0] 8] 0 [SM [MIN 6 4 2] 3 [SM 0 5 2]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX 3 [MIN 6 [MIN [MAX 6 3 9] 6 [MIN 1 9 9]] [MAX 3 [MIN 8 4 8] [MAX 1 5 0]]] [MIN [MAX [MAX 3 6 4] [SM 3 1 0] 8] 0 [SM [MIN 6 4 2] 3 [SM 0 5 2]]]].
+
+A: Let's think step-by-step.","First, we start by solving the innermost expressions:
+- MAX 6 3 9 = 9 (maximum of 6,3 and 9 is 9)
+- MIN 8 4 8 = 4 (minimum of 8,4 and 8 is 4)
+- MIN 6 4 2 = 2 (minimum of 6,4 and 2 is 2)
+- MAX 3 6 4 = 6 (maximum of 3,6 and 4 is 6)
+- SM 3 1 0 = 4 (sum of 3,1 and 0 is 4, and 4 modulo 10 is 4)
+- SM 0 5 2 = 7 (sum of 0,5 and 2 is 7, and 7 modulo 10 is 7)
+
+Next, we solve the expressions we get after using previous results:
+- MIN [MAX 6 3 9] 6 [MIN 1 9 9] = MIN 9 6 1 = 1
+- MAX 3 [MIN 8 4 8] [MAX 1 5 0] = MAX 3 4 5 = 5
+- MAX [MAX 3 6 4] [SM 3 1 0] 8 = MAX 6 4 8 = 8
+- SM [MIN 6 4 2] 3 [SM 0 5 2] = SM 2 3 7 = 2 (sum of 2,3 and 7 is 12, and 12 modulo 10 is 2)
+
+Finally, we solve the expressions using the results from the previous step:
+- MAX 3 [MIN 6 [MIN [MAX 6 3 9] 6 [MIN 1 9 9]] [MAX 3 [MIN 8 4 8] [MAX 1 5 0]]] = MAX 3 1 5 = 5 
+- MIN [MAX [MAX 3 6 4] [SM 3 1 0] 8] 0 [SM [MIN 6 4 2] 3 [SM 0 5 2]]] = MIN 8 0 2 = 0 
+
+Lastly, to get the final result we solve:
+- [MAX 3 [MIN 6 [MIN [MAX 6 3 9] 6 [MIN 1 9 9]] [MAX 3 [MIN 8 4 8] [MAX 1 5 0]]] [MIN [MAX [MAX 3 6 4] [SM 3 1 0] 8] 0 [SM [MIN 6 4 2] 3 [SM 0 5 2]]]] = [5 0] = 5.",5,3
+33,listops,self_consistency,[MIN [MIN [MAX [MIN 0 9 9] [MAX 4 1 8] 8] [MIN [MIN 0 6 6] [MIN 2 1 2] 7] 7] 2 [MAX [MAX 1 [MAX 6 7 0] [SM 8 8 2]] [MIN [MIN 9 2 6] 8 [SM 2 4 6]] 2]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [MIN [MAX [MIN 0 9 9] [MAX 4 1 8] 8] [MIN [MIN 0 6 6] [MIN 2 1 2] 7] 7] 2 [MAX [MAX 1 [MAX 6 7 0] [SM 8 8 2]] [MIN [MIN 9 2 6] 8 [SM 2 4 6]] 2]].
+
+A: Let's think step-by-step.","Firstly, we will focus on the innermost operators:
+
+[MIN 0 9 9] = 0
+[MAX 4 1 8] = 8
+[MIN 0 6 6] = 0
+[MIN 2 1 2] = 1
+[MAX 6 7 0] = 7
+[SM 8 8 2] = 8 (because 18 (8+8+2) mode 10 is 8)
+[MIN 9 2 6] = 2
+[SM 2 4 6] = 2 (because 12 (2+4+6) mode 10 is 2)
+
+Now our expression looks like this:
+[MIN [MIN [MAX 0 8 8] [MIN 0 1 7] 7] 2 [MAX [MAX 1 7 8] [MIN 2 8 2] 2]].
+
+Then, we will simplify further:
+
+[MAX 0 8 8] = 8
+[MIN 0 1 7] = 0
+[MAX 1 7 8] = 8
+[MIN 2 8 2] = 2
+Our expression now:
+[MIN [MIN 8 0 7] 2 [MAX 8 2 2]].
+
+Finally, we simplify the top level of our expression:
+
+[MIN 8 0 7] = 0
+[MAX 8 2 2] = 8
+[MIN 0 2 8] = 0.
+
+So, the answer is 0.",0,0
+34,listops,self_consistency,[SM [SM [MAX [MAX 9 4 5] [MIN 8 6 6] 8] 7 [SM 4 [MAX 1 9 6] [MAX 6 7 1]]] [SM [MIN [SM 4 1 7] [MIN 6 5 2] 1] [SM 2 [SM 0 5 5] [MIN 1 7 8]] 8] 7],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [SM [MAX [MAX 9 4 5] [MIN 8 6 6] 8] 7 [SM 4 [MAX 1 9 6] [MAX 6 7 1]]] [SM [MIN [SM 4 1 7] [MIN 6 5 2] 1] [SM 2 [SM 0 5 5] [MIN 1 7 8]] 8] 7].
+
+A: Let's think step-by-step.","First, let's solve the inner-most brackets in the expression:
+
+1. [MAX 9 4 5] → 9
+2. [MIN 8 6 6] → 6
+3. [MAX 1 9 6] → 9
+4. [MAX 6 7 1] → 7
+5. [SM 4 1 7] → 2 (because 4 + 1 + 7 = 12 and 12 mod 10 = 2)
+6. [MIN 6 5 2] → 2 
+7. [SM 0 5 5] → 0 (because 0 + 5 + 5 = 10 and 10 mod 10 = 0)
+8. [MIN 1 7 8] → 1
+
+Then, replacing the calculated values, the expression looks like:
+
+[SM [SM [MAX 9 6 8] 7 [SM 4 9 7]] [SM [MIN 2 2 1] [SM 2 0 1] 8] 7]
+
+Continuing to solve:
+
+1. [MAX 9 6 8] → 9
+2. [SM 4 9 7] → 0 (because 4 + 9 + 7 = 20 and 20 mod 10 = 0)
+3. [MIN 2 2 1] → 1
+4. [SM 2 0 1] → 3
+
+The new version of the expression:
+
+[SM [SM 9 7 0] [SM 1 3 8] 7]
+
+Continuing:
+
+1. [SM 9 7 0] → 6 (because 9 + 7 + 0 = 16 and 16 mod 10 = 6)
+2. [SM 1 3 8] → 2 (because 1 + 3 + 8 = 12 and 12 mod 10 = 2)
+
+The last step:
+
+[SM 6 2 7] → 5 (because 6 + 2 + 7 = 15 and 15 mod 10 = 5)
+
+Therefore, the value of the whole expression is 5.",5,5
+35,listops,self_consistency,[SM 9 [SM 4 [SM [MAX 5 2 5] 3 [SM 8 8 2]] [MAX 5 [SM 7 7 7] [MIN 2 2 6]]] [SM [MIN 3 [MAX 2 7 8] [MIN 3 1 9]] [SM [MIN 3 9 3] 1 [SM 1 9 8]] 5]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM 9 [SM 4 [SM [MAX 5 2 5] 3 [SM 8 8 2]] [MAX 5 [SM 7 7 7] [MIN 2 2 6]]] [SM [MIN 3 [MAX 2 7 8] [MIN 3 1 9]] [SM [MIN 3 9 3] 1 [SM 1 9 8]] 5]].
+
+A: Let's think step-by-step.","Firstly, let's solve the innermost expressions:
+- [MAX 5 2 5]  => the maximum of 5, 2, and 5 is 5
+- [SM 8 8 2]  => the sum modulo 10 of 8, 8, and 2 is (8+8+2)mod10 = 18mod10 = 8
+- [SM 7 7 7]  => the sum modulo 10 of 7, 7, and 7 is (7+7+7)mod10 = 21mod10 = 1
+- [MIN 2 2 6] => the minimum of 2, 2, and 6 is 2
+- [MIN 3 1 9] => the minimum of 3, 1, and 9 is 1
+- [MAX 2 7 8] => the maximum of 2, 7, and 8 is 8
+- [MIN 3 9 3] => the minimum of 3, 9, and 3 is 3
+- [SM 1 9 8]  => the sum modulo 10 of 1, 9, and 8 is (1+9+8)mod10 = 18mod10 = 8
+
+Replace these in the expression:
+[SM 9 [SM 4 [SM 5 3 8] [MAX 5 1 2]] [SM [MIN 3 8 1] [SM 3 1 8] 5]]
+
+The expression simplifies as follows:
+- [SM 5 3 8]  => (5+3+8)mod10 = 16mod10 = 6
+- [MAX 5 1 2] => the maximum of 5, 1, and 2 is 5
+- [MIN 3 8 1] => the minimum of 3, 8, and 1 is 1
+- [SM 3 1 8]  => (3+1+8)mod10 = 12mod10 = 2
+
+Let's substitute these back into the expression:
+[SM 9 [SM 4 6 5] [SM 1 2 5]]
+
+The expression simplifies further:
+- [SM 4 6 5]  => (4+6+5)mod10 = 15mod10 = 5
+- [SM 1 2 5]  => (1+2+5)mod10 = 8mod10 = 8
+
+Substitute back:
+[SM 9 5 8]
+
+The sum modulo 10 of 9, 5, and 8 is (9+5+8)mod10 = 22mod10 = 2.
+
+So the final result of the entire expression is 2.",2,2
+36,listops,self_consistency,[SM 0 [MIN [MAX 5 [MAX 7 1 2] [MAX 8 6 0]] [MAX 2 [MAX 3 5 1] [MAX 7 9 5]] 1] [MAX [MAX [MAX 6 3 2] 4 [MIN 2 8 5]] [MAX [MIN 4 6 5] [MIN 1 4 3] 7] 0]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM 0 [MIN [MAX 5 [MAX 7 1 2] [MAX 8 6 0]] [MAX 2 [MAX 3 5 1] [MAX 7 9 5]] 1] [MAX [MAX [MAX 6 3 2] 4 [MIN 2 8 5]] [MAX [MIN 4 6 5] [MIN 1 4 3] 7] 0]].
+
+A: Let's think step-by-step.","First, solve all the innermost brackets by applying the operators.
+
+- MAX of (5, MAX of (7,1,2), MAX of (8,6,0)) equals MAX of (5,7,8) which is 8.
+- MAX of (2, MAX of (3,5,1), MAX of (7,9,5)) equals MAX of (2,5,9) which is 9.
+- MAX of (MAX of (6,3,2), 4, MIN of (2,8,5)) equals MAX of (6,4,2) which is 6.
+- MAX of (MIN of (4,6,5), MIN of (1,4,3), 7) equals MAX of (4,1,7) which is 7.
+
+Now, your list looks like this 
+- [SM 0 [MIN 8 9 1] [MAX 6 7 0]].
+
+Apply the MIN and MAX operators to get 
+
+- [SM 0 1 6]
+
+Finally, apply the SM operator to get the sum modulo 10.
+
+- SM of (0, 1, 6) equals 7.",7,8
+37,listops,self_consistency,[MIN [MAX 0 [MAX [MAX 6 6 3] 8 [SM 2 5 8]] [MIN [SM 2 8 4] 5 [MIN 8 0 3]]] [SM 0 [SM [SM 7 1 2] [MAX 1 0 6] 0] [SM [SM 5 3 5] [MIN 3 7 1] 4]] 1],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [MAX 0 [MAX [MAX 6 6 3] 8 [SM 2 5 8]] [MIN [SM 2 8 4] 5 [MIN 8 0 3]]] [SM 0 [SM [SM 7 1 2] [MAX 1 0 6] 0] [SM [SM 5 3 5] [MIN 3 7 1] 4]] 1].
+
+A: Let's think step-by-step.","Firstly, resolve the operations inside the bracket.
+* Max of 6, 6 and 3 is 6. Sum of 2, 5 and 8 is 15. Adding 15 mod 10 gives 5.
+* Max of 6 and 8 is 8. Max of 8 and 5 is 8. 
+* Sum of 2, 8, and 4 is 14. Adding 14 mod 10 gives 4.
+* Min of 8, 0, and 3 is 0.
+* Min of 4, 5, and 0 is 0.
+* Max of 0 and 0 is 0. Max of 0 and 8 is 8.
+* Min of 8 and 0 is 0.
+* Sum of 7, 1 and 2 is 10. Adding 10 mod 10 gives 0.
+* Max of 1, 0 and 6 is 6.
+* Sum of 0, 6 and 0 is 6. Adding 6 mod 10 gives 6.
+* Sum of 5, 3 and 5 is 13. Adding 13 mod 10 gives 3
+* Min of 3, 7 and 1 is 1.
+* Sum of 3, 1, and 4 is 8. Adding 8 mod 10 gives 8.
+* Sum of 6 and 8 is 14. Adding 14 mod 10 gives 4.
+* Min of 0, 4 and 1 is 0.",0,1
+38,listops,self_consistency,[SM [SM [MIN 2 [MIN 5 5 7] [MAX 3 5 5]] [MAX [MIN 7 6 8] [MAX 2 5 5] 2] 4] [MAX [SM [MIN 6 6 9] 2 [MAX 2 3 6]] 2 [MAX [MAX 0 7 3] 8 [MAX 3 0 3]]] 9],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [SM [MIN 2 [MIN 5 5 7] [MAX 3 5 5]] [MAX [MIN 7 6 8] [MAX 2 5 5] 2] 4] [MAX [SM [MIN 6 6 9] 2 [MAX 2 3 6]] 2 [MAX [MAX 0 7 3] 8 [MAX 3 0 3]]] 9].
+
+A: Let's think step-by-step.","First simplify the innermost brackets:
+
+[MIN 2 [MIN 5 5 7] [MAX 3 5 5]] = [MIN 2 5 5] = 2
+[MIN 7 6 8] = 6
+[MAX 2 5 5] = 5
+
+Replace these in the expression:
+
+[SM [SM 2 [MAX 6 5 2] 4] [MAX [SM [MIN 6 6 9] 2 [MAX 2 3 6]] 2 [MAX [MAX 0 7 3] 8 [MAX 3 0 3]]] 9]
+
+Again simplify the innermost brackets:
+
+[MAX 6 5 2] = 6
+[MIN 6 6 9] = 6
+[MAX 2 3 6] = 6
+[MAX 0 7 3] = 7
+[MAX 3 0 3] = 3
+
+Replace these in the expression:
+
+[SM [SM 2 6 4] [MAX [SM 6 2 6] 2 [MAX 7 8 3]] 9]
+
+[SM 2 6 4] = (2+6+4) % 10 = 2
+
+[SM 6 2 6] = (6+2+6) % 10 = 4
+[MAX 7 8 3] = 8
+
+Replace these in the expression:
+
+[SM 2 [MAX 4 2 8] 9]
+
+[MAX 4 2 8] = 8
+
+Replace it in the expression:
+
+[SM 2 8 9] = (2+8+9) % 10 = 9.
+
+So, the final result is 9.",9,9
+39,listops,self_consistency,[MAX [SM [MAX [MAX 2 5 6] [MIN 0 8 0] 6] [MIN 0 [MIN 0 9 8] [SM 8 8 5]] 4] [MIN [MIN [MIN 5 2 7] [MAX 5 3 7] 1] [MAX [SM 6 9 0] [MIN 7 3 2] 0] 2] 5],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX [SM [MAX [MAX 2 5 6] [MIN 0 8 0] 6] [MIN 0 [MIN 0 9 8] [SM 8 8 5]] 4] [MIN [MIN [MIN 5 2 7] [MAX 5 3 7] 1] [MAX [SM 6 9 0] [MIN 7 3 2] 0] 2] 5].
+
+A: Let's think step-by-step.","First, we solve the inner operators for the expression:
+
+MAX [6] [0] 6 will result in 6.
+MIN 0 9 8 will result in 0.
+SM 8 8 5 will result in 1 (since SM is sum modulo 10, the sum of 8+8+5 is 21, and 21 modulo 10 results in 1).
+MIN 0 0 1 will result in 0.
+
+Next, we have:
+
+SM 6 0 6, resulting in 2 (since 12 modulo 10 is 2).
+MIN 5 2 7 will result in 2.
+MAX 5 3 7 will result in 7.
+MIN 2 7 1 will result in 1.
+SM 6 9 0 will result in 5 (since 15 modulo 10 is 5).
+MIN 7 3 2 will result in 2.
+MAX 5 2 0 will result in 5.
+
+Now we have:
+
+MAX 2 0 4, resulting in 4.
+MIN 1 5 2 will result in 1.
+
+Finally, we have:
+
+MAX 4 1 5, resulting in 5.
+
+So the result of the expression is 5.",5,5
+40,listops,self_consistency,[MIN [MAX [MAX [SM 8 8 4] 6 [MAX 6 2 9]] [MAX [MAX 6 9 7] 3 [MAX 7 9 8]] 5] 4 [SM 1 [SM [MIN 2 9 1] 7 [MAX 2 2 7]] [SM 1 [MIN 2 7 5] [MIN 4 5 1]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [MAX [MAX [SM 8 8 4] 6 [MAX 6 2 9]] [MAX [MAX 6 9 7] 3 [MAX 7 9 8]] 5] 4 [SM 1 [SM [MIN 2 9 1] 7 [MAX 2 2 7]] [SM 1 [MIN 2 7 5] [MIN 4 5 1]]]].
+
+A: Let's think step-by-step.","Firstly, calculating the innermost operations:
+[SM 8 8 4] is (8 + 8 + 4) mod 10 = 20 mod 10 = 0,
+[MAX 6 2 9] is max(6, 2, 9) = 9,
+[MAX 6 9 7] is max(6, 9, 7) = 9,
+[MAX 7 9 8] is max(7, 9, 8) = 9,
+[MIN 2 9 1] is min(2, 9, 1) = 1,
+[MAX 2 2 7] is max(2, 2, 7) = 7,
+[MIN 2 7 5] is min(2, 7, 5) = 2,
+[MIN 4 5 1] is min(4, 5, 1) = 1.
+
+So, the initial equation transforms to:
+[MIN [MAX [MAX 0 6 9] [MAX 9 3 9] 5] 4 [SM 1 [SM 1 7 7] [SM 1 2 1]]]
+
+Now, calculating the left MAX operations:
+[MAX 0 6 9] is max(0, 6, 9) = 9,
+[MAX 9 3 9] is max(9, 3, 9) = 9.
+
+Thus, the equation becomes:
+[MIN [MAX 9 9 5] 4 [SM 1 [SM 1 7 7] [SM 1 2 1]]]
+
+Now, going inside the right SM operations:
+[SM 1 7 7] is (1 + 7 + 7) mod 10 = 15 mod 10 = 5,
+[SM 1 2 1] is (1 + 2 + 1) mod 10 = 4 mod 10 = 4.
+
+So, we update the equation:
+[MIN [MAX 9 9 5] 4 [SM 1 5 4]]
+
+Now calculating the remaining operations:
+[MAX 9 9 5] is max(9, 9, 5) = 9,
+[SM 1 5 4] is (1 + 5 + 4) mod 10 = 10 mod 10 = 0.
+
+So, the equation becomes:
+[MIN 9 4 0]
+
+The calculation is complete with the minimum operation:
+[MIN 9 4 0] is min(9, 4, 0) = 0. Thus, the result of the provided calculation is 0.",0,0
+41,listops,self_consistency,[MIN 2 [SM [MIN [MAX 9 1 2] [MAX 5 1 6] 3] [SM [MIN 6 0 4] [MAX 6 8 5] 7] 3] [SM 4 [SM [MIN 9 1 4] [SM 5 0 7] 6] [SM [MIN 3 0 5] [SM 8 4 9] 0]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN 2 [SM [MIN [MAX 9 1 2] [MAX 5 1 6] 3] [SM [MIN 6 0 4] [MAX 6 8 5] 7] 3] [SM 4 [SM [MIN 9 1 4] [SM 5 0 7] 6] [SM [MIN 3 0 5] [SM 8 4 9] 0]]].
+
+A: Let's think step-by-step.","First, simplify all the MAX and MIN operators in the expression:
+
+MAX 9 1 2 = 9
+MAX 5 1 6 = 6
+MIN 6 0 4 = 0
+MAX 6 8 5 = 8
+MIN 9 1 4 = 1
+MIN 3 0 5 = 0
+
+Replacing these results in the original expression, you have:
+
+[MIN 2 [SM [MIN 9 6] 3] [SM [SM 0 8 7] 3] [SM 4 [SM 1 [SM 5 0 7] 6] [SM 0 [SM 8 4 9] 0]]]
+
+Solving the inner MIN operator gives: 
+
+MIN 9 6 = 6
+
+The expression now reads:
+
+[MIN 2 [SM 6 3] [SM [SM 0 8 7] 3] [SM 4 [SM 1 [SM 5 0 7] 6] [SM 0 [SM 8 4 9] 0]]]
+
+Now compute the SM operators that don't rely on any other inner operators:
+
+SM 6 3 = 9
+SM 0 8 7 = 5
+SM 5 0 7 = 2
+SM 8 4 9 = 1
+
+Replacing these results, the expression becomes:
+
+[MIN 2 9 [SM 5 3] [SM 4 [SM 1 2 6] [SM 0 1 0]]]
+
+Continue with the remaining SM operators:
+
+SM 5 3 = 8
+SM 1 2 6 = 9
+SM 0 1 0 = 1
+
+Now the expression is:
+
+[MIN 2 9 8 [SM 4 9 1]]
+
+Solve the last SM operator:
+
+SM 4 9 1 = 4
+
+Finally, the expression simplifies to:
+
+MIN 2 9 8 4
+
+The minimum of these numbers is 2. So, the result of the expression is 2.",2,1
+42,listops,self_consistency,[MAX [MIN [SM [SM 3 3 2] 3 [SM 1 2 6]] [MIN [SM 3 5 9] 3 [MIN 8 0 0]] 7] 7 [MAX [MAX [MAX 9 1 9] 4 [MIN 3 1 6]] [MIN [MIN 3 7 4] [MIN 7 8 3] 8] 9]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX [MIN [SM [SM 3 3 2] 3 [SM 1 2 6]] [MIN [SM 3 5 9] 3 [MIN 8 0 0]] 7] 7 [MAX [MAX [MAX 9 1 9] 4 [MIN 3 1 6]] [MIN [MIN 3 7 4] [MIN 7 8 3] 8] 9]].
+
+A: Let's think step-by-step.","First, solve the innermost SM operations: 
+SM 3 3 2 = (3+3+2) mod 10 = 8, 
+SM 1 2 6 = (1+2+6) mod 10 = 9,
+SM 3 5 9 = (3+5+9) mod 10 = 7.
+
+Then, substitute the results into the MIN operations: 
+MIN [SM 3 3 2] 3 [SM 1 2 6] = MIN 8 3 9 = 3,
+MIN [SM 3 5 9] 3 [MIN 8 0 0] = MIN 7 3 0 = 0,
+MIN 3 7 4 = 3, 
+MIN 7 8 3 = 3.
+
+Now, substitute these results into the MAX operations: 
+MAX [MIN [SM 3 3 2] 3 [SM 1 2 6]] [MIN [SM 3 5 9] 3 [MIN 8 0 0]] 7 = MAX 3 0 7 = 7,
+MAX MAX MAX 9 1 9 4 MIN 3 1 6 = MAX 9 4 1 = 9.
+
+Finally, substitute these results into the last two MIN and MAX operations: 
+MIN [MIN 3 7 4] [MIN 7 8 3] 8 = MIN 3 3 8 = 3,
+MAX [MAX [MAX 9 1 9] 4 [MIN 3 1 6]] [MIN [MIN 3 7 4] [MIN 7 8 3] 8] 9 = MAX 9 3 9 = 9.
+
+Substitute the results into the final MAX operation: 
+MAX [MIN [SM 3 3 2] 3 [SM 1 2 6]] [MIN [SM 3 5 9] 3 [MIN 8 0 0]] 7 [MAX [MAX [MAX 9 1 9] 4 [MIN 3 1 6]] [MIN [MIN 3 7 4] [MIN 7 8 3] 8] 9] = MAX 7 9 = 9.
+
+So, the result of the given expression is 9.",9,9
+43,listops,self_consistency,[MIN [MAX [SM [MAX 0 4 5] [MAX 3 9 5] 1] [MIN [MAX 5 0 2] 8 [SM 0 0 7]] 3] [MAX [MAX [SM 8 5 0] [MIN 3 4 6] 1] 5 [MAX [SM 8 1 0] [MIN 6 2 7] 8]] 9],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [MAX [SM [MAX 0 4 5] [MAX 3 9 5] 1] [MIN [MAX 5 0 2] 8 [SM 0 0 7]] 3] [MAX [MAX [SM 8 5 0] [MIN 3 4 6] 1] 5 [MAX [SM 8 1 0] [MIN 6 2 7] 8]] 9].
+
+A: Let's think step-by-step.","First, let's calculate the individual operations inside the brackets:
+
+- [MAX 0 4 5] = 5
+- [MAX 3 9 5] = 9
+- [SM [MAX 0 4 5] [MAX 3 9 5] 1] = SM [5 9 1] = (5 + 9 + 1) mod 10 = 15 mod 10 = 5
+- [MAX 5 0 2] = 5
+- [SM 0 0 7] = (0 + 0 + 7) mod 10 = 7 mod 10 = 7
+- [MIN [MAX 5 0 2] 8 [SM 0 0 7]] = MIN [5 8 7] = 5
+- [MAX [SM 8 5 0] [MIN 3 4 6] 1] = MAX [(8+5+0) mod 10 3 1] = MAX [3 3 1] = 3
+- [SM 8 1 0] = (8 + 1 + 0) mod 10 = 9 mod 10 = 9
+- [MIN 6 2 7] = 2
+- [MAX [SM 8 1 0] [MIN 6 2 7] 8] = MAX [9 2 8] = 9
+
+Then, let's substitute these values back into the original expression:
+
+[MIN [MAX [SM [MAX 0 4 5] [MAX 3 9 5] 1] [MIN [MAX 5 0 2] 8 [SM 0 0 7]] 3] [MAX [MAX [SM 8 5 0] [MIN 3 4 6] 1] 5 [MAX [SM 8 1 0] [MIN 6 2 7] 8]] 9]
+  = [MIN [MAX 5 5 3] [MAX 3 5 9] 9]
+  = [MIN [5 5] 9 9]
+  = [MIN 5 9]
+  = 5
+
+Therefore, the result of the given expression is 5.",5,5
+44,listops,self_consistency,[SM 7 [MIN 8 [SM [MAX 8 1 8] 2 [MAX 1 5 5]] [SM [MAX 9 4 8] [MAX 1 7 9] 9]] [MIN [SM [SM 3 5 5] [MIN 5 6 2] 9] [SM [SM 1 0 6] [MIN 9 5 4] 5] 2]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM 7 [MIN 8 [SM [MAX 8 1 8] 2 [MAX 1 5 5]] [SM [MAX 9 4 8] [MAX 1 7 9] 9]] [MIN [SM [SM 3 5 5] [MIN 5 6 2] 9] [SM [SM 1 0 6] [MIN 9 5 4] 5] 2]].
+
+A: Let's think step-by-step.","First, let's solve the innermost operations, starting with the MAX operators.
+
+[SM 7 [MIN 8 [SM [MAX 8 1 8] 2 [MAX 1 5 5]] [SM [MAX 9 4 8] [MAX 1 7 9] 9]] [MIN [SM [SM 3 5 5] [MIN 5 6 2] 9] [SM [SM 1 0 6] [MIN 9 5 4] 5] 2]] becomes:
+
+[SM 7 [MIN 8 [SM 8 2 5] [SM 9 9 9]] [MIN [SM [SM 3 5 5] [MIN 5 6 2] 9] [SM [SM 1 0 6] [MIN 9 5 4] 5] 2]] 
+
+Continue with the SM operations:
+
+[SM 7 [MIN 8 15 [SM 9 9 9]] [MIN [SM [SM 3 5 5] [MIN 5 6 2] 9] [SM [SM 1 0 6] [MIN 9 5 4] 5] 2]] becomes:
+
+[SM 7 [MIN 8 [SM 15 9 9]] [MIN [SM [SM 3 5 5] 2 9] [SM [SM 1 0 6] 4 5] 2]] 
+
+Doing the next SM operations:
+
+[SM 7 [MIN 8 33] [MIN [SM 13 2 9] [SM 7 4 5] 2]] becomes:
+
+[SM 7 [MIN 8 33] [MIN 24 [SM 16 5] 2]] 
+
+Doing the last SM operation:
+
+[SM 7 [MIN 8 33] [MIN 24 21 2]] becomes:
+
+[SM 7 8 [MIN 24 21 2]] 
+
+Then, the MIN operation:
+
+[SM 7 8 2] 
+
+Finally, the last SM operation gives us the result:
+
+17.",17,4
+45,listops,self_consistency,[SM [MIN 4 [MIN [SM 4 4 8] 5 [MAX 9 8 7]] [SM [MAX 8 0 5] [MAX 5 7 5] 8]] 9 [SM [SM [MIN 3 9 0] [MAX 8 0 1] 9] [SM 0 [MAX 9 9 7] [MAX 9 0 3]] 9]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [MIN 4 [MIN [SM 4 4 8] 5 [MAX 9 8 7]] [SM [MAX 8 0 5] [MAX 5 7 5] 8]] 9 [SM [SM [MIN 3 9 0] [MAX 8 0 1] 9] [SM 0 [MAX 9 9 7] [MAX 9 0 3]] 9]].
+
+A: Let's think step-by-step.","First, we solve the innermost expressions:
+[SM 4 4 8] = 16 % 10 = 6
+[MAX 9 8 7] = 9
+[MAX 8 0 5] = 8
+[MAX 5 7 5] = 7
+[MIN 3 9 0] = 0
+[MAX 8 0 1] = 8
+[MAX 9 9 7] = 9
+[MAX 9 0 3] = 9
+
+Replace these results in the original expression, we get:
+[SM [MIN 4 [MIN 6 5 9] [SM 8 7 8]] 9 [SM [SM 0 8 9] [SM 0 9 9] 9]]
+
+Now solve [MIN 6 5 9] = 5, [SM 8 7 8] = 23 % 10 = 3, [SM 0 8 9] = 17 % 10 = 7, and [SM 0 9 9] = 18 % 10 = 8:
+[SM [MIN 4 5 3] 9 [SM 7 8 9]]
+
+And [MIN 4 5 3] = 3:
+[SM 3 9 [SM 7 8 9]]
+
+[SM 7 8 9] = 24 % 10 = 4, so the expression becomes:
+[SM 3 9 4]
+Finally, [SM 3 9 4] = 16 % 10 = 6, which is the final answer.",6,6
+46,listops,self_consistency,[MAX [MAX [MAX [MIN 9 0 6] [MAX 7 8 5] 2] 0 [MAX [SM 7 8 5] [MIN 6 4 6] 1]] 0 [SM [SM 2 [SM 7 9 6] [MIN 4 1 8]] 3 [MIN 5 [MAX 9 5 9] [SM 8 2 4]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX [MAX [MAX [MIN 9 0 6] [MAX 7 8 5] 2] 0 [MAX [SM 7 8 5] [MIN 6 4 6] 1]] 0 [SM [SM 2 [SM 7 9 6] [MIN 4 1 8]] 3 [MIN 5 [MAX 9 5 9] [SM 8 2 4]]]].
+
+A: Let's think step-by-step.","Firstly, the [MIN 9 0 6] computation equals 0, [MAX 7 8 5] equals 8, [SM 7 8 5] equals 0 (because 7+8+5=20 and the modulo 10 of 20 is 0), and [MIN 6 4 6] equals 4.
+
+Then, our expression becomes:
+[MAX [MAX [MAX 0 8 2] 0 [MAX 0 4 1]] 0 [SM [SM 2 [SM 7 9 6] [MIN 4 1 8]] 3 [MIN 5 [MAX 9 5 9] [SM 8 2 4]]]].
+
+Next, the [MAX 0 8 2] equals 8, so the expression becomes
+[MAX [MAX 8 0 [MAX 0 4 1]] 0 [SM [SM 2 [SM 7 9 6] [MIN 4 1 8]] 3 [MIN 5 [MAX 9 5 9] [SM 8 2 4]]]].
+
+Next, [MAX 0 4 1] equals 4, thus we get 
+[MAX [MAX 8 0 4] 0 [SM [SM 2 [SM 7 9 6] [MIN 4 1 8]] 3 [MIN 5 [MAX 9 5 9] [SM 8 2 4]]]].
+
+Moving onward, [MAX 8 0 4] equals 8, changing the expression to 
+[MAX 8 0 [SM [SM 2 [SM 7 9 6] [MIN 4 1 8]] 3 [MIN 5 [MAX 9 5 9] [SM 8 2 4]]]].
+
+Let's deal with the [SM 7 9 6] computation next. 7+9+6 equals 22, and the modulo 10 of 22 is 2, so that part becomes 2,
+giving us: [MAX 8 0 [SM [SM 2 2 [MIN 4 1 8]] 3 [MIN 5 [MAX 9 5 9] [SM 8 2 4]]]].
+
+Now, [MIN 4 1 8] equals 1, thus giving us
+[MAX 8 0 [SM [SM 2 2 1] 3 [MIN 5 [MAX 9 5 9] [SM 8 2 4]]]].
+
+Then, [SM 2 2 1] equals 5 (because 2+2+1=5), giving
+[MAX 8 0 [SM 5 3 [MIN 5 [MAX 9 5 9] [SM 8 2 4]]]].
+
+Then, [MAX 9 5 9] equals 9, thus yielding
+[MAX 8 0 [SM 5 3 [MIN 5 9 [SM 8 2 4]]]].
+
+Then, [SM 8 2 4] equals 4 (because 8+2+4=14 and the modulo 10 of 14 is 4), giving
+[MAX 8 0 [SM 5 3 [MIN 5 9 4]]].
+
+Then, [MIN 5 9 4] equals 4, so we have
+[MAX 8 0 [SM 5 3 4]].
+
+[SM 5 3 4] equals 2 (because 5+3+4=12 and the modulo 10 of 12 is 2), yielding
+[MAX 8 0 2].
+
+Finally, [MAX 8 0 2] equals 8.
+
+So, the solution for the given expression is 8.",8,8
+47,listops,self_consistency,[SM [MAX [MIN [MAX 2 7 3] [SM 9 5 0] 1] 2 [SM [MAX 7 7 8] [MAX 3 8 6] 4]] [MAX [MAX 5 [SM 4 1 1] [MAX 0 2 3]] [SM 1 [MIN 6 5 4] [SM 1 5 0]] 2] 1],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [MAX [MIN [MAX 2 7 3] [SM 9 5 0] 1] 2 [SM [MAX 7 7 8] [MAX 3 8 6] 4]] [MAX [MAX 5 [SM 4 1 1] [MAX 0 2 3]] [SM 1 [MIN 6 5 4] [SM 1 5 0]] 2] 1].
+
+A: Let's think step-by-step.","First, solve the expressions inside the inner most brackets:
+
+[SM [MAX [MIN [MAX 2 7 3] [SM 9 5 0] 1] 2 [SM [MAX 7 7 8] [MAX 3 8 6] 4]] [MAX [MAX 5 [SM 4 1 1] [MAX 0 2 3]] [SM 1 [MIN 6 5 4] [SM 1 5 0]] 2] 1]
+
+Becomes: 
+
+[SM [MAX [MIN 7 4 1] 2 [SM 8 8 4]] [MAX [MAX 5 6 3] [SM 1 4 6] 2] 1]
+
+Next, solving the expressions inside the next set of brackets: 
+
+[SM [MAX 1 2 20] [MAX 6 11 2] 1]
+
+Then, simplify these expressions:
+
+[SM 2 11 1]
+
+Finally, use the SM operator to get the sum modulo 10:
+
+4",4,9
+48,listops,self_consistency,[SM [MAX [MIN [SM 6 8 0] 6 [SM 6 4 6]] 6 [MAX [MAX 8 6 0] 4 [MIN 0 0 2]]] 0 [MAX [MIN [SM 5 3 1] [SM 8 8 6] 2] [MIN 4 [MIN 2 7 4] [MIN 8 0 7]] 3]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [MAX [MIN [SM 6 8 0] 6 [SM 6 4 6]] 6 [MAX [MAX 8 6 0] 4 [MIN 0 0 2]]] 0 [MAX [MIN [SM 5 3 1] [SM 8 8 6] 2] [MIN 4 [MIN 2 7 4] [MIN 8 0 7]] 3]].
+
+A: Let's think step-by-step.","First, let's calculate the values inside the smallest brackets:
+
+[SM 6 8 0] = (6 + 8 + 0) % 10 = 14 % 10 = 4
+[SM 6 4 6] = (6 + 4 + 6) % 10 = 16 % 10 = 6
+[MAX 8 6 0] = max(8, 6, 0) = 8
+[MIN 0 0 2] = min(0, 0, 2) = 0
+[SM 5 3 1] = (5 + 3 + 1) % 10 = 9
+[SM 8 8 6] = (8 + 8 + 6) % 10 = 22 % 10 = 2
+[MIN 2 7 4] = min(2, 7, 4) = 2
+[MIN 8 0 7] = min(8, 0, 7) = 0
+
+Replace these values back into the expression to simplify it:
+[SM [MAX [MIN 4 6 6] 6 [MAX 8 4 0]] 0 [MAX [MIN 9 2 2] [MIN 4 2 0] 3]]
+
+Next, solve the MIN and MAX operations within the brackets:
+[MAX [MIN 4 6 6] 6 [MAX 8 4 0]] = [MAX 4 6 8] = 8
+[MAX [MIN 9 2 2] [MIN 4 2 0] 3] = [MAX 2 0 3] = 3
+
+Replace these back into the expression:
+[SM 8 0 3] = (8 + 0 + 3) % 10 = 11 % 10 = 1
+
+So, the result is 1.",1,1
+49,listops,self_consistency,[MAX [MIN [MAX [SM 9 7 0] [MAX 5 9 2] 0] 7 [MIN 3 [SM 8 6 4] [SM 2 8 1]]] 6 [MAX 2 [SM [MAX 2 8 8] 8 [SM 8 9 3]] [SM [SM 9 0 6] 8 [SM 9 4 5]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX [MIN [MAX [SM 9 7 0] [MAX 5 9 2] 0] 7 [MIN 3 [SM 8 6 4] [SM 2 8 1]]] 6 [MAX 2 [SM [MAX 2 8 8] 8 [SM 8 9 3]] [SM [SM 9 0 6] 8 [SM 9 4 5]]]].
+
+A: Let's think step-by-step.","First, calculate the SM operations as they mean sum modulo 10:
+- SM 9 7 0 = (9+7+0)%10 = 6
+- SM 8 6 4 = (8+6+4)%10 = 8
+- SM 2 8 1 = (2+8+1)%10 = 1
+- SM [MAX 2 8 8] 8 [SM 8 9 3] = (8+8+(8+9+3)%10)%10 = 6
+- SM [SM 9 0 6] 8 [SM 9 4 5] = ((9+0+6)%10+8 + (9+4+5)%10)%10 = 6
+
+Next, input the results into the MAX and MIN operations:
+
+- MAX [SM 9 7 0] [MAX 5 9 2] 0 = MAX 6 9 0 = 9
+- MIN 3 [SM 8 6 4] [SM 2 8 1] = MIN 3 8 1 = 1
+- MAX 2 [SM [MAX 2 8 8] 8 [SM 8 9 3]] [SM [SM 9 0 6] 8 [SM 9 4 5]] = MAX 2 6 6 = 6
+
+Finally, input those results into the final operations:
+
+- MIN [MAX [SM 9 7 0] [MAX 5 9 2] 0] 7 [MIN 3 [SM 8 6 4] [SM 2 8 1]] = MIN 9 7 1 = 1
+- MAX [MIN [MAX [SM 9 7 0] [MAX 5 9 2] 0] 7 [MIN 3 [SM 8 6 4] [SM 2 8 1]]] 6 [MAX 2 [SM [MAX 2 8 8] 8 [SM 8 9 3]] [SM [SM 9 0 6] 8 [SM 9 4 5]]] = MAX 1 6 6 = 6
+So, the result of the given expression is 6.",6,6
+50,listops,self_consistency,[MAX [SM [MAX [MIN 8 9 8] 1 [MIN 9 4 0]] [MAX [MIN 3 6 1] [MAX 9 6 2] 8] 6] 2 [MAX [MIN 4 [MIN 5 9 5] [SM 9 1 6]] 9 [SM 6 [MIN 3 3 3] [SM 2 5 0]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX [SM [MAX [MIN 8 9 8] 1 [MIN 9 4 0]] [MAX [MIN 3 6 1] [MAX 9 6 2] 8] 6] 2 [MAX [MIN 4 [MIN 5 9 5] [SM 9 1 6]] 9 [SM 6 [MIN 3 3 3] [SM 2 5 0]]]].
+
+A: Let's think step-by-step.","First, we would simplify the expressions within the smallest brackets i.e. operations with only three numbers. This results in:
+
+[MIN 8 9 8]  = 8
+[MIN 9 4 0] = 0
+[MIN 3 6 1] = 1
+[MAX 9 6 2] = 9
+[MIN 5 9 5] = 5
+[SM 9 1 6]  = 6 (since 9+1+6 = 16 and the sum modulo 10 is 6)
+[MIN 3 3 3] = 3
+[SM 2 5 0]  = 7
+
+So the original expression now becomes:
+
+[MAX [SM [MAX 8 1 0] [MAX 1 9 8] 6] 2 [MAX [MIN 4 5 6] 9 [SM 6 3 7]]]
+
+Next, we will simplify the expressions within the brackets further. Fixing the remaining MAX and MIN expressions, we get:
+
+[MAX 8 1 0]  = 8
+[MAX 1 9 8]  = 9
+[MIN 4 5 6]  = 4
+[SM 6 3 7]   = 6
+
+Substituting these values back in, the expression becomes:
+
+[MAX [SM 8 9 6] 2 [MAX 4 9 6]]
+
+After that, we simplify the SM expression, 
+
+[SM 8 9 6] = 3 (since 8+9+6 = 23 and the sum modulo 10 is 3)
+
+So the expression simplifies to:
+
+[MAX 3 2 [MAX 4 9 6]]
+
+Then, simplifying the MAX expression, we end up with: 
+
+[MAX 4 9 6] = 9
+
+So now, the entire expression turns to: 
+
+[MAX 3 2 9]
+
+Finally, the MAX command results in picking the biggest number of the set. So, 
+
+[MAX 3 2 9] = 9
+
+Therefore, the final result is 9.",9,9
+51,listops,self_consistency,[SM 7 [MAX 8 [MAX 5 [SM 7 1 4] [SM 0 2 1]] [MIN [MIN 9 3 8] [MAX 0 0 7] 8]] [MIN [MAX [SM 3 8 4] 3 [MAX 3 8 2]] [MIN 3 [MAX 5 6 5] [SM 2 7 3]] 5]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM 7 [MAX 8 [MAX 5 [SM 7 1 4] [SM 0 2 1]] [MIN [MIN 9 3 8] [MAX 0 0 7] 8]] [MIN [MAX [SM 3 8 4] 3 [MAX 3 8 2]] [MIN 3 [MAX 5 6 5] [SM 2 7 3]] 5]].
+
+A: Let's think step-by-step.","First, we resolve the nested operations:
+
+- [SM 7 1 4] = (7 + 1 + 4) mod 10 = 12 mod 10 = 2
+- [SM 0 2 1] = (0 + 2 + 1) mod 10 = 3 mod 10 = 3
+- [MAX 5 2 3] = maximum value among 5, 2, and 3 = 5
+- [MIN 9 3 8] = minimum value among 9, 3, and 8 = 3
+- [MAX 0 0 7] = maximum value among 0, 0, and 7 = 7
+- [MIN 3 7 8] = minimum value among 3, 7, and 8 = 3
+- [MAX 8 5 3] = maximum value among 8, 5, and 3 = 8
+- [MAX [SM 3 8 4] 3 [MAX 3 8 2]] = [MAX 15 mod 10 3 8] = [MAX 5 3 8] = 8
+- [MIN 3 [MAX 5 6 5] [SM 2 7 3]] = [MIN 3 6 12 mod 10] = [MIN 3 6 2] = 2
+- [MIN 8 2 5] = minimum value among 8, 2, and 5 = 2
+
+So, the final result:
+
+- [SM 7 8 2] = (7 + 8 + 2) mod 10 = 17 mod 10 = 7",7,7
+52,listops,self_consistency,[MIN 3 [SM [MAX [MAX 3 6 2] [SM 8 1 4] 6] [SM [MAX 4 7 4] 1 [MAX 7 7 9]] 3] [MAX 9 [MAX [MIN 8 3 6] 2 [MIN 6 3 7]] [MIN [MAX 3 0 5] [MAX 2 2 2] 2]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN 3 [SM [MAX [MAX 3 6 2] [SM 8 1 4] 6] [SM [MAX 4 7 4] 1 [MAX 7 7 9]] 3] [MAX 9 [MAX [MIN 8 3 6] 2 [MIN 6 3 7]] [MIN [MAX 3 0 5] [MAX 2 2 2] 2]]].
+
+A: Let's think step-by-step.","First, solve the inner most function.
+
+[MAX 3 6 2] is 6.              
+[SM 8 1 4] is 3 (8+1+4 is 13, 13 modulo 10 is 3).                       
+[MAX 4 7 4] is 7.                      
+[MAX 7 7 9] is 9. 
+[MIN 8 3 6] is 3.
+[MIN 6 3 7] is 3.
+[MAX 3 0 5] is 5.
+[MAX 2 2 2] is 2.
+
+Fill these values back into the equation, which now becomes:
+MIN 3 SM [MAX 6 3 6] [SM 7 1 9] 3 MAX 9 MAX 3 2 3 MIN 5 2 2.
+
+Next, solve the next layer of functions.
+
+[MAX 6 3 6] is 6.
+[SM 7 1 9] is 7 (7+1+9 is 17, 17 modulo 10 is 7).
+[MAX 3 2 3] is 3.
+[MIN 5 2 2] is 2.
+
+Fill these values back into the equation, which now becomes:
+MIN 3 [SM 6 7 3] [MAX 9 3 2].
+
+Next, solve the next layer of function.
+
+[SM 6 7 3] is 6 (6+7+3 is 16, 16 modulo 10 is 6).
+[MAX 9 3 2] is 9.
+
+We fill these values back into the equation, which now becomes:
+MIN 3 6 9.
+
+Finally, find the minimum value which is 3 (MIN 3 6 9 is 3).
+
+So, the result of the given expression is 3.",3,3
+53,listops,self_consistency,[SM [SM [SM [SM 8 1 8] [SM 7 5 2] 9] 0 [MIN [MAX 4 3 3] [SM 5 2 2] 5]] 8 [MIN 5 [SM [SM 6 2 6] [SM 1 7 1] 2] [MIN [MIN 5 3 8] [MIN 0 5 3] 3]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [SM [SM [SM 8 1 8] [SM 7 5 2] 9] 0 [MIN [MAX 4 3 3] [SM 5 2 2] 5]] 8 [MIN 5 [SM [SM 6 2 6] [SM 1 7 1] 2] [MIN [MIN 5 3 8] [MIN 0 5 3] 3]]].
+
+A: Let's think step-by-step.","First, evaluate the SM operations:
+[SM [SM [SM 7] [SM 4] 9] 0 [MIN [MAX 4 3 3] [SM 9] 5]] 8 [MIN 5 [SM [SM 4] [SM 9] 2] [MIN [MIN 5 3 8] [MIN 0 5 3] 3]].
+
+Then, it comes as follows:
+[SM [SM 0] 0 [MIN [MAX 4 3 3] 4] 5] 8 [MIN 5 [SM 5 2] [MIN [MIN 5 3 8] 0 3]].
+
+Next, perform the MAX operation:
+[SM 0 0 [MIN 4 4] 5] 8 [MIN 5 [SM 5 2] [MIN 5 0 3]].
+
+After that, the function's looking like this:
+[SM 0 0 4 5] 8 [MIN 5 [SM 7] 5].
+
+Perform next SM operation:
+9 8 [MIN 5 7 5].
+
+Then, evaluate the MIN operation:
+9 8 5.
+
+So, the final answer is list of three single-digit numbers: 9, 8, 5.","[9, 8, 5]",2
+54,listops,self_consistency,[SM [SM 3 [SM 8 [SM 8 4 0] [MAX 9 9 3]] [MIN [MAX 1 5 8] 4 [MIN 4 7 2]]] 1 [MAX 9 [SM 8 [MAX 9 3 1] [MAX 9 0 5]] [SM 9 [SM 0 7 4] [MAX 3 2 9]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [SM 3 [SM 8 [SM 8 4 0] [MAX 9 9 3]] [MIN [MAX 1 5 8] 4 [MIN 4 7 2]]] 1 [MAX 9 [SM 8 [MAX 9 3 1] [MAX 9 0 5]] [SM 9 [SM 0 7 4] [MAX 3 2 9]]]].
+
+A: Let's think step-by-step.","Here are step by step calculations:
+
+1. Calculate the innermost expressions (Most nested operators). Start by computing SM, MIN and MAX operations.
+
+- SM(8, 4, 0) = (8 + 4 + 0) mod 10 = 12 mod 10 = 2
+- MAX(9, 9, 3) = 9
+- MAX(1, 5, 8) = 8
+- MIN(4, 7, 2) = 2
+- MAX(9, 3, 1) = 9
+- MAX(9, 0, 5) = 9
+- SM(0, 7, 4) = (0 + 7 + 4) mod 10 = 11 mod 10 = 1
+- MAX(3, 2, 9) = 9
+
+Now replace the computed values in the expression:
+[SM [SM 3 [SM 2 9] [MIN 8 4 2]] 1 [MAX 9 [SM 8 [MAX 9] [MAX 9]] [SM 9 [SM 1] [MAX 9]]]]
+
+2. In the next step, calculate the remaining SM, MIN and MAX operations.
+
+[SM [SM 3 [SM 2 9] [MIN 8 4 2]] 1 [MAX 9 [SM 8 [MAX 9] [MAX 9]] [SM 9 [SM 1] [MAX 9]]]]
+
+- SM(2, 9) = (2 + 9) mod 10 = 11 mod 10 = 1
+- MIN(8, 4, 2) = 2
+- SM(3, 1, 2) = (3 + 1 + 2) mod 10 = 6 mod 10 = 6
+- MAX(9) = 9
+- SM(8, 9, 9) = (8 + 9 + 9) mod 10 = 26 mod 10 = 6
+- SM(1) = 1
+- SM(9, 1, 9) = (9 + 1 + 9) mod 10 = 19 mod 10 = 9
+
+Now replace the computed values in the expression:
+[SM 6 1 [MAX 9 6 9]]
+
+3. In the next step, calculate the remaining SM and MAX operations.
+
+- MAX(9, 6, 9) = 9
+- SM(6, 1, 9) = (6 + 1 + 9) mod 10 = 16 mod 10 = 6
+
+So, the result of the given expression is 6.",6,4
+55,listops,self_consistency,[SM 9 [MIN [MIN [SM 4 9 7] [SM 3 4 0] 3] [MAX 4 [SM 0 7 8] [SM 7 1 6]] 6] [MIN 6 [SM [MIN 4 2 8] 0 [MIN 7 1 0]] [MIN [SM 2 1 7] 8 [MAX 0 1 4]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM 9 [MIN [MIN [SM 4 9 7] [SM 3 4 0] 3] [MAX 4 [SM 0 7 8] [SM 7 1 6]] 6] [MIN 6 [SM [MIN 4 2 8] 0 [MIN 7 1 0]] [MIN [SM 2 1 7] 8 [MAX 0 1 4]]]].
+
+A: Let's think step-by-step.","Firstly, solve inner brackets:
+
+[SM 4 9 7] = (4 + 9 + 7) % 10 = 20 % 10 = 0
+
+[SM 3 4 0] = (3 + 4 + 0) % 10 = 7 % 10 = 7
+
+[SM 0 7 8] = (0 + 7 + 8) % 10 = 15 % 10 = 5
+
+[SM 7 1 6] = (7 + 1 + 6) % 10 = 14 % 10 = 4
+
+[MIN 4 2 8] = 2
+
+[SM 2 1 7] = (2 + 1 + 7) % 10 = 10 % 10 = 0
+
+[MAX 0 1 4] = 4
+
+Substitute above values back to the main expression:
+
+9 [MIN [MIN 0 7 3] [MAX 4 5 4] 6] [MIN 6 [SM 2 0 0] [MIN 0 8 4]]
+
+Then, solve next layer of brackets:
+
+[MIN 0 7 3] = 0
+
+[MAX 4 5 4] = 5
+
+[MIN 0 8 4] = 0
+
+[SM 2 0 0] = (2 + 0 + 0) % 10 = 2
+    
+Then we substitute in the main expression again:
+
+9 [MIN 0 5 6] [MIN 6 2 0]
+
+Then calculating the next layer we get:
+
+[MIN 0 5 6] = 0
+
+[MIN 6 2 0] = 0
+
+This leaves us with a final expression of:
+
+[SM 9 0 0] = (9 + 0 + 0) % 10 = 9
+
+So, the answer is 9.",9,9
+56,listops,self_consistency,[MIN [MAX [SM [MIN 6 2 4] 3 [SM 0 5 1]] [MAX [MAX 7 1 7] [MIN 5 5 8] 3] 6] 6 [SM [SM [MAX 2 6 1] 9 [MIN 8 6 7]] 5 [MIN 8 [SM 8 3 6] [MAX 0 4 9]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [MAX [SM [MIN 6 2 4] 3 [SM 0 5 1]] [MAX [MAX 7 1 7] [MIN 5 5 8] 3] 6] 6 [SM [SM [MAX 2 6 1] 9 [MIN 8 6 7]] 5 [MIN 8 [SM 8 3 6] [MAX 0 4 9]]]].
+
+A: Let's think step-by-step.","First, let's work out the runs including MIN and MAX operations happening inside the SM operation:
+
+    MIN 6 2 4 = 2
+    SM 0 5 1 = 6
+    MAX 2 6 1 = 6
+    MIN 8 6 7 = 6
+    MIN 5 5 8 = 5
+    MAX 7 1 7 = 7
+    SM 8 3 6 = 7
+    MIN 8 7 = 7
+    MAX 0 4 9 = 9
+
+Insert these results into the original expression:
+
+    [MIN [MAX [SM 2 3 6] 7 6] 6 [SM [SM 6 9 6] 5 7]]
+
+Now solve the entry about the SM operation:
+
+    SM 2 3 6 = 1
+    SM 6 9 6 = 1
+    SM 1 5 7 = 3
+    
+Insert these results into the expression:
+    
+    [MIN [MAX 1 7 6] 6 3]
+    
+Now apply the MAX operation, which results in 7. Plug this back in:
+
+    [MIN 7 6 3]
+    
+Apply the MIN operation to these, which yields 3.
+
+Hence, the final result of the expression is 3.",3,3
+57,listops,self_consistency,[SM [MAX [MIN [MAX 9 7 2] 3 [MIN 0 5 7]] 5 [MAX 1 [MIN 9 3 4] [SM 2 4 2]]] [MAX 1 [MIN [SM 1 6 0] 9 [SM 4 3 9]] [MAX 0 [MIN 0 0 2] [MIN 8 5 2]]] 6],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [MAX [MIN [MAX 9 7 2] 3 [MIN 0 5 7]] 5 [MAX 1 [MIN 9 3 4] [SM 2 4 2]]] [MAX 1 [MIN [SM 1 6 0] 9 [SM 4 3 9]] [MAX 0 [MIN 0 0 2] [MIN 8 5 2]]] 6].
+
+A: Let's think step-by-step.","First, we calculate the maximum and minimum of each group:
+
+MAX 9 7 2 = 9
+MIN 0 5 7 = 0
+MIN 9 3 4 = 3
+SM 1 6 0 = 7 modulo 10 = 7
+SM 4 3 9 = 16 modulo 10 = 6
+MIN 0 0 2 = 0
+MIN 8 5 2 = 2
+
+Now, we can replace these values in our statement:
+
+[SM [MAX [MIN 9 3 0] 5 [MAX 1 3 [SM 2 4 2]]] [MAX 1 [MIN 7 9 6] [MAX 0 0 2]]] 6.
+
+Let's reduce the expression again:
+
+MIN 9 3 0 = 0
+SM 2 4 2 = 8 modulo 10 = 8
+MIN 7 9 6 = 6
+
+So, the expression becomes:
+
+[SM [MAX 0 5 8] [MAX 1 6 2]] 6.
+
+Let's reduce it another step:
+
+MAX 0 5 8 = 8
+MAX 1 6 2 = 6
+
+And the expression becomes:
+
+[SM 8 6] 6.
+
+Then, 
+
+SM 8 6 = 14 modulo 10 = 4
+
+Finally, we get:
+
+4 6.
+
+Since our main operator is SUM then we perform it on our parameters:
+
+SM 4 6 = 10 modulo 10 = 0
+
+So, the answer to the presented expression is 0.",0,0
+58,listops,self_consistency,[SM [MIN [MAX [MAX 4 9 1] 1 [SM 5 0 8]] 4 [SM 7 [MAX 5 1 2] [SM 7 4 9]]] 9 [MAX 6 [MIN [MAX 3 1 7] [MAX 1 5 6] 1] [MIN [MIN 0 2 0] [MAX 8 8 0] 7]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [MIN [MAX [MAX 4 9 1] 1 [SM 5 0 8]] 4 [SM 7 [MAX 5 1 2] [SM 7 4 9]]] 9 [MAX 6 [MIN [MAX 3 1 7] [MAX 1 5 6] 1] [MIN [MIN 0 2 0] [MAX 8 8 0] 7]]].
+
+A: Let's think step-by-step.","First let's calculate inner operators:
+
+- [MAX 4 9 1] = 9
+- [SM 5 0 8] = (5+0+8) % 10 = 3 
+- [MIN [MAX 4 9 1] 1 [SM 5 0 8]] = MIN [9 1 3] = 1
+- [MAX 5 1 2] = 5 
+- [SM 7 4 9] = (7+4+9) % 10 = 0
+- [SM 7 [MAX 5 1 2] [SM 7 4 9]] = (7+5+0) % 10 = 2
+- [MIN 1 4 [SM 7 [MAX 5 1 2] [SM 7 4 9]]] = MIN [1 4 2] = 1
+- [MAX 3 1 7] = 7
+- [MAX 1 5 6] = 6
+- [MIN [MAX 3 1 7] [MAX 1 5 6] 1] = MIN [7 6 1] = 1
+- [MIN 0 2 0] = 0
+- [MAX 8 8 0] = 8
+- MIN [MIN 0 2 0] [MAX 8 8 0] 7 = MIN [0 8 7] = 0
+- [MAX 6 [MIN [MAX 3 1 7] [MAX 1 5 6] 1] [MIN [MIN 0 2 0] [MAX 8 8 0] 7]] = MAX [6 1 0] = 6
+
+So, your initial expression simplifies to:
+[SM [MIN 1 4 2] 9 [MAX 6 1 0]]. 
+
+Now let's calculate the next round:
+
+- [MIN 1 4 2] = 1
+- [SM [MIN 1 4 2] 9 [MAX 6 1 0]] = (1+9+6) % 10 = 6",6,7
+59,listops,self_consistency,[MIN [SM 2 [MAX 4 [MAX 5 7 9] [MIN 9 1 5]] [MAX [MIN 4 7 6] 0 [SM 5 6 9]]] [MIN [MIN [MAX 3 9 5] 6 [MIN 9 5 4]] 5 [SM [MAX 6 0 3] [SM 1 5 2] 3]] 4],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [SM 2 [MAX 4 [MAX 5 7 9] [MIN 9 1 5]] [MAX [MIN 4 7 6] 0 [SM 5 6 9]]] [MIN [MIN [MAX 3 9 5] 6 [MIN 9 5 4]] 5 [SM [MAX 6 0 3] [SM 1 5 2] 3]] 4].
+
+A: Let's think step-by-step.","Firstly, execute all the internal MAX and MIN operations:
+- [MAX 5 7 9] = 9
+- [MIN 9 1 5] = 1
+- [MIN 4 7 6] = 4
+- [MAX 3 9 5] = 9
+- [MIN 9 5 4] = 4
+- [MAX 6 0 3] = 6
+
+Then replace these values into the original expression:
+[MIN [SM 2 9 1] [MAX 4 0 [SM 5 6 9]]] [MIN [MIN 9 6 4] 5 [SM 6 [SM 1 5 2] 3]] 4].
+
+Next, perform the SM operation:
+- [SM 2 9 1] = 2+9+1 = 12 modulo 10 = 2
+- [SM 5 6 9] = 5+6+9 = 20 modulo 10 = 0
+- [SM 1 5 2] = 1+5+2 = 8
+
+Then replace these values into the expression:
+[MIN 2 [MAX 4 0 0]] [MIN [MIN 9 6 4] 5 [SM 6 8 3]] 4].
+
+Resolve the remaining MAX and MIN operations:
+- [MAX 4 0 0] = 4
+- [MIN 9 6 4] = 4
+
+Replace these values into the expression:
+[MIN 2 4] [MIN 4 5 [SM 6 8 3]] 4.
+
+Calculate the last SM operation:
+- [SM 6 8 3] = 6+8+3 = 17 modulo 10 = 7
+
+Replace this into the expression:
+[MIN 2 4] [MIN 4 5 7] 4.
+
+Finally, perform the external MIN operations:
+- [MIN 2 4] = 2
+- [MIN 4 5 7] = 4
+
+So, the result is [MIN 2 4 4] = 2.",2,4
+60,listops,self_consistency,[MIN 6 [MAX 8 [MIN [MAX 0 2 8] 5 [SM 3 1 8]] [SM [MIN 9 6 6] [SM 0 5 9] 1]] [SM 5 [MIN 0 [MIN 9 0 7] [MIN 5 2 8]] [MIN [MAX 0 8 0] 1 [MIN 8 7 2]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN 6 [MAX 8 [MIN [MAX 0 2 8] 5 [SM 3 1 8]] [SM [MIN 9 6 6] [SM 0 5 9] 1]] [SM 5 [MIN 0 [MIN 9 0 7] [MIN 5 2 8]] [MIN [MAX 0 8 0] 1 [MIN 8 7 2]]]].
+
+A: Let's think step-by-step.","First, let's resolve the single-digit numbers.
+
+For MIN, MAX, SM operators:
+
+- MIN means select the minimum number,
+- MAX means select the maximum number,
+- SM means summing the digits and returning the last digit if the sum is more than 9.
+
+Here's how it breaks down:
+
+- [MAX 0 2 8] = 8
+- [SM 3 1 8] = (3+1+8) % 10 = 12 % 10 = 2
+- [SM 0 5 9] = (0+5+9) % 10 = 14 % 10 = 4
+- [MIN 9 6 6] = 6
+- [MIN 9 0 7] = 0
+- [MIN 5 2 8] = 2
+- [MAX 0 8 0] = 8
+- [MIN 8 7 2] = 2
+
+Then we replace these values and it becomes:
+
+[MIN 6 [MAX 8 [MIN 8 5 2] [SM 6 4 1]] [SM 5 [MIN 0 2 2]]]
+
+Further simplifying:
+
+- [MIN 8 5 2] = 2
+- [SM 6 4 1] = (6+4+1) % 10 = 11 % 10 = 1
+- [MIN 0 2 2] = 0
+
+Now it becomes:
+
+[MIN 6 [MAX 8 2 1] [SM 5 0]]
+
+Next:
+
+- [MAX 8 2 1] = 8
+- [SM 5 0] = (5+0) % 10 = 5
+
+Finally:
+
+[MIN 6 8 5] = 5
+
+So the solution is 5.",5,6
+61,listops,self_consistency,[MIN [MIN 7 [MAX [MIN 7 4 1] 9 [SM 7 9 5]] [MIN [SM 2 7 7] 6 [SM 5 7 3]]] [MAX [SM [MIN 2 1 5] 9 [SM 0 6 4]] 2 [MIN [MIN 2 5 5] [MAX 4 5 9] 7]] 3],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [MIN 7 [MAX [MIN 7 4 1] 9 [SM 7 9 5]] [MIN [SM 2 7 7] 6 [SM 5 7 3]]] [MAX [SM [MIN 2 1 5] 9 [SM 0 6 4]] 2 [MIN [MIN 2 5 5] [MAX 4 5 9] 7]] 3].
+
+A: Let's think step-by-step.","First, we will compute the inner-most expressions:
+
+- [MIN 7 4 1] = 1
+- [SM 7 9 5] = (7+9+5) modulo 10 = 1
+- [SM 2 7 7] = (2+7+7) modulo 10 = 6
+- [SM 5 7 3] = (5+7+3) modulo 10 = 5
+- [MIN 2 1 5] = 1
+- [SM 0 6 4] = (0+6+4) modulo 10 = 0
+- [MIN 2 5 5] = 2
+- [MAX 4 5 9] = 9
+
+We substitute these results back into the original expression:
+ 
+[MIN [MIN 7 [MAX 1 9 1]] [MIN 6 6 5]] [MAX [SM 1 9 0] 2 [MIN 2 9 7]]
+
+Then compute the next layer:
+
+- [MAX 1 9 1] = 9
+- [MIN 6 6 5] = 5
+- [SM 1 9 0] = (1+9+0) modulo 10 = 0
+- [MIN 2 9 7] = 2
+
+Again, substitute these results back into the expression:
+
+[MIN [MIN 7 9] [MIN 5]] [MAX 0 2 2]
+
+Finally, computing the remaining operations:
+
+- [MIN 7 9] = 7
+- [MIN 5] = 5
+- [MAX 0 2 2] = 2
+
+So, the final expression is [MIN 7 5] [MAX 2 3], which simplifies to:
+- [MIN 7 5] = 5
+- [MAX 2 3] = 3 
+
+So the final answer is [MIN 5 3] = 3.",3,2
+62,listops,self_consistency,[SM 5 [SM [SM 9 [MAX 4 6 0] [SM 8 1 3]] [SM [MIN 9 5 8] [MAX 4 5 0] 4] 9] [MAX 5 [MIN [MIN 4 2 9] 1 [MIN 4 7 9]] [MAX [SM 6 3 4] 4 [MAX 6 9 7]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM 5 [SM [SM 9 [MAX 4 6 0] [SM 8 1 3]] [SM [MIN 9 5 8] [MAX 4 5 0] 4] 9] [MAX 5 [MIN [MIN 4 2 9] 1 [MIN 4 7 9]] [MAX [SM 6 3 4] 4 [MAX 6 9 7]]]].
+
+A: Let's think step-by-step.","First, let's simplify the inner part of the equations.
+
+[SM 5 [SM [SM 9 [MAX 4 6 0] [SM 8 1 3]] [SM [MIN 9 5 8] [MAX 4 5 0] 4] 9] [MAX 5 [MIN [MIN 4 2 9] 1 [MIN 4 7 9]] [MAX [SM 6 3 4] 4 [MAX 6 9 7]]]]
+
+Becomes 
+
+[SM 5 [SM [SM 9 6 [SM 8 1 3]] [SM 5 [MAX 4 5 0] 4] 9] [MAX 5 [MIN 1 1 4] [MAX 3 4 9]]]
+
+Then we can simplify further as follows:
+
+[SM 5 [SM [SM 9 6 2] [SM 5 5 4] 9] [MAX 5 1 9]]
+
+This becomes
+
+[SM 5 [SM 7 [SM 1 4 4] 9] 9]
+
+Further simplification gives us:
+
+[SM 5 [SM 7 9 9] 9]
+
+Then we have
+
+[SM 5 5 9]
+
+And finally, we arrive at the total which is:
+
+SM 8 9 = 7 
+
+So, the final answer is 7.",7,4
+63,listops,self_consistency,[SM [MIN [SM [MIN 4 1 5] 6 [SM 7 7 1]] 2 [SM 6 [SM 9 3 3] [SM 4 4 5]]] [SM [SM [MIN 1 2 9] 4 [MIN 5 9 5]] [MAX 0 [MIN 4 7 9] [MAX 1 0 1]] 7] 9],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [MIN [SM [MIN 4 1 5] 6 [SM 7 7 1]] 2 [SM 6 [SM 9 3 3] [SM 4 4 5]]] [SM [SM [MIN 1 2 9] 4 [MIN 5 9 5]] [MAX 0 [MIN 4 7 9] [MAX 1 0 1]] 7] 9].
+
+A: Let's think step-by-step.","First, we solve inside the brackets:
+[MIN 4 1 5] = 1
+[SM 7 7 1] = 6 (15 mod 10)
+[MIN 1 2 9] = 1
+[MIN 5 9 5] = 5
+[MIN 4 7 9] = 4
+[MAX 1 0 1] = 1
+[SM 9 3 3] = 5 (15 mod 10)
+[SM 4 4 5] = 3 (13 mod 10)
+
+Substitute the simplified parts in the main calculation:
+[SM [MIN [SM 1] 6 [SM 6]] 2 [SM 6 5 3]] [SM [SM 1 4 5] [MAX 0 4 1] 7] 9.
+
+After further simplification, the expression becomes:
+[SM [MIN 1 6 6] 2 14] [SM [SM 1 4 5] [MAX 0 4 1] 7] 9 = [SM 1 2 14] [SM [SM 10] 4 7] 9 = [SM 1 2 4] [SM 0 4 7] 9 = [SM 7] [SM 11] 9 = 7 1 9.
+
+Finally, we can use the SM operator one more time:
+SM 7 1 9 = 17 mod 10 = 7. 
+
+So, the final answer is 7.",7,2
+64,listops,self_consistency,[SM 3 [MAX [SM [MAX 8 4 1] [MAX 6 2 4] 7] 8 [MAX [MAX 2 7 6] 4 [SM 3 7 2]]] [MIN 9 [MAX 6 [SM 4 8 2] [SM 0 6 0]] [MIN 5 [MIN 0 3 3] [MAX 9 9 7]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM 3 [MAX [SM [MAX 8 4 1] [MAX 6 2 4] 7] 8 [MAX [MAX 2 7 6] 4 [SM 3 7 2]]] [MIN 9 [MAX 6 [SM 4 8 2] [SM 0 6 0]] [MIN 5 [MIN 0 3 3] [MAX 9 9 7]]]].
+
+A: Let's think step-by-step.","First, let's solve the inner operations:
+- [MAX 8 4 1] -> 8
+- [MAX 6 2 4] -> 6
+- [MAX 2 7 6] -> 7
+- [SM 3 7 2] -> 2 (since 3+7+2 is 12, and sum modulo 10 is 2)
+
+And also:
+- [SM 4 8 2] -> 4 (since 4+8+2 is 14, and the sum modulo 10 is 4)
+- [SM 0 6 0] -> 6
+- [MIN 0 3 3] -> 0
+- [MAX 9 9 7] -> 9
+
+Then, the expression will look as follows:
+[SM 3 [MAX [SM 8 6 7] 8 [MAX 7 4 2]] [MIN 9 [MAX 6 4 6] [MIN 5 0 9]]]
+
+Next, we process [SM 8 6 7], which gets 1 (since 8+6+7 is 21 and the sum modulo 10 is 1). Now we have:
+[SM 3 [MAX 1 8 7] [MIN 9 [MAX 6 4 6] [MIN 5 0 9]]]
+
+Processing the more inner ones:
+- [MAX 1 8 7] -> 8
+- [MAX 6 4 6] -> 6
+- [MIN 5 0 9] -> 0
+
+Now:
+[SM 3 8 [MIN 9 6 0]]
+
+Solving [MIN 9 6 0] -> 0, the expression becomes [SM 3 8 0] -> 1 (as 3 + 8 + 0 =11, and 11 modulo 10 is 1).
+
+So, the solution to the problem is 1.",1,1
+65,listops,self_consistency,[MIN [MIN [SM [SM 8 1 6] 2 [MAX 8 0 4]] [SM 6 [MAX 9 2 1] [MAX 0 5 1]] 3] [MAX [SM [SM 9 3 5] [SM 0 5 9] 0] [MIN [MIN 1 4 3] [MIN 9 2 3] 1] 3] 6],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [MIN [SM [SM 8 1 6] 2 [MAX 8 0 4]] [SM 6 [MAX 9 2 1] [MAX 0 5 1]] 3] [MAX [SM [SM 9 3 5] [SM 0 5 9] 0] [MIN [MIN 1 4 3] [MIN 9 2 3] 1] 3] 6].
+
+A: Let's think step-by-step.","First, calculate the SM 8 1 6 operation which results in (8+1+6) modulo 10 = 15 modulo 10 = 5.
+Next, calculate the MAX 8 0 4 operation which results in the maximum among these three values, which is 8.
+
+Second, focus on the next set of operations inside the MIN operator. Let's start with SM 6 [MAX 9 2 1] [MAX 0 5 1].
+Calculate MAX 9 2 1 which results in the maximum among these three values, which is 9.
+Also, calculate MAX 0 5 1 which results in the maximum among these three, which is 5.
+So, our updated operation becomes SM 6 9 5 = (6+9+5) modulo 10 = 20 modulo 10 = 0.
+
+So, the fully evaluated inside operation of the first MIN operation is:
+MIN [SM 5 2 8] 0 3 = MIN 5 0 3. The minimum value among these three numbers is 0.
+
+Now, let's move on to the next part of the operation inside the second MIN operation and calculate:
+SM [SM 9 3 5] [SM 0 5 9] 0 = SM 7 4 0 = (7+4+0) modulo 10 = 11 modulo 10 = 1.
+Also, calculate the MIN operations: MIN [MIN 1 4 3] [MIN 9 2 3] 1 = MIN 1 2 1 = 1. 
+So, the fully evaluated inside operation of the second MIN operation is: MAX 1 1 3. Again, the maximum value here is 3.
+
+So our final operation is: MIN 0 3 6, where the smallest value is 0. Hence, 0 is the final result.
+
+So, [MIN [MIN [SM [SM 8 1 6] 2 [MAX 8 0 4]] [SM 6 [MAX 9 2 1] [MAX 0 5 1]] 3] [MAX [SM [SM 9 3 5] [SM 0 5 9] 0] [MIN [MIN 1 4 3] [MIN 9 2 3] 1] 3] 6] = 0.",0,0
+66,listops,self_consistency,[MAX 5 [SM [MAX [SM 1 1 1] 7 [MIN 3 6 4]] [MAX [MAX 4 3 4] [MAX 4 6 4] 6] 6] [MIN [MAX [SM 4 5 6] 7 [MIN 5 1 9]] 5 [MIN 1 [MAX 9 7 5] [SM 2 7 2]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX 5 [SM [MAX [SM 1 1 1] 7 [MIN 3 6 4]] [MAX [MAX 4 3 4] [MAX 4 6 4] 6] 6] [MIN [MAX [SM 4 5 6] 7 [MIN 5 1 9]] 5 [MIN 1 [MAX 9 7 5] [SM 2 7 2]]]].
+
+A: Let's think step-by-step.","Step 1:
+Working in the inner most brackets we'll find:
+[SM 1 1 1] = 3 (Since sum of 1+1+1 = 3)
+[MIN 3 6 4] = 3 (Since the minimum number among those is 3)
+[MAX 4 3 4] = 4 (Since the maximum number among those is 4)
+[MAX 4 6 4] = 6 (Since the maximum number among those is 6)
+[SM 4 5 6] = 5 (Since sum of 4+5+6 = 15, taken modulo 10 the result is 5)
+[MIN 5 1 9] = 1 (Since the minimum number among those is 1)
+[MIN 1 [MAX 9 7 5] [SM 2 7 2]] = 1 (Since the minimum number between 1, 9 (the maximum of 9,7,5) and 1 (the sum of 2+7+2 modulo 10) is 1)
+
+Step 2:
+The expression simplifies to 
+[MAX 5 [SM [MAX 3 7 3] [MAX 4 6 6] 6] [MIN [MAX 5 7 1] 5 1]] 
+
+Now let's work on the inner most brackets again:
+[MAX 3 7 3] = 7 (The maximum of 3,7,3)
+[MAX 4 6 6] = 6 (The maximum of 4,6,6)
+[MAX 5 7 1] = 7 (The maximum of 5,7,1)
+
+Step 3:
+The expression simplifies to 
+[MAX 5 [SM 7 6 6] [MIN 7 5 1]] 
+
+Again, working in the inner brackets:
+[SM 7 6 6] = 9 (Since sum of 7+6+6 = 19, taken modulo 10 the result is 9)
+[MIN 7 5 1] = 1 (Since the minimum number among those is 1)
+
+Step 4:
+The expression simplifies to 
+[MAX 5 9 1] 
+
+Working on the inner expression,
+[MAX 5 9 1] = 9 (Since the maximum number among those is 9)
+
+So, the final answer is 9.",9,9
+67,listops,self_consistency,[MIN [MIN [MAX 0 [MAX 0 7 5] [MIN 4 0 2]] [MAX 0 [SM 0 7 2] [MIN 0 2 6]] 8] [MAX 9 [MIN 6 [SM 8 9 0] [MIN 2 0 3]] [MIN [MAX 1 1 5] [MIN 8 8 6] 8]] 9],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [MIN [MAX 0 [MAX 0 7 5] [MIN 4 0 2]] [MAX 0 [SM 0 7 2] [MIN 0 2 6]] 8] [MAX 9 [MIN 6 [SM 8 9 0] [MIN 2 0 3]] [MIN [MAX 1 1 5] [MIN 8 8 6] 8]] 9].
+
+A: Let's think step-by-step.","MAX 0 7 5 = 7 because 7 is the maximum value.
+MIN 4 0 2 = 0 because 0 is the minimum value.
+MAX 0 7 (from above) 0 (from above) = 7 because 7 is the maximum value.
+
+SM 0 7 2 = 9 because 0 + 7 + 2 = 9 and then 9 mod 10 = 9.
+MIN 0 2 6 = 0 because 0 is the minimum value.
+MAX 0 9 (from above) 0 (from above) = 9 because 9 is the maximum value.
+
+MIN 7(from above) 9(from above) 8 = 7 because 7 is the minimum value.
+
+SM 8 9 0 = 17 and 17 mod 10 = 7.
+MIN 6 7(from above) 2 = 2 because 2 is the minimum value.
+MAX 1 1 5 = 5 because 5 is the maximum value.
+MIN 8 8 6 = 6 because 6 is the minimum value.
+MIN 5(from above) 6 (from above) 8 = 5 because 5 is the minimum value.
+
+MAX 9 2(from above) 5(from above) = 9 because 9 is the maximum value.
+
+Finally: MIN 7(from above) 9 (from above) 9 = 7.",7,7
+68,listops,self_consistency,[MIN [SM [MIN 3 [SM 7 5 0] [SM 3 7 8]] 2 [MAX [SM 6 9 2] [MIN 5 9 9] 5]] 2 [MIN 8 [SM [MIN 1 9 0] 3 [SM 2 4 7]] [SM 1 [SM 1 7 6] [MAX 2 0 0]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [SM [MIN 3 [SM 7 5 0] [SM 3 7 8]] 2 [MAX [SM 6 9 2] [MIN 5 9 9] 5]] 2 [MIN 8 [SM [MIN 1 9 0] 3 [SM 2 4 7]] [SM 1 [SM 1 7 6] [MAX 2 0 0]]]].
+
+A: Let's think step-by-step.","First we perform the SM operations:
+
+[MIN [SM 7 5 0] = [MIN 2] = 2
+
+[SM 3 7 8] = 8
+
+[SM 6 9 2] = 7
+
+[SM 1 9 0] = 0
+
+[SM 2 4 7] = 3
+
+[SM 1 7 6] = 4
+
+Then the expression becomes:
+
+[MIN [SM [MIN 3 2 8] 2 [MAX 7 [MIN 5 9 9] 5]] 2 [MIN 8 [SM [MIN 1 0] 3 3] [SM 1 4 [MAX 2 0 0]]]]
+
+Then we perform the MIN operations:
+
+[MIN 3 2 8] = 2
+
+[MIN 5 9 9] = 5
+
+[MIN 1 0] = 0
+
+[MIN 8 [SM [MIN 1 0] 3 3] [SM 1 4 [MAX 2 0 0]]]
+[MIN 8 [SM 0 3 3] [SM 1 4 [MAX 2 0 0]]]
+[MIN 8 6 [SM 1 4 [MAX 2 0 0]]]
+[MIN 8 6 [SM 1 4 2]]
+[MIN 8 6 7]
+[MIN 8 6 7] = 6
+
+Then the expression becomes:
+
+[MIN [SM 2 2 [MAX 7 5 5]] 2 6]
+
+Then we perform the MAX operation:
+
+[MAX 7 5 5] = 7
+
+Then the expression becomes:
+
+[MIN [SM 2 2 7] 2 6]
+
+Then we perform the last SM operation:
+
+[SM 2 2 7] = 1
+
+So the final expression becomes:
+
+[MIN 1 2 6]
+
+Finally, we perform the last MIN operation and get the answer:
+
+1.",1,1
+69,listops,self_consistency,[SM 6 [MAX [MIN 0 [MIN 1 8 9] [MIN 8 7 8]] 5 [MIN [SM 2 8 3] [MIN 3 4 3] 0]] [MAX [SM 9 [MAX 6 3 8] [SM 6 1 7]] 5 [SM [SM 2 2 9] [MIN 0 9 9] 3]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM 6 [MAX [MIN 0 [MIN 1 8 9] [MIN 8 7 8]] 5 [MIN [SM 2 8 3] [MIN 3 4 3] 0]] [MAX [SM 9 [MAX 6 3 8] [SM 6 1 7]] 5 [SM [SM 2 2 9] [MIN 0 9 9] 3]]].
+
+A: Let's think step-by-step.","First, simplify the innermost brackets:
+
+- [MIN 1 8 9] evaluates to 1
+- [MIN 8 7 8] evaluates to 7
+- [SM 2 8 3] evaluates to 13 mod 10 = 3
+- [MIN 3 4 3] evaluates to 3
+- [MAX 6 3 8] evaluates to 8
+- [SM 6 1 7] evaluates to 14 mod 10 = 4
+- [SM 2 2 9] evaluates to 13 mod 10 = 3
+- [MIN 0 9 9] evaluates to 0
+
+We can now simplify further to:
+
+[SM 6 [MAX [MIN 0 [MIN 1 7] [MIN 8 3 0]] 5 [MIN 3 0]] [MAX [SM 9 8 4] 5 [SM 3 0 3]]]
+
+Now, further simplification can be done:
+
+- [MIN 1 7] evaluates to 1
+- [MIN 8 3 0] evaluates to 0
+- [MAX [MIN 0 1 0] 5] = [MAX 0 5] = 5
+- [MIN 3 0] = 0
+- [SM 9 8 4] = 21 mod 10 = 1
+- [SM 3 0 3] = 6
+
+So, we have:
+
+[SM 6 5 0 [MAX 1 5 6]]
+
+We can now solve the remaining functions:
+
+- [MAX 1 5 6] = 6
+- Finally, [SM 6 5 0 6] = 17 mod 10 = 7
+
+So, the solution to the given expression is 7.",7,7
+70,listops,self_consistency,[MAX [SM 1 [MIN 2 [MIN 3 8 1] [MIN 9 1 3]] [MAX [SM 4 6 3] [SM 4 8 6] 7]] 9 [MAX 3 [SM 0 [MIN 4 4 0] [SM 8 9 8]] [MAX 9 [MIN 6 3 5] [MIN 4 1 9]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX [SM 1 [MIN 2 [MIN 3 8 1] [MIN 9 1 3]] [MAX [SM 4 6 3] [SM 4 8 6] 7]] 9 [MAX 3 [SM 0 [MIN 4 4 0] [SM 8 9 8]] [MAX 9 [MIN 6 3 5] [MIN 4 1 9]]]].
+
+A: Let's think step-by-step.","First, we need to solve all the minimum operations. For MIN, we pick the smallest number between all its arguments.
+
+[MIN 2 [MIN 3 8 1] [MIN 9 1 3]] -> [MIN 2 1 1] -> 1
+
+[MIN 4 4 0] -> 0
+
+[MIN 6 3 5] -> 3
+
+[MIN 4 1 9] -> 1
+
+Now, let's rewrite the expression:
+
+[MAX [SM 1 1] [MAX [SM 4 6 3] [SM 4 8 6] 7]] 9 [MAX 3 [SM 0 0] [MAX 9 3 1]]]
+
+Next, we do the sum operation. SM stands for sum modulo 10, so if the sum of its arguments is larger than 10, we divide it by 10 and take the remainder (this is equivalent to simply taking the last digit of the sum).
+
+[SM 1 1] -> 2
+
+[SM 4 6 3] -> 3 (as 13 mod 10 = 3)
+
+[SM 4 8 6] -> 8 (as 18 mod 10 = 8)
+
+[SM 0 0] -> 0
+
+Our expression becomes:
+
+[MAX 2 [MAX 3 8 7]] 9 [MAX 3 0 [MAX 9 3 1]]]
+
+Now, we do the maximum operation. MAX chooses the largest of its arguments.
+
+[MAX 2 [MAX 3 8 7]] -> [MAX 2 8] -> 8
+
+[MAX 3 0 [MAX 9 3 1]]] -> [MAX 3 0 9] -> 9
+
+Finally, we compute the maximum between the two remaining values:
+
+[MAX 8 9] -> 9
+
+Therefore, the value of the expression is 9.",9,9
+71,listops,self_consistency,[MIN [SM [MAX [MAX 0 8 3] 0 [MIN 4 0 8]] 0 [MIN 0 [MIN 6 4 4] [MAX 2 1 2]]] [SM [SM [MIN 0 6 2] 2 [MIN 2 6 6]] 8 [SM 9 [MAX 2 5 7] [SM 7 1 0]]] 9],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [SM [MAX [MAX 0 8 3] 0 [MIN 4 0 8]] 0 [MIN 0 [MIN 6 4 4] [MAX 2 1 2]]] [SM [SM [MIN 0 6 2] 2 [MIN 2 6 6]] 8 [SM 9 [MAX 2 5 7] [SM 7 1 0]]] 9].
+
+A: Let's think step-by-step.","First calculate the inner operations:
+
+MAX [MAX 0 8 3] 0 [MIN 4 0 8]
+In this, MAX 0 8 3 is 8, MIN 4 0 8 is 0. So, the new operation is:
+MAX 8 0 0, which equals to 8.
+
+Moving on to the next operations: 
+
+MIN 0 [MIN 6 4 4] [MAX 2 1 2]
+MIN 6 4 4 is 4, MAX 2 1 2 is 2, so the new operation is:
+MIN 0 4 2, so the result is 0.
+
+This gives us:
+
+SM 8 0 
+Using the sum modulo 10 operator, we get 8.
+
+Next:
+
+MIN [SM [MIN 0 6 2] 2 [MIN 2 6 6]] 8 [SM 9 [MAX 2 5 7] [SM 7 1 0]]
+Here, SM [MIN 0 6 2] 2 [MIN 2 6 6] can be separated as: 
+SM 0 2 2 = 4
+Then, SM 9 [MAX 2 5 7] [SM 7 1 0] can also be separated as: 
+SM 9 7 8 = 4
+
+This gives us new operation:
+
+MIN 4 8 4, that equals 4.
+
+So, the final operation is MIN 8 4 9, resulting in 4.
+
+Therefore, the result of the given expression is 4.",4,6
+72,listops,self_consistency,[SM [SM 6 [MAX [MAX 9 5 5] [MAX 8 8 0] 0] [SM [MIN 9 7 7] [SM 1 4 6] 9]] [SM 7 [MIN [MIN 6 8 0] [MAX 5 9 8] 6] [MIN [MIN 6 5 4] [SM 7 5 2] 7]] 1],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [SM 6 [MAX [MAX 9 5 5] [MAX 8 8 0] 0] [SM [MIN 9 7 7] [SM 1 4 6] 9]] [SM 7 [MIN [MIN 6 8 0] [MAX 5 9 8] 6] [MIN [MIN 6 5 4] [SM 7 5 2] 7]] 1].
+
+A: Let's think step-by-step.","First calculate the values in the deepest brackets:
+
+[SM [SM 6 [MAX 9 8 0] [SM 7 1 9]] [SM 7 [MIN 0 9 6] [MIN 4 4 7]] 1].
+
+Next, calculate the new deepest values:
+
+[SM [SM 6 9 1] [SM 7 0 4] 1 ].
+
+Calculate the new deepest values again:
+
+[SM 6 1 7 4 1].
+
+Finally, calculate the final result:
+
+SM 6 1 7 4 1 = 1 (because 6+1+7+4+1=19 and 19 modulo 10 = 1).",1,4
+73,listops,self_consistency,[MIN [MIN [SM [MAX 1 2 2] [MIN 9 2 9] 5] 3 [MAX [SM 5 2 3] [SM 6 9 8] 5]] 3 [MAX 1 [MAX [SM 8 8 0] 2 [SM 0 8 8]] [MIN 5 [SM 4 9 8] [MAX 5 5 7]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [MIN [SM [MAX 1 2 2] [MIN 9 2 9] 5] 3 [MAX [SM 5 2 3] [SM 6 9 8] 5]] 3 [MAX 1 [MAX [SM 8 8 0] 2 [SM 0 8 8]] [MIN 5 [SM 4 9 8] [MAX 5 5 7]]]].
+
+A: Let's think step-by-step.","First, consider the innermost brackets and perform the necessary calculations based on the operator present. 
+
+- [MAX 1 2 2] is 2
+- [MIN 9 2 9] is 2 
+- [SM 5 2 3] is (5+2+3)%10 = 0 
+- [SM 6 9 8] is (6+9+8)%10 = 3 
+- [SM 8 8 0] is (8+8+0)%10 = 6 
+- [SM 0 8 8] is (0+8+8)%10 = 6 
+- [SM 4 9 8] is (4+9+8)%10 = 1 
+
+After calculating the results of the operations in the innermost brackets, we substitute these results back into the expression to give us the new expression:
+
+[MIN [MIN [SM 2 2 5] 3 [MAX 0 3 5]] 3 [MAX 1 [MAX 6 2 6] [MIN 5 1 [MAX 5 5 7]]]]
+
+Next, perform the operations on the new expression: 
+
+- [SM 2 2 5] is (2+2+5)%10 = 9 
+- [MAX 0 3 5] is 5 
+- [MAX 6 2 6] is 6 
+- [MAX 5 5 7] is 7 
+
+Substitute again to get the new expression:
+
+[MIN [MIN 9 3 5] 3 [MAX 1 6 [MIN 5 1 7]]]
+
+Next operations:
+
+- [MIN 9 3 5] is 3 
+- [MIN 5 1 7] is 1 
+
+Substitute for a new expression:
+
+[MIN 3 3 [MAX 1 6 1]]
+
+Finally, the last operations are:
+
+- [MAX 1 6 1] is 6 
+
+Our final expression is:
+
+[MIN 3 3 6] which is 3. 
+
+So, the initial complex expression is equal to 3.",3,3
+74,listops,self_consistency,[SM 0 [SM [MIN [MIN 1 2 7] [MAX 6 3 2] 7] 0 [SM 4 [MIN 1 7 6] [SM 5 0 3]]] [MAX [SM 9 [MAX 2 4 2] [MAX 1 2 2]] [MAX 5 [SM 2 1 7] [MAX 7 5 2]] 0]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM 0 [SM [MIN [MIN 1 2 7] [MAX 6 3 2] 7] 0 [SM 4 [MIN 1 7 6] [SM 5 0 3]]] [MAX [SM 9 [MAX 2 4 2] [MAX 1 2 2]] [MAX 5 [SM 2 1 7] [MAX 7 5 2]] 0]].
+
+A: Let's think step-by-step.","First let's simplify the inner expressions using the MIN and MAX operators:
+
+- [MIN 1 2 7] gives 1
+- [MAX 6 3 2] gives 6
+- [MIN 1 7 6] gives 1
+- [SM 5 0 3] gives 8 (Because sum modulo 10 of 5, 0, and 3 is 8)
+- [MAX 2 4 2] gives 4
+- [MAX 1 2 2] gives 2
+- [SM 2 1 7] gives 0 (Because sum modulo 10 of 2, 1 and 7 is 0)
+- [MAX 7 5 2] gives 7
+
+Substitute these back in:
+
+[SM 0 [SM 1 6 7] 0 [SM 4 1 8]] [MAX [SM 9 4 2] [MAX 5 0 7] 0]].
+
+Next, operate the SM and MAX on these remaining expressions:
+
+- [SM 1 6 7] gives 4 (As the sum of 1, 6 and 7 is 14, so in modulo 10 it is 4)
+- [SM 4 1 8] gives 3 (As the sum of 4, 1 and 8 is 13, so in modulo 10 it is 3)
+- [SM 9 4 2] gives 5 (As the sum of 9, 4 and 2 is 15, so in modulo 10 it is 5)
+- [MAX 5 0 7] gives 7
+
+Substitute these back in:
+
+[SM 0 4 0 3] [MAX 5 7 0].
+
+Finally operate the SM and MAX operators on these expressions:
+
+- [SM 0 4 0 3] gives 7 (As the sum of 0, 4, 0 and 3 is 7)
+- [MAX 5 7 0] gives 7
+
+So the final answer is 7.",7,1
+75,listops,self_consistency,[SM 6 [MIN [MIN [SM 2 2 9] [MAX 5 5 9] 0] 6 [MIN 2 [MIN 2 4 0] [MIN 7 2 7]]] [MAX [MIN [MIN 0 6 2] [MAX 3 6 0] 5] 6 [MAX 6 [MAX 4 5 3] [SM 1 0 8]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM 6 [MIN [MIN [SM 2 2 9] [MAX 5 5 9] 0] 6 [MIN 2 [MIN 2 4 0] [MIN 7 2 7]]] [MAX [MIN [MIN 0 6 2] [MAX 3 6 0] 5] 6 [MAX 6 [MAX 4 5 3] [SM 1 0 8]]]].
+
+A: Let's think step-by-step.","Firstly, let's evaluate the innermost brackets:
+[SM 2 2 9] = (2+2+9)%10 = 3
+[MAX 5 5 9] = 9
+[MIN 2 4 0] = 0
+[MIN 7 2 7] = 2
+[MIN 0 6 2] = 0
+[MAX 3 6 0] = 6
+[MAX 4 5 3] = 5
+[SM 1 0 8] = 9
+
+Substitute those results back into the original expression:
+[SM 6 [MIN [MIN 3 9 0] 6 [MIN 2 0 2]]] [MAX [MIN [MIN 0 6 5] 6 [MAX 6 5 9]]]].
+Now we can operate the next innermost brackets:
+[MIN 3 9 0] = 0
+[MIN 2 0 2] = 0
+[MIN 0 6 5] = 0
+[MAX 6 5 9] = 9
+
+Substituting those results back:
+[SM 6 [MIN 0 6 0]] [MAX [MIN 0 6 9]].
+Now we operate the brackets again:
+[MIN 0 6 0] = 0
+[MIN 0 6 9] = 0
+
+Substituting back:
+[SM 6 0] [MAX 0].
+[SM 6 0] = 6
+[MAX 0] = 0
+
+Finally, the answer to the original expression becomes:
+[SM 6 0] = 6.",6,5
+76,listops,self_consistency,[MIN [SM [SM 3 [MAX 9 9 4] [MAX 4 7 8]] [MAX [MIN 7 1 5] 2 [MIN 4 1 2]] 6] [MIN [MIN [MIN 8 8 6] [SM 6 6 4] 8] 6 [MIN [MIN 5 6 9] 5 [MAX 0 4 1]]] 7],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [SM [SM 3 [MAX 9 9 4] [MAX 4 7 8]] [MAX [MIN 7 1 5] 2 [MIN 4 1 2]] 6] [MIN [MIN [MIN 8 8 6] [SM 6 6 4] 8] 6 [MIN [MIN 5 6 9] 5 [MAX 0 4 1]]] 7].
+
+A: Let's think step-by-step.","Firstly, let's solve the maximum and minimum values within the lists:
+
+[SM [SM 3 [MAX 9 9 4] [MAX 4 7 8]] [MAX [MIN 7 1 5] 2 [MIN 4 1 2]] 6] [MIN [MIN [MIN 8 8 6] [SM 6 6 4] 8] 6 [MIN [MIN 5 6 9] 5 [MAX 0 4 1]]] 7
+= [SM [SM 3 9 8] [MAX 1 2 1] 6] [MIN [MIN 6 6 8] 6 [MIN 5 5 4]] 7
+= [SM 20 2 6] [MIN 6 6 4] 7
+Since the sum operation is modulo 10, the sum of the digits results in the last digit of the sum:
+
+= [2 2 6] [4 7]
+Then, we solve for the minimum again:
+
+= [MIN 2 2 6] [MIN 4 7]
+= [2 4]
+So, the minimum value within these lists is 2. Therefore, the solution for the expression is 2.",2,4
+77,listops,self_consistency,[SM [SM 0 [MIN [SM 1 4 4] [MIN 8 0 3] 3] [SM [SM 1 9 2] 9 [MAX 0 9 3]]] 4 [MAX [MIN 8 [MAX 6 5 2] [MIN 6 7 1]] [MAX 7 [SM 2 5 9] [SM 4 1 9]] 5]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [SM 0 [MIN [SM 1 4 4] [MIN 8 0 3] 3] [SM [SM 1 9 2] 9 [MAX 0 9 3]]] 4 [MAX [MIN 8 [MAX 6 5 2] [MIN 6 7 1]] [MAX 7 [SM 2 5 9] [SM 4 1 9]] 5]].
+
+A: Let's think step-by-step.","First, simplify the values inside the brackets from inside out:
+
+- SM 1 4 4 = 9
+- MIN 8 0 3 = 0
+- So MIN [SM 1 4 4] [MIN 8 0 3] = MIN 9 0 = 0
+- So SM 0 0 3 = 3
+
+Next,
+
+- SM 1 9 2 = 2 (because the sum is 12 and we're doing it modulo 10)
+- MAX 0 9 3 = 9
+- So SM 2 9 = 1
+- So SM 3 1 = 4
+
+Now we have:
+
+SM [4] 4 [MAX [MIN 8 [MAX 6 5 2] [MIN 6 7 1]] [MAX 7 [SM 2 5 9] [SM 4 1 9]] 5].
+
+Continuing in the same way:
+
+- MAX 6 5 2 = 6
+- MIN 6 7 1 = 1
+- So MIN 8 6 1 = 1
+- SM 2 5 9 = 6
+- SM 4 1 9 = 4
+- So MAX 7 6 4 = 7
+- So MAX 1 7 5 = 7
+
+So Our final equation becomes SM [4] 4 [7] = SM 4 4 7 = 5 (because the sum is 15 and we're doing it modulo 10).
+
+So, the solution of the expression is 5.",5,1
+78,listops,self_consistency,[MIN 4 [SM 3 [SM 7 [MIN 1 9 2] [SM 4 6 8]] [MAX 7 [SM 5 8 4] [MIN 6 0 6]]] [MIN [MIN [MIN 5 5 1] 8 [SM 0 5 5]] [SM 9 [MAX 2 2 8] [SM 8 5 9]] 9]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN 4 [SM 3 [SM 7 [MIN 1 9 2] [SM 4 6 8]] [MAX 7 [SM 5 8 4] [MIN 6 0 6]]] [MIN [MIN [MIN 5 5 1] 8 [SM 0 5 5]] [SM 9 [MAX 2 2 8] [SM 8 5 9]] 9]].
+
+A: Let's think step-by-step.","Firstly, consider the most nested operations. We have [MIN 1 9 2], which takes the minimum value from the list, thus it outputs 1. Then, we have [SM 4 6 8], summing the numbers and applying modulo 10 results in 8. For [SM 5 8 4], we get 7, and [MIN 6 0 6] results in 0.
+The new intermediate expression is: 
+[MIN 4 [SM 3 [SM 7 1 8] [MAX 7 7 0]] [MIN [MIN [MIN 5 5 1] 8 [SM 0 5 5]] [SM 9 [MAX 2 2 8] [SM 8 5 9]] 9]].
+
+Next, let's continue evaluating the inside expressions: after summing 7, 1 and 8 and applying modulo 10 we get 6 for [SM 7 1 8]. The operation [MAX 7 7 0] will take the maximum value and produce 7. In parallel, [MIN 5 5 1] takes minimum and outputs 1, [SM 0 5 5] computes modulo 10 of the sum 0+5+5, yielding 0, then [MAX 2 2 8] chooses the maximum and returns 8, and [SM 8 5 9] gives a sum (modulo 10) of 2.
+So, the updated expression is:
+[MIN 4 [SM 3 6 7] [MIN [MIN 1 8 0] [SM 9 8 2] 9]].
+
+Continuing, [SM 3 6 7] computes the sum and applies modulo 10 resulting in 6. Similarly, [MIN 1 8 0] gives the minimum value 0, and [SM 9 8 2] gives the modulo 10 of their sum, 9.
+
+So we now have:
+[MIN 4 6 [MIN 0 9 9]].
+
+Here, [MIN 0 9 9] chooses the minimum, 0, yielding
+[MIN 4 6 0].
+
+Finally, the operation [MIN 4 6 0] chooses the minimum integer in the list [4,6,0], which is 0.
+
+So, the output of the entire operation is 0.",0,0
+79,listops,self_consistency,[MAX [SM 4 [SM [MIN 4 7 6] [MIN 6 1 0] 9] [MIN [SM 3 5 7] 0 [MAX 3 2 0]]] [SM 9 [MIN [MAX 8 8 7] 4 [MAX 9 9 2]] [MAX 8 [SM 7 1 2] [MAX 6 4 6]]] 5],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX [SM 4 [SM [MIN 4 7 6] [MIN 6 1 0] 9] [MIN [SM 3 5 7] 0 [MAX 3 2 0]]] [SM 9 [MIN [MAX 8 8 7] 4 [MAX 9 9 2]] [MAX 8 [SM 7 1 2] [MAX 6 4 6]]] 5].
+
+A: Let's think step-by-step.","First, we should solve the innermost brackets:
+- [MIN 4 7 6] equals 4.
+- [MIN 6 1 0] equals 0.
+- [SM 3 5 7] equals (3+5+7) mod 10 = 15 mod 10 = 5.
+- [MAX 3 2 0] equals 3.
+- [MAX 8 8 7] equals 8.
+- [MAX 9 9 2] equals 9.
+- [SM 7 1 2] equals (7+1+2) mod 10 = 10 mod 10 = 0.
+- [MAX 6 4 6] equals 6.
+
+Substituting these values into brackets we get: 
+
+[MAX [SM 4 [SM 4 0 9] [MIN 5 0 3]] [SM 9 [MIN 8 4 9] [MAX 8 0 6]]] 5.
+
+Performing SM and MIN and MAX operations in the second level of brackets results in:
+- [SM 4 0 9] equals (4+0+9) mod 10 = 13 mod 10 = 3.
+- [MIN 5 0 3] equals 0.
+- [MIN 8 4 9] equals 4.
+- [MAX 8 0 6] equals 8.
+
+Substituting these values back into original expression we get:
+
+[MAX [SM 4 3 0] [SM 9 4 8] 5].
+
+Performing SM operations in this final subexpression we get:
+- [SM 4 3 0] equals (4+3+0) mod 10 = 7.
+- [SM 9 4 8] equals (9+4+8) mod 10 = 21 mod 10 = 1.
+
+So the original expression simplifies to [MAX 7 1 5], which results in maximum of 7, 1 ,5. Which is 7. Hence the final result of the original expression is 7.",7,7
+80,listops,self_consistency,[SM [MAX 5 [MAX [MAX 2 3 4] [SM 6 8 7] 3] [SM [SM 5 9 9] [MAX 4 4 4] 3]] [MAX 5 [MIN 1 [MIN 9 1 4] [MIN 0 7 8]] [SM 0 [MAX 3 4 2] [MAX 5 2 0]]] 1],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [MAX 5 [MAX [MAX 2 3 4] [SM 6 8 7] 3] [SM [SM 5 9 9] [MAX 4 4 4] 3]] [MAX 5 [MIN 1 [MIN 9 1 4] [MIN 0 7 8]] [SM 0 [MAX 3 4 2] [MAX 5 2 0]]] 1].
+
+A: Let's think step-by-step.","First, let's simplify the parts of the expression in the innermost brackets.
+
+[SM [MAX 5 [MAX [MAX 2 3 4] [SM 6 8 7] 3] [SM [SM 5 9 9] [MAX 4 4 4] 3]] [MAX 5 [MIN 1 [MIN 9 1 4] [MIN 0 7 8]] [SM 0 [MAX 3 4 2] [MAX 5 2 0]]] 1]
+
+The MAX operation selects the maximum value from its inputs. 
+
+So, [MAX 2 3 4] = 4, [MAX 4 4 4] = 4, [MAX 3 4 2] = 4, [MAX 5 2 0] = 5.
+
+Also, 
+
+The MIN operation selects the minimum value from its inputs.
+
+So, [MIN 9 1 4] = 1, [MIN 0 7 8] = 0.
+
+Now the expression becomes:
+
+[SM [MAX 5 [MAX 4 [SM 6 8 7] 3] [SM [SM 5 9 9] 4 3]] [MAX 5 [MIN 1 1 [MIN 0 7 8]] [SM 0 4 5]] 1]
+
+Next, 
+
+The SM operation calculates the sum of its inputs modulo 10. 
+
+So, [SM 6 8 7] = (6+8+7) % 10 = 1, 
+
+[SM 5 9 9] = (5+9+9) % 10 = 3,
+
+[SM 0 4 5] = (0+4+5) % 10 = 9.
+
+Now our expression is:
+
+[SM [MAX 5 [MAX 4 1 3] [SM 3 4 3]] [MAX 5 [MIN 1 1 0] 9] 1]
+
+Further simplify, 
+
+[MAX 4 1 3] = 4, [MIN 1 1 0] = 0.
+
+[SM [MAX 5 4 [SM 3 4 3]] [MAX 5 0 9] 1]
+
+Next,
+
+[SM 3 4 3] = (3+4+3) % 10 = 0.
+
+[SM [MAX 5 4 0] [MAX 5 0 9] 1]
+
+Further simplify,
+
+[MAX 5 4 0] = 5, [MAX 5 0 9] = 9.
+
+So, [SM 5 9 1] = (5+9+1) %10 = 5.
+
+Hence, the result of the given expression is 5.",5,5
+81,listops,self_consistency,[SM 9 [MAX [SM 1 [MIN 0 3 7] [MIN 1 5 7]] [MIN [MIN 2 4 3] 0 [SM 5 5 9]] 1] [SM 1 [MIN [MAX 2 9 2] 6 [MAX 5 7 0]] [MIN [MIN 9 9 1] [MIN 6 7 3] 6]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM 9 [MAX [SM 1 [MIN 0 3 7] [MIN 1 5 7]] [MIN [MIN 2 4 3] 0 [SM 5 5 9]] 1] [SM 1 [MIN [MAX 2 9 2] 6 [MAX 5 7 0]] [MIN [MIN 9 9 1] [MIN 6 7 3] 6]]].
+
+A: Let's think step-by-step.","Firstly, we can solve all the MIN, MAX and SM operations in the expression shown by brackets and parenthesis. 
+
+MIN 0 3 7 gives 0.
+MIN 1 5 7 gives 1.
+MIN 2 4 3 gives 2.
+SM 5 5 9 gives 9 (i.e., 19 % 10).
+MAX 2 9 2 gives 9.
+MIN 9 9 1 gives 1.
+MIN 6 7 3 gives 3.
+
+So, the expression becomes: 
+
+[SM 9 [MAX [SM 1 0 1] [MIN 2 0 9] 1] [SM 1 [MIN 9 6 7] [MIN 1 3 6]]]
+
+Next, evaluate again:
+
+SM 1 0 1 is 2.
+MIN 2 0 9 is 0.
+MIN 9 6 7 gives 6.
+MIN 1 3 6 gives 1.
+
+So, it becomes:
+
+[SM 9 [MAX 2 0 1] [SM 1 6 1]]
+
+Evaluate again:
+
+MAX 2 0 1 is 2.
+SM 1 6 1 is 8.
+
+Finally, we evaluate SM 9 2 8, we get 9.
+
+So, the result of the initial expression is 9.",9,9
+82,listops,self_consistency,[MAX [SM [MAX [MAX 9 2 4] [SM 4 0 0] 9] [MAX [MAX 6 4 1] [SM 3 8 8] 3] 3] 9 [SM [MAX 6 [SM 4 3 4] [MIN 9 6 9]] 0 [SM 8 [SM 0 3 0] [MAX 1 9 5]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX [SM [MAX [MAX 9 2 4] [SM 4 0 0] 9] [MAX [MAX 6 4 1] [SM 3 8 8] 3] 3] 9 [SM [MAX 6 [SM 4 3 4] [MIN 9 6 9]] 0 [SM 8 [SM 0 3 0] [MAX 1 9 5]]]].
+
+A: Let's think step-by-step.","First, solve the innermost operation:
+- MAX [MAX 9 2 4], this equals to 9 (as 9 is the maximum number).
+- SM [4 0 0], this equals to 4 (as the sum of 4, 0 and 0 is 4).
+- MAX [MAX 6 4 1], this equals to 6 (as 6 is the maximum number).
+- SM [3 8 8], this equals to 9 (as the sum of 3, 8 and 8 is 19, and 19 modulo 10 equals to 9).
+- SM [4 3 4], this equals to 1 (as the sum of 4, 3 and 4 is 11, and 11 modulo 10 equals to 1).
+- MIN [9 6 9], this equals to 6 (as 6 is the minimum number).
+- SM [0 3 0], this equals to 3 (as the sum of 0, 3 and 0 is 3).
+
+Put back the results in the main formula:
+MAX [SM [MAX 9 4 9] [MAX 6 9 3] 3] 9 [SM [MAX 6 1 6] 0 [SM 8 3 [MAX 1 9 5]]]
+
+Further solve the remaining simple operations:
+- SM [MAX 9 4 9], equals to 9 (as 9 is the max number, and the sum of a single number is the number itself).
+- MAX [6 9 3], equals to 9 (as 9 is the maximum number).
+- MAX [6 1 6], equals to 6 (as 6 is the maximum number).
+- MAX [1 9 5], equals to 9 (as 9 is the maximum number).
+
+Put back the results in the main formula:
+MAX [SM 9 9 3] 9 [SM 6 0 [SM 8 3 9]]
+
+Solve the remaining SM operation:
+- SM [9 9 3], equals to 1 (as the sum of 9, 9 and 3 is 21, and 21 modulo 10 equals to 1).
+- SM [8 3 9], equals to 0 (as the sum of 8, 3 and 9 is 20, and 20 modulo 10 equals to 0).
+
+Put back the results in the main formula:
+MAX 1 9 6 [SM 0 0] 
+
+Further solve the remaining SM operation:
+- SM [0 0], equals to 0 (as the sum of 0 and 0 is 0).
+
+Put back the results in the main formula:
+MAX 1 9 6 0
+
+Finally, find the maximum:
+- MAX [1 9 6 0], equals to 9 (as 9 is the maximum number).
+
+Therefore, the result of the expression is 9.",9,9
+83,listops,self_consistency,[MIN [SM [SM [MAX 1 8 1] [MAX 5 1 6] 0] [MAX [MAX 6 4 5] [MIN 2 1 5] 3] 5] [MIN [SM [MIN 1 7 9] 0 [SM 3 5 0]] [MIN [MIN 2 8 1] [SM 4 1 0] 4] 6] 2],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [SM [SM [MAX 1 8 1] [MAX 5 1 6] 0] [MAX [MAX 6 4 5] [MIN 2 1 5] 3] 5] [MIN [SM [MIN 1 7 9] 0 [SM 3 5 0]] [MIN [MIN 2 8 1] [SM 4 1 0] 4] 6] 2].
+
+A: Let's think step-by-step.","First, solve for the MAX and MIN functions.
+
+The first MAX will give 8 because it is the maximum out of 1, 8 and 1. The second MAX will give 6 because it is the maximum out of 5, 1 and 6. The third MAX will give 6 because it is the maximum out of 6, 4 and 5. The first MIN will give 1 because it is the minimum out of 2, 1 and 5.
+
+The fourth MAX, first SM, second SM, second MIN, third MIN, fourth MIN, fifth MIN are nested so we will calculate them after plugging in the values of the previously calculated functions.
+
+Now the expression becomes:
+[MIN [SM [SM 8 6 0] [MAX 6 1 3] 5] [MIN [SM [MIN 1 7 9] 0 [SM 3 5 0]] [MIN 1 [SM 4 1 0] 4] 6] 2].
+
+We'll now solve for the nested MIN. It will yield 1 since it is the minimum out of 1, 7, 9, 0, 3 and 5.
+Also, the nested SM will give 8 because it is the sum of 3, 5 and 0 modulo 10.
+
+Substituting these, we get:
+[MIN [SM [SM 8 6 0] [MAX 6 1 3] 5] [MIN [SM 1 0 8] [MIN 1 [SM 4 1 0] 4] 6] 2].
+
+NEXT, solve for the nested SM. It will yield 9 since it is the sum of 4, 1, 0 modulo 10.
+Also, solve for the nested MIN and MAX. The nested MIN will yield 1 since it is the minimum out of 1, 9 and 4. The nested MAX will give 6 since it is the maximum out of 6, 1 and 3.
+
+Now we get:
+[MIN [SM [SM 8 6 0] 6 5] [MIN [SM 1 0 8] 1 6] 2].
+
+Simplify the nested SM. The first will yield 4 since it is the sum of 8, 6 and 0 modulo 10. The second will yield 9 since it is the sum of 1, 0 and 8 modulo 10.
+[MIN [SM 4 6 5] [MIN 9 1 6] 2].
+
+The first SM, and the second MIN are the final nested operations. Solving these next, the first SM gives 5 (4 + 6 + 5 modulo 10), and the second MIN gives 1 (the lowest of 9, 1, and 6). Giving us:
+[MIN 5 1 2].
+
+Finally, calculate the last MIN operation. It will give 1 because it is the minimum out of 5, 1 and 2.
+
+So, the original expression evaluates to 1.",1,1
+84,listops,self_consistency,[MIN [MAX [SM [MAX 4 6 0] 4 [MAX 9 4 9]] 0 [MAX [MIN 2 8 8] [SM 5 2 8] 6]] 1 [SM [MAX [MIN 2 4 0] [SM 9 4 4] 8] [MAX [MAX 7 5 8] [MAX 1 9 7] 9] 3]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [MAX [SM [MAX 4 6 0] 4 [MAX 9 4 9]] 0 [MAX [MIN 2 8 8] [SM 5 2 8] 6]] 1 [SM [MAX [MIN 2 4 0] [SM 9 4 4] 8] [MAX [MAX 7 5 8] [MAX 1 9 7] 9] 3]].
+
+A: Let's think step-by-step.","First let's calculate the values of innermost expressions which do not contain any other operators:
+- MAX 4 6 0 equals to 6, because 6 is the maximum value among 4, 6 and 0.
+- MAX 9 4 9 equals to 9, because 9 is the maximum value among 9, 4 and 9.
+- MIN 2 8 8 equals to 2, because 2 is the minimum value among 2, 8 and 8.
+- SM 5 2 8 equals to (5+2+8) modulo 10 equals to 15 modulo 10 equals to 5.
+- MIN 2 4 0 equals to 0, because 0 is the minimum value among 2, 4 and 0.
+- SM 9 4 4 equals to (9+4+4) modulo 10 equals to 17 modulo 10 equals to 7.
+- MAX 7 5 8 equals to 8, because 8 is the maximum value among 7, 5 and 8.
+- MAX 1 9 7 equals to 9, because 9 is the maximum value among 1, 9 and 7.
+
+Now, let's substitute these values back into the expression and simplify it further:
+[MIN [MAX [SM 6 4 9] 0 [MAX 2 5 6]] 1 [SM [MAX 0 7 8] [MAX 8 9 9] 3]] equals to
+[MIN [MAX [SM 6 4 9] 0 6] 1 [SM [MAX 0 7 8] 9 3]].
+
+Let's calculate the remaining values:
+- SM 6 4 9 equals to (6+4+9) modulo 10 equals to 19 modulo 10 equals to 9.
+- MAX 0 7 8 equals to 8, because 8 is the maximum value among 0, 7 and 8.
+- SM [MAX 0 7 8] 9 3 equals to SM 8 9 3 equals to (8+9+3) modulo 10 equals to 20 modulo 10 equals to 0.
+
+Substitute these values back into the expression:
+[MIN [MAX 9 0 6] 1 0] equals to
+[MIN [MAX 9 0 6] 1 0].
+
+Now, let's calculate the remaining values:
+- MAX 9 0 6 equals to 9, because 9 is the maximum value among 9, 0 and 6.
+
+Substitute this value back into the expression: [MIN 9 1 0]
+
+Finally, MIN 9 1 0 equals to 0, because 0 is the minimum value among 9, 1 and 0.
+
+So, the result of the given expression is 0.",0,0
+85,listops,self_consistency,[MIN 4 [MIN [SM [MAX 2 2 9] [SM 2 0 2] 2] [MAX [SM 6 7 9] 9 [SM 6 7 7]] 5] [MAX [SM 0 [MIN 9 2 5] [SM 0 8 7]] [SM 4 [MAX 1 4 9] [MAX 1 1 2]] 2]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN 4 [MIN [SM [MAX 2 2 9] [SM 2 0 2] 2] [MAX [SM 6 7 9] 9 [SM 6 7 7]] 5] [MAX [SM 0 [MIN 9 2 5] [SM 0 8 7]] [SM 4 [MAX 1 4 9] [MAX 1 1 2]] 2]].
+
+A: Let's think step-by-step.","First of all, let's calculate each inner elements:
+
+[SM [MAX 2 2 9] [SM 2 0 2] 2] = [SM 9 4 2] = 15 mod 10 = 5
+
+[MAX [SM 6 7 9] 9 [SM 6 7 7]] = [MAX 2 9 0] = 9
+
+[SM 0 [MIN 9 2 5] [SM 0 8 7]] = [SM 0 2 5] = 7
+
+[SM 4 [MAX 1 4 9] [MAX 1 1 2]] = [SM 4 9 2] = 15 mod 10 = 5
+
+Now, the equation simplifies to:
+
+[MIN 4 [MIN 5 9] 5] = [MIN 4 5 5] = 4
+
+Therefore, the answer will be 4.",4,4
+86,listops,self_consistency,[MIN [MAX [MAX [MAX 5 6 1] [MAX 9 4 7] 2] [MAX 0 [SM 9 8 3] [MIN 5 5 5]] 5] 9 [SM [SM 0 [MIN 3 0 1] [MAX 8 7 5]] [SM [MIN 6 1 6] [SM 9 9 8] 7] 5]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [MAX [MAX [MAX 5 6 1] [MAX 9 4 7] 2] [MAX 0 [SM 9 8 3] [MIN 5 5 5]] 5] 9 [SM [SM 0 [MIN 3 0 1] [MAX 8 7 5]] [SM [MIN 6 1 6] [SM 9 9 8] 7] 5]].
+
+A: Let's think step-by-step.","First, evaluate the innermost listings:
+[MIN [MAX [MAX 6] [MAX 9] 2] [MAX 0 [SM 0] [MIN 5]] 5] 9 [SM [SM 0 [MIN 0] [MAX 8]] [SM [MIN 1] [SM 6] 7] 5]].
+
+Next, continue to simplify:
+[MIN [MAX 9 2] [MAX 0 5] 5] 9 [SM [SM 0 0 8] [SM 1 6 7] 5].
+
+After that, continue to simplify even more:
+[MIN 9 5 5] 9 [SM 8 [SM 1 6 7] 5].
+
+Finally, keep simplifying until you find the answer:
+5 9 [SM 8 4 5].
+
+So the answer is:
+5 9 7.
+
+We have arrived at a listing consisting only of numbers, so the value of the expression is 9 since it's the maximum number within the listing.",9,7
+87,listops,self_consistency,[SM [MAX [SM [MAX 8 7 2] [MIN 0 8 9] 4] 0 [SM 2 [SM 5 3 2] [MIN 1 2 9]]] [SM 6 [SM 0 [MAX 8 6 9] [MIN 5 0 1]] [MAX [MAX 9 3 2] 5 [MIN 1 4 1]]] 2],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[SM [MAX [SM [MAX 8 7 2] [MIN 0 8 9] 4] 0 [SM 2 [SM 5 3 2] [MIN 1 2 9]]] [SM 6 [SM 0 [MAX 8 6 9] [MIN 5 0 1]] [MAX [MAX 9 3 2] 5 [MIN 1 4 1]]] 2].
+
+A: Let's think step-by-step.","First, we need to solve all expressions inside the innermost brackets.
+
+[SM [MAX [SM [MAX 8 7 2] [MIN 0 8 9] 4] 0 [SM 2 [SM 5 3 2] [MIN 1 2 9]]] [SM 6 [SM 0 [MAX 8 6 9] [MIN 5 0 1]] [MAX [MAX 9 3 2] 5 [MIN 1 4 1]]] 2]
+
+= [SM [MAX [SM 8 0 4] 0 [SM 2 0 1]] [SM 6 [SM 0 9 0] [MAX 9 5 1]] 2]
+
+Next, solve the expressions in the remaining brackets.
+
+= [SM [MAX 2 0 3] [SM 6 9 5] 2]
+
+= [SM 3 [SM 0 5] 2]
+
+= SM [3 5 2]
+
+The result of SM operator is the sum of the numbers modulo 10.
+
+= 0 
+
+Finally, we get 0 as the result of the expression.",0,9
+88,listops,self_consistency,[MAX [SM [SM [MAX 7 1 1] [MAX 4 6 3] 4] 8 [SM [MIN 2 4 8] [SM 9 5 8] 5]] 5 [MIN 7 [SM [SM 3 4 7] 1 [SM 2 7 8]] [MIN [MAX 6 2 5] [MIN 8 6 7] 4]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX [SM [SM [MAX 7 1 1] [MAX 4 6 3] 4] 8 [SM [MIN 2 4 8] [SM 9 5 8] 5]] 5 [MIN 7 [SM [SM 3 4 7] 1 [SM 2 7 8]] [MIN [MAX 6 2 5] [MIN 8 6 7] 4]]].
+
+A: Let's think step-by-step.","First we calculate the innermost operations:
+
+MAX 7 1 1 = 7
+MAX 4 6 3 = 6
+MIN 2 4 8 = 2
+SM 9 5 8 = 2 (since 9 + 5 + 8 = 22 and 22 modulo 10 is 2)
+SM 3 4 7 = 4 (since 3 + 4 + 7 = 14 and 14 modulo 10 is 4)
+SM 2 7 8 = 7 (since 2 + 7 + 8 = 17 and 17 modulo 10 is 7)
+MAX 6 2 5 = 6
+MIN 8 6 7 = 6
+
+Substitute these results back into the expression:
+
+[MAX [SM [SM 7 6 4] 8 [SM 2 2 5]] 5 [MIN 7 [SM 4 1 7] 6]].
+
+Now we perform the operation for the innermost SM operators:
+
+SM 7 6 4 = 7 (since 7 + 6 + 4 = 17 and 17 modulo 10 is 7)
+SM 2 2 5 = 9 (since 2 + 2 + 5 = 9 and 9 modulo 10 is 9)
+SM 4 1 7 = 2 (since 4 + 1 + 7 = 12 and 12 modulo 10 is 2)
+
+Now substitute these results into the expression:
+
+[MAX 7 8 9 5 [MIN 7 2 6]].
+
+Now we can calculate the innermost MIN operator:
+
+MIN 7 2 6 = 2
+
+Substitute this back into the expression:
+
+[MAX 7 8 9 5 2].
+
+Finally, calculate the MAX operator to get the result:
+
+MAX 7 8 9 5 2 = 9.",9,5
+89,listops,self_consistency,[MIN [MAX 3 [MAX 6 [SM 6 0 4] [SM 2 3 7]] [SM 1 [MIN 5 4 5] [MAX 0 2 0]]] [MIN [MIN 0 [MIN 6 4 0] [MIN 4 7 7]] 4 [MIN 4 [MIN 1 1 6] [MIN 9 2 1]]] 2],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [MAX 3 [MAX 6 [SM 6 0 4] [SM 2 3 7]] [SM 1 [MIN 5 4 5] [MAX 0 2 0]]] [MIN [MIN 0 [MIN 6 4 0] [MIN 4 7 7]] 4 [MIN 4 [MIN 1 1 6] [MIN 9 2 1]]] 2].
+
+A: Let's think step-by-step.","First, we need to solve the innermost brackets with our operators.
+
+Our inner brackets and their solutions are:
+[SM 6 0 4] = (6+0+4) mod 10 = 10 mod 10 = 0
+[SM 2 3 7] = (2+3+7) mod 10 = 12 mod 10 = 2
+[MAX 6 0 2] = 6, since 6 is the maximum number in this list
+[MIN 5 4 5] = 4, since 4 is the minimum number in this list
+[SM 1 4 6] = (1+4+6) mod 10 = 11 mod 10 = 1
+[MIN 6 4 0] = 0, since 0 is the minimum number in this list
+[MIN 4 7 7] = 4, since 4 is the minimum number in this list
+[MIN 1 1 6] = 1, since 1 is the minimum number in this list
+[MIN 9 2 1] = 1, since 1 is the minimum number in this list
+
+Substitute these back into the original expression, we get: 
+[MIN [MAX 3 6 1] [MIN 0 4 4] [MIN 4 1 1] 2]
+
+Now we solve the new inner brackets:
+[MAX 3 6 1] = 6, since 6 is the maximum value in this list
+[MIN 0 4 4] = 0, since 0 is the minimum value in this list
+[MIN 4 1 1] = 1, since 1 is the minimum value in this list
+
+Substitute these back into the expression, we get:
+[MIN 6 0 1 2]
+
+Finally, applying the MIN operation for this list:
+MIN 6 0 1 2 = 0, since 0 is the minimum value in this list.
+
+So, the value of the whole given expression is 0.",0,0
+90,listops,self_consistency,[MAX [MIN 2 [MAX [MAX 3 3 3] [MAX 1 2 3] 0] [MAX [MAX 1 6 5] 3 [SM 5 0 6]]] [MIN [MAX [MAX 8 1 0] 0 [MIN 7 9 0]] [SM [MIN 3 1 7] [MAX 4 5 9] 0] 1] 5],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX [MIN 2 [MAX [MAX 3 3 3] [MAX 1 2 3] 0] [MAX [MAX 1 6 5] 3 [SM 5 0 6]]] [MIN [MAX [MAX 8 1 0] 0 [MIN 7 9 0]] [SM [MIN 3 1 7] [MAX 4 5 9] 0] 1] 5].
+
+A: Let's think step-by-step.","First, we'll solve the sub-expressions within the main expression:
+
+For [MAX 3 3 3], the maximum value is 3.
+
+For [MAX 1 2 3], the maximum value is 3.
+
+For [SM 5 0 6], the sum modulo 10 is (5+0+6) mod 10 = 11 mod 10 = 1.
+
+For [MAX 1 6 5], the maximum value is 6.
+
+Next, we'll incorporate the solved sub-expressions into their respective parent expressions:
+
+For [MIN 2 [MAX 3 3] 0], the minimum value is 0.
+
+For [MAX 6 3 1], the maximum value is 6.
+
+In [MAX 8 1 0], the maximum value is 8.
+
+For [MIN 7 9 0], the minimum value is 0.
+
+For [MIN 3 1 7], the minimum value is 1.
+
+And [MAX 4 5 9] is 9
+
+Also, [SM 1 9 0] gives (1 + 9 + 0) mod 10 = 10 mod 10 = 0.
+
+Implementing the above results into their respective parent expressions:
+
+[MIN 8 0] will lead to a minimum value of 0.
+
+[SM 1 9 0], the sum modulo 10 equals (1+9+0) mod 10 = 10 mod 10 = 0.
+
+For [MAX 0 6], the maximum value is 6.
+
+So, the revised main expression becomes: 
+
+[MAX 6 [MIN 0 0 1] 5].
+
+Continuing to solve for parent expressions will yield
+
+For [MIN 0 0 1], the minimum value is 0.
+
+Finally, the solution to the main expression [MAX 6 0 5] is 6.",6,5
+91,listops,self_consistency,[MIN [MAX 2 [MIN [SM 0 7 5] [MIN 6 2 2] 0] [MAX [MAX 5 1 3] [MAX 4 3 7] 2]] [MAX 9 [SM [MIN 2 0 3] [MIN 8 0 0] 0] [MAX [MAX 3 7 4] [MIN 6 1 9] 3]] 4],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [MAX 2 [MIN [SM 0 7 5] [MIN 6 2 2] 0] [MAX [MAX 5 1 3] [MAX 4 3 7] 2]] [MAX 9 [SM [MIN 2 0 3] [MIN 8 0 0] 0] [MAX [MAX 3 7 4] [MIN 6 1 9] 3]] 4].
+
+A: Let's think step-by-step.","First, evaluate the innermost brackets: 
+
+[SM 0 7 5] = 0 + 7 + 5 = 12 mod 10 = 2
+[MIN 6 2 2] = 2
+[MAX 5 1 3] = 5
+[MAX 4 3 7] = 7
+[MIN 2 0 3] = 0
+[MIN 8 0 0] = 0
+[MAX 3 7 4] = 7
+[MIN 6 1 9] = 1
+
+Then the expression becomes: 
+
+MIN [MAX 2 [MIN 2 0] [MAX 5 7 2]] [MAX 9 [SM 0 0 0] [MAX 7 1 3]] 4
+
+Simplify further:
+
+[MAX 2 [MIN 2 0]] = MAX 2 0 = 2
+[MAX 5 7 2] = 7
+[SM 0 0 0] = 0
+[MAX 7 1 3] = 7
+
+The expression now is:
+
+MIN [MAX 2 2 7] [MAX 9 0 7] 4
+
+MAX 2 2 7 = 7
+MAX 9 0 7 = 9
+
+Next step:
+
+MIN 7 9 4
+
+Finally, the answer is 4 because it is the smallest value.",4,4
+92,listops,self_consistency,[MIN [MAX [MAX [MAX 3 7 2] 4 [MIN 7 9 3]] 5 [MIN [MIN 6 4 6] [MIN 8 1 7] 5]] 9 [MIN [MIN [SM 7 2 6] 3 [MIN 4 7 4]] 6 [MAX [MIN 4 6 3] 9 [SM 9 4 0]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [MAX [MAX [MAX 3 7 2] 4 [MIN 7 9 3]] 5 [MIN [MIN 6 4 6] [MIN 8 1 7] 5]] 9 [MIN [MIN [SM 7 2 6] 3 [MIN 4 7 4]] 6 [MAX [MIN 4 6 3] 9 [SM 9 4 0]]]].
+
+A: Let's think step-by-step.","Firstly let's find out the solutions for the deepest nested expressions:
+[SM 7 2 6] is (7+2+6) mod 10 = 15 mod 10 = 5
+[MAX 3 7 2] is maximum of 3,7,2 = 7
+[MIN 7 9 3] is minimum of 7,9,3 = 3
+[MIN 6 4 6] is minimum of 6,4,6 = 4
+[MIN 8 1 7] is minimum of 8,1,7 = 1
+[MIN 4 7 4] is minimum of 4,7,4 = 4
+[MIN 4 6 3] is minimum of 4,6,3 = 3
+[SM 9 4 0] is (9+4+0) mod 10 = 13 mod 10 = 3
+
+Replace these calculated values in the equation:
+[MIN [MAX [MAX 7 4 3] 5 [MIN 4 1 5]] 9 [MIN [MIN 5 3 4] 6 [MAX 3 9 3]]]
+
+Next step, calculate the second deepest expressions:
+
+[MAX 7 4 3] is maximum of 7,4,3 = 7
+[MIN 4 1 5] is minimum of 4,1,5 = 1
+[MIN 5 3 4] is minimum of 5,3,4 = 3
+[MAX 3 9 3] is maximum of 3,9,3 = 9
+
+Replace these calculated values in the equation:
+[MIN [MAX 7 5 1] 9 [MIN 3 6 9]]
+
+Calculate these expressions:
+
+[MAX 7 5 1] is maximum of 7,5,1 = 7
+[MIN 3 6 9] is minimum of 3,6,9 = 3
+
+Finally, 
+[MIN 7 9 3] is minimum of 7,9,3 = 3.",3,3
+93,listops,self_consistency,[MIN [SM 1 [MAX [SM 2 3 3] [SM 9 8 1] 5] [MIN [MAX 9 0 3] [SM 8 2 5] 2]] 3 [MIN [MAX 4 [SM 7 1 6] [MAX 3 5 1]] [SM [MIN 3 4 0] [MIN 7 4 8] 6] 7]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [SM 1 [MAX [SM 2 3 3] [SM 9 8 1] 5] [MIN [MAX 9 0 3] [SM 8 2 5] 2]] 3 [MIN [MAX 4 [SM 7 1 6] [MAX 3 5 1]] [SM [MIN 3 4 0] [MIN 7 4 8] 6] 7]].
+
+A: Let's think step-by-step.","1. Determine the summation operation modulo 10. 
+   [SM 2 3 3] = (2+3+3)%10 = 8 
+   [SM 9 8 1] = (9+8+1)%10 = 8 
+   [SM 8 2 5] = (8+2+5)%10 = 5 
+   [SM 7 1 6] = (7+1+6)%10 = 4 
+   [MIN 3 4 0] = 0, [MIN 7 4 8] = 4, then [SM 0 4 6] = 10%10 = 0  
+
+2. Determine maximum of presented lists.
+   [MAX 8 8 5] = 8
+   [MAX 9 0 3] = 9
+   [MAX 4 4 5] = 5
+
+3. Determine the minimum.
+   [MIN 8 5 2] = 2
+   [MIN 8 9] = 8
+   [MIN 8 2] = 2
+   [MIN 5 0 7] = 0
+
+4. Insert the found values back to the original expression:
+   [MIN 1 2 3] = 1
+   [MIN 2 0] = 0
+Final result is the lowest among the results of the two minimum operations: MIN(1, 0) = 0. So, the solution to the expression is 0.",0,0
+94,listops,self_consistency,[MAX [MAX 5 [MAX [MAX 8 9 3] 7 [MAX 2 8 2]] [SM [SM 9 9 4] [MAX 6 5 5] 5]] 0 [SM [SM [SM 3 1 4] 1 [SM 8 1 9]] 2 [SM [SM 6 1 5] 4 [SM 6 9 7]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX [MAX 5 [MAX [MAX 8 9 3] 7 [MAX 2 8 2]] [SM [SM 9 9 4] [MAX 6 5 5] 5]] 0 [SM [SM [SM 3 1 4] 1 [SM 8 1 9]] 2 [SM [SM 6 1 5] 4 [SM 6 9 7]]]].
+
+A: Let's think step-by-step.","First, resolve the innermost brackets:
+
+[SM 9 9 4] becomes 2 (since 9+9+4=22 and 22 modulo 10 is 2),
+[MAX 8 9 3] becomes 9 (since 9 is the biggest number),
+[SM 8 1 9] becomes 8 (since 8+1+9=18 and 18 modulo 10 is 8),
+[SM 6 1 5] becomes 2 (since 6+1+5=12 and 12 modulo 10 is 2),
+[SM 6 9 7] becomes 2 (since 6+9+7=22 and 22 modulo 10 is 2).
+
+Now, we have the slightly simpler expression: 
+[MAX [MAX 5 [MAX 9 7 [MAX 2 8 2]] [SM 2 [MAX 6 5 5] 5]] 0 [SM [SM [SM 3 1 4] 1 8] 2 [SM 2 4 2]]].
+
+Let's continue resolving inner brackets:
+
+[MAX 2 8 2] becomes 8 (since 8 is the biggest number),
+[SM 3 1 4] becomes 8 (since 3+1+4=8),
+[SM 2 [MAX 6 5 5] 5] becomes 6 (since 2+5+5=12 and 12 modulo 10 is 2),
+[SM 2 4 2] becomes 8 (since 2+4+2=8).
+
+So we have:
+[MAX [MAX 5 [MAX 9 7 8] 6] 0 [SM [SM 8 1 8] 2 8]].
+
+Continuing to solve:
+
+[MAX 9 7 8] becomes 9 (since 9 is the biggest number),
+[SM 8 1 8] becomes 7 (since 8+1+8=17 and 17 modulo 10 is 7).
+
+So we have:
+[MAX [MAX 5 9 6] 0 [SM 7 2 8]].
+
+Solving next steps:
+
+[MAX 5 9 6] becomes 9 (since 9 is the biggest number),
+[SM 7 2 8] becomes 7 (since 7+2+8=17 and 17 modulo 10 is 7).
+
+So we have:
+[MAX 9 0 7].
+
+Finally, the maximum of 9, 0, and 7 is 9. So the answer is 9.",9,9
+95,listops,self_consistency,[MAX 0 [SM [MAX [MIN 0 6 5] 8 [SM 5 5 5]] [MAX [MAX 1 5 9] 7 [MAX 6 9 4]] 1] [SM [MIN [SM 9 3 9] 5 [MAX 2 7 0]] 2 [MAX [SM 9 6 0] [SM 9 9 1] 6]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX 0 [SM [MAX [MIN 0 6 5] 8 [SM 5 5 5]] [MAX [MAX 1 5 9] 7 [MAX 6 9 4]] 1] [SM [MIN [SM 9 3 9] 5 [MAX 2 7 0]] 2 [MAX [SM 9 6 0] [SM 9 9 1] 6]]].
+
+A: Let's think step-by-step.","Firstly, we can solve the inner-most brackets and operators. Here, we have:
+
+1.  [MIN 0 6 5] = 0 (as 0 is the smallest integer among 0, 6, and 5)
+2.  [SM 5 5 5] = (5 + 5 +5) % 10 = 5 (as the sum of 5, 5, and 5 is 15, and 15 modulo 10 is 5)
+3.  [MAX 1 5 9] = 9 (as 9 is the largest integer among 1, 5, and 9)
+4.  [SM 9 3 9] = (9 + 3 + 9) % 10 = 1 (as the sum of 9, 3, and 9 is 21, and 21 modulo 10 is 1)
+5.  [MAX 2 7 0] = 7 (as 7 is the largest integer among 2, 7, and 0)
+6.  [SM 9 6 0] = (9 + 6 + 0) % 10 = 5 (as the sum of 9, 6, and 0 is 15, and 15 modulo 10 is 5)
+7.  [SM 9 9 1] = (9 + 9 + 1) % 10 = 9 (as the sum of 9, 9, and 1 is 19, and 19 modulo 10 is 9)
+
+Our updated expression looks like:
+   [MAX 0 [SM [MAX 0 8 5] [MAX 9 7 9]] 1 [SM [MIN 1 5 7] 2 [MAX 5 9 6]]]
+
+Secondly, we solve the next operators:
+
+1.  [MAX 0 8 5] = 8 (as 8 is the largest integer among 0, 8, and 5)
+2.  [MIN 1 5 7] = 1 (as 1 is the smallest integer among 1, 5, and 7)
+3.  [MAX 5 9 6] = 9 (as 9 is the largest integer among 5, 9, and 6)
+
+Our updated expression looks like:
+   [MAX 0 [SM 8 [MAX 9 7 9]] 1 [SM 1 2 9]]
+
+Thirdly, we solve the next operators:
+
+1.  [SM 8 [MAX 9 7 9]] = (8 + 9) % 10 = 7 (as the sum of 8, and 9 is 17, and 17 modulo 10 is 7)
+2.  [SM 1 2 9] = (1 + 2 + 9) % 10 = 2 (as the sum of 1, 2, and 9 is 12, and 12 modulo 10 is 2)
+
+Our updated expression looks like:
+   [MAX 0 7 1 2]
+
+Finally, we solve the last operator:
+   [MAX 0 7 1 2] = 7 (as 7 is the largest integer among 0, 7, 1, and 2)
+
+So, the solution to this expression is 7.",7,8
+96,listops,self_consistency,[MAX 0 [MIN [MIN [SM 9 4 0] [MAX 6 4 3] 3] [MIN [SM 3 4 4] [MAX 4 7 1] 3] 4] [SM [SM [MAX 1 0 4] [MIN 7 4 9] 6] [MAX [MAX 0 4 2] [MAX 6 4 5] 2] 8]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX 0 [MIN [MIN [SM 9 4 0] [MAX 6 4 3] 3] [MIN [SM 3 4 4] [MAX 4 7 1] 3] 4] [SM [SM [MAX 1 0 4] [MIN 7 4 9] 6] [MAX [MAX 0 4 2] [MAX 6 4 5] 2] 8]].
+
+A: Let's think step-by-step.","Firstly, calculate the values inside the inner-most brackets:
+[SM 9 4 0] = (9+4+0) mod 10 = 13 mod 10 = 3
+[MAX 6 4 3] = max(6,4,3) = 6
+[SM 3 4 4] = (3+4+4) mod 10 = 11 mod 10 = 1
+[MAX 4 7 1] = max(4,7,1) = 7
+[MAX 1 0 4] = max(1,0,4) = 4
+[MIN 7 4 9] = min(7,4,9) = 4
+[MAX 0 4 2] = max(0,4,2) = 4
+[MAX 6 4 5] = max(6,4,5) = 6
+
+Our equation will now look as follows:
+[MAX 0 [MIN [MIN 3 6 3] [MIN 1 7 3] 4] [SM [SM 4 4 6] [MAX 4 6 2] 8]]
+
+Secondly, calculate the values within the next set of brackets:
+[MIN 3 6 3] = min(3,6,3) = 3
+[MIN 1 7 3] = min(1,7,3) = 1
+[SM 4 4 6] = (4+4+6) mod 10 = 14 mod 10 = 4
+[MAX 4 6 2] = max(4,6,2) = 6
+
+Now the equation will look like:
+[MAX 0 [MIN 3 1 4] [SM 4 [MAX 4 6 2] 8]]
+
+Thirdly, calculate the values within the next set of brackets:
+[MIN 3 1 4] = min(3,1,4) = 1
+[MAX 4 6 2] = max(4,6,2) = 6
+
+Almost done, let's simplify the equation a bit more:
+[MAX 0 1 [SM 4 6 8]]
+
+Fourthly, last set of brackets calculations:
+[SM 4 6 8] = (4+6+8) mod 10 = 18 mod 10 = 8
+
+Finally, let's simplify it to the final solution:
+[MAX 0 1 8] = max(0,1,8) = 8
+
+So, the solution to the given expression is 8.",8,8
+97,listops,self_consistency,[MAX [MAX 3 [MIN 5 [SM 6 9 4] [SM 1 0 8]] [MAX [SM 4 8 3] [MAX 1 1 0] 4]] [MAX [MIN 1 [MIN 4 2 8] [SM 2 0 3]] 5 [MIN 4 [SM 4 9 2] [MAX 6 2 7]]] 0],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX [MAX 3 [MIN 5 [SM 6 9 4] [SM 1 0 8]] [MAX [SM 4 8 3] [MAX 1 1 0] 4]] [MAX [MIN 1 [MIN 4 2 8] [SM 2 0 3]] 5 [MIN 4 [SM 4 9 2] [MAX 6 2 7]]] 0].
+
+A: Let's think step-by-step.","Firstly, let's calculate SM operator operations: SM 6 9 4 = 19 modulo 10 = 9; SM 1 0 8 = 9; SM 4 8 3 = 15 modulo 10 = 5; SM 2 0 3 = 5; SM 4 9 2 = 15 modulo 10 = 5. 
+
+The expression then transforms to:
+[MAX [MAX 3 [MIN 5 9 9] [MAX 5 [MAX 1 1 0] 4]] [MAX [MIN 1 [MIN 4 2 8] 5] 5 [MIN 4 5 [MAX 6 2 7]]] 0].
+
+Next, let's calculate MIN and MAX operations inside the brackets:
+
+MIN 5 9 9 = 5; MIN 4 2 8 = 2; MIN 1 2 5 = 1; MIN 4 5 7 = 4. 
+
+Then, let's calculate MAX operations:
+
+MAX 1 1 0 = 1; MAX 6 2 7 = 7.
+
+So, the new form of the expression is:
+[MAX [MAX 3 5 [MAX 5 1 4]] [MAX 1 5 4] 0].
+
+Continuing with the calculation, we find
+
+MAX 3 5 = 5; MAX 5 1 4 = 5; MAX 1 5 4 = 5.
+
+The expression then becomes:
+
+[MAX 5 5 5 0].
+
+The final result of the expression is the maximum among the numbers which is 5.",5,5
+98,listops,self_consistency,[MIN [SM 9 [MIN 9 [MAX 0 3 7] [MIN 7 7 0]] [MIN [MIN 0 2 7] 6 [MAX 2 8 0]]] [MAX [SM [SM 1 7 3] [MIN 0 5 9] 6] 1 [MAX [MIN 5 4 4] 7 [MAX 6 6 6]]] 6],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MIN [SM 9 [MIN 9 [MAX 0 3 7] [MIN 7 7 0]] [MIN [MIN 0 2 7] 6 [MAX 2 8 0]]] [MAX [SM [SM 1 7 3] [MIN 0 5 9] 6] 1 [MAX [MIN 5 4 4] 7 [MAX 6 6 6]]] 6].
+
+A: Let's think step-by-step.","1. First, let's resolve the internal lists by applying the operators as mentioned:
+     [MAX 0 3 7] = 7 
+     [MIN 7 7 0] = 0
+     [MIN 0 2 7] = 0
+     [MAX 2 8 0] = 8
+     [SM 1 7 3] = (1+7+3) mod 10 = 1
+     [MIN 0 5 9] = 0
+     [MIN 5 4 4] = 4
+     [MAX 6 6 6] = 6
+
+2. Substitute these evaluated expressions in the main expression:
+   [MIN [SM 9 [MIN 9 7 0] [MIN 0 6 8]] [MAX [SM 1 0 6] 1 [MAX 4 7 6]] 6]
+
+3. Apply the operators again to solve the remaining parts within the brackets:
+     [MIN 9 7 0] = 0
+     [SM 9 0 0] = 9
+     [MIN 0 6 8] = 0
+     [SM 9 0] = 9
+     [SM 1 0 6] = 7
+     [MAX 4 7 6] = 7
+
+4. Substitute these evaluated expressions again in the main expression:
+   [MIN 9 [MAX 7 1 7] 6]
+
+5. Apply the operators again to the remaining parts within the bracket:
+     [MAX 7 1 7] = 7
+
+6. Substitute these evaluated expressions again in the main expression:
+   [MIN 9 7 6]
+
+7. So, applying the MIN operator, the minimum value is 6. This gives the final answer.
+
+So, the result of expression is 6.",6,6
+99,listops,self_consistency,[MAX 9 [MIN [SM [SM 1 7 1] 9 [MIN 3 3 3]] 6 [SM [MIN 2 0 6] [MIN 0 9 9] 1]] [MAX [SM [MAX 1 0 7] [MAX 5 5 9] 3] 5 [MAX [SM 7 8 3] 8 [SM 0 9 2]]]],"Q: MIN, MAX and SM are operators on lists of single-digit integers which have the semantics of minimum, maximum and sum modulo 10, respectively. Solve the following expression involving these operators:
+[MAX 9 [MIN [SM [SM 1 7 1] 9 [MIN 3 3 3]] 6 [SM [MIN 2 0 6] [MIN 0 9 9] 1]] [MAX [SM [MAX 1 0 7] [MAX 5 5 9] 3] 5 [MAX [SM 7 8 3] 8 [SM 0 9 2]]]].
+
+A: Let's think step-by-step.","First, we will work out the inside most brackets which have a SM or MAX or MIN operator:
+
+[SM 1 7 1] = (1 + 7 + 1) mod 10 = 9
+[MIN 3 3 3] = Min(3, 3, 3) = 3
+[SM [MIN 2 0 6]] = Sum(Min(2, 0, 6)) = Sum(0) = 0
+[MIN 0 9 9] = Min(0, 9, 9) = 0
+[SM [MIN 2 0 6] [MIN 0 9 9] 1] = Sum(Min(2, 0, 6), Min(0, 9, 9), 1) = Sum(0, 0, 1) = 1
+[MAX 1 0 7] = Max(1, 0, 7) = 7
+[MAX 5 5 9] = Max(5, 5, 9) = 9
+[SM [MAX 1 0 7] [MAX 5 5 9] 3] = Sum(Max(1, 0, 7), Max(5, 5, 9), 3) = Sum(7, 9, 3) mod 10 = 9
+[SM 7 8 3] = (7 + 8 + 3) mod 10 = 8
+[SM 0 9 2] = (0 + 9 + 2) mod 10 = 1  
+
+We then have to solve the following expression: 
+
+[MAX 9 [MIN 9 9 6 1] [MAX 9 5 [MAX 8 8 1]]]
+
+Which with a few more steps simplifies to:
+
+= [MAX 9 [MIN 1] [MAX 9 8]]
+= [MAX 9 1 9]
+= 9.",9,9

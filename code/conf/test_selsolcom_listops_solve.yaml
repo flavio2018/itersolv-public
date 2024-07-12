@@ -1,0 +1,22 @@
+defaults:
+        - task: test
+        - model: selsolcom
+        - data: listops_solve
+        - data@solver_data: listops_solve_atomic
+        - data@selector_data: listops_select
+        - override hydra/hydra_logging: none
+        - override hydra/job_logging: custom
+        - _self_
+
+hydra:
+  run:
+    dir: ../hydra/logs/${hydra.job.name}/${now:%Y-%m-%d_%H-%M-%S}
+
+name: test_selsolcom_listops_solve
+wandb_proj: itersolv
+wandb_name: null
+wandb_disabled: false
+tags: null
+notes: null
+start_timestamp: ${now:%Y-%m-%d_%H-%M}
+device: 'cuda'
